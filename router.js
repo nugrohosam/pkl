@@ -1,13 +1,20 @@
 var express = require('express')
 var router = express.Router()
 var app = express()
-const sesssion = require('express-session')
+var session = require('express-session')
 
 app.use(session({
   secret: 'session_id',
   resave: false,
   saveUninitialized: true
 }))
+
+app.use((req, res, next) => {
+  if(!session.login){
+    session.login = false
+  }
+  next()
+})
 
 router.get('/', (req, res, next) => {
 
@@ -51,7 +58,16 @@ router.get('/', (req, res, next) => {
         }
       }
       
-      if(req.session.login){
+      if(!session.login){
+        var fileName = 'login'
+        res.sendFile(fileName+'.html', options, (err) => {
+          if (err) {
+            next(err);
+          } else {
+            console.log('Sent:', fileName);
+          }
+        })
+      }else{
         var fileName = req.params.page;
         if(fileName !== 'logout'){
           res.sendFile(fileName+'.html', options, (err) => {
@@ -70,15 +86,6 @@ router.get('/', (req, res, next) => {
             }
           })
         }
-      }else{
-        var fileName = 'login'
-        res.sendFile(fileName+'.html', (req, ers) => {
-          if (err) {
-            next(err);
-          } else {
-            console.log('Sent:', fileName);
-          }
-        })
       }
   })
 
