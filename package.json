@@ -1,0 +1,22 @@
+{
+  "name": "pkl-webjs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nugrhosam/PKL-WebJs.git"
+  },
+  "author": "pkl-dev",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nugrhosam/PKL-WebJs/issues"
+  },
+  "homepage": "https://github.com/nugrhosam/PKL-WebJs#readme",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
