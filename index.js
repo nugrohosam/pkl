@@ -10,7 +10,7 @@ app.get('/', (req, res, next) => {
           'x-timestamp': Date.now(),
           'x-sent': true
       }
-    };
+    }
   
     res.sendFile('login.html', options, function (err) {
       if (err) {
@@ -18,7 +18,7 @@ app.get('/', (req, res, next) => {
       } else {
         console.log('Sent:', fileName);
       }
-    });
+    })
 })
 
 app.get('/:page', (req, res, next) => {
@@ -30,7 +30,7 @@ app.get('/:page', (req, res, next) => {
           'x-timestamp': Date.now(),
           'x-sent': true
       }
-    };
+    }
   
     var fileName = req.params.page;
     res.sendFile(fileName+'.html', options, function (err) {
@@ -39,7 +39,7 @@ app.get('/:page', (req, res, next) => {
       } else {
         console.log('Sent:', fileName);
       }
-    });
+    })
 })
 
 app.use(express.static('src/assets'))
