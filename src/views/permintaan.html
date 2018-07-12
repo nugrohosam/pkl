@@ -15,6 +15,7 @@
         <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
         <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
         <link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap4.css">
+        <link rel="stylesheet" href="../assets/css/style.css">
         
         
         <script src="plugins/jquery/jquery.min.js"></script>
@@ -155,8 +156,8 @@
                                     masih terpinjam
                                 </td>
                                 <td>
-                                <i class="left fa fa-pencil" style="cursor : pointer" onClick="ubah_modal()"></i><span style="cursor : pointer" onClick="ubah_modal()"> Edit</span>
-                                </td>
+                                <button class="btn btn-danger" onClick="ubah_modal()"><i class="left fa fa-pencil" style="cursor : pointer" ></i><span style="cursor : pointer" onClick="ubah_modal()"> Edit</span></button>
+                            </td>
                             </tr>
                         </tbody>
                       </table>
@@ -168,53 +169,61 @@
             <div id="ubah_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title">Ubah</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                      <div class="form-group" hidden>
-                        <label class="control-label col-sm-2">Id Pengguna :</label>
-                        <div class="col-sm-10">
-                            <input class="form-control" id="id_pengguna_ubah">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Ubah Surat</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" style="display: inline">No
+                                <span style="text-align: right">:</span>
+                            </label>
+                            <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:16%">
+                                <input class="form-control" id="no_tambah">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" style="display: inline">Nama Barang :</label>
+                            <div class="col-sm-8 form-ubah" style="display: inline-block">
+                                <input class="form-control" id="nama_barang_tambah">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" style="display: inline">Banyaknya :</label>
+                            <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:4%">
+                                <input class="form-control" id="banyaknya_tambah">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" style="display: inline">Dengan Huruf :</label>
+                            <div class="col-sm-8 form-ubah" style="display: inline-block">
+                                <input class="form-control" id="dengan_huruf_tambah">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" style="display: inline">Keterangan :</label>
+                            <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:3%">
+                                <input class="form-control" id="keterangan_tambah">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" style="display: inline">Status :</label>
+                            <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:11%">
+                                <!-- <input class="form-control" id="status_tambah"> -->
+                                <select id="status_tambah">
+                                    <option value="Diterima" class="btn">Diterima</option>
+                                    <option value="Dikerjakan" class="btn">Dikerjakan</option>
+                                    <option value="Selesai" class="btn">Selesai</option>
+                                    <!-- <option value="audi">Audi</option> -->
+                                </select>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2">Tipe :</label>
-                        <div class="col-sm-10">
-                            <input class="form-control" id="tipe_ubah">
-                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="button_save_ubah">Save changes</button>
                     </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2">Nama :</label>
-                        <div class="col-sm-10"> 
-                            <input class="form-control" id="nama_ubah">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2">Jenis Kelamin :</label>
-                        <div class="col-sm-10"> 
-                            <input class="form-control" id="jenis_kelamin_ubah">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2">Tanggal Lahir :</label>
-                        <div class="col-sm-10"> 
-                            <input class="form-control" id="tanggal_lahir_ubah">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2">Email :</label>
-                        <div class="col-sm-10"> 
-                            <input class="form-control" id="email_ubah">
-                        </div>
-                    </div>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="button_save_ubah">Save changes</button>
-                  </div>
                 </div>
               </div>
             </div>
@@ -223,46 +232,52 @@
               <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title">Ubah</h5>
+                    <h5 class="modal-title">Tambah Surat</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
                   <div class="modal-body">
                       <div class="form-group">
-                        <label class="control-label col-sm-2">No</label>
-                        <div class="col-sm-10">
+                        <label class="control-label col-sm-2" style="display: inline">No <span style="text-align: right">:</span> </label>
+                        <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:16%">
                             <input class="form-control" id="no_tambah">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-sm-2">Nama Barang :</label>
-                        <div class="col-sm-10">
+                        <label class="control-label col-sm-2" style="display: inline">Nama Barang :</label>
+                        <div class="col-sm-8 form-ubah" style="display: inline-block"> 
                             <input class="form-control" id="nama_barang_tambah">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-sm-2">Banyaknya :</label>
-                        <div class="col-sm-10"> 
+                        <label class="control-label col-sm-2" style="display: inline">Banyaknya :</label>
+                        <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:4%"> 
                             <input class="form-control" id="banyaknya_tambah">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-sm-2">Dengan Huruf :</label>
-                        <div class="col-sm-10"> 
+                        <label class="control-label col-sm-2" style="display: inline">Dengan Huruf :</label>
+                        <div class="col-sm-8 form-ubah" style="display: inline-block"> 
                             <input class="form-control" id="dengan_huruf_tambah">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-sm-2">Keterangan :</label>
-                        <div class="col-sm-10"> 
+                        <label class="control-label col-sm-2" style="display: inline">Keterangan :</label>
+                        <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:3%"> 
                             <input class="form-control" id="keterangan_tambah">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-sm-2">Status</label>
-                        <div class="col-sm-10"> 
-                            <input class="form-control" id="status_tambah">
+                        <label class="control-label col-sm-2" style="display: inline">Status :</label>
+                        <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:11%"> 
+                            <!-- <input class="form-control" id="status_tambah"> -->
+                            <select id="status_tambah">
+                                <option value="Diterima" class="btn">Diterima</option>
+                                <option value="Dikerjakan"  class="btn">Dikerjakan</option>
+                                <option value="Selesai"  class="btn">Selesai</option>
+                                <!-- <option value="audi">Audi</option> -->
+                            </select>
                         </div>
                     </div>
                   </div>
@@ -492,12 +507,16 @@
                     });
                 }
                 */
+
+                
                 
                 
                 function reload_table(){
                     table.ajax.reload(null,false);
                 }
             </script>
+
+
                         </div>
                     </div>
                 </section>
