@@ -1,14 +1,6 @@
-var express = require('express');
-var cors = require('cors');
-var bodyParser = require('body-parser');
-var app = express();
-var port = process.env.PORT || 3000;
-
-app.use(bodyParser.json());
-app.use(cors());
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
+var express = require('express')
+var app = express()
+var port = process.env.PORT || 3000
 
 var users = require('./routes/users')
 var permintaan = require('./routes/permintaan')

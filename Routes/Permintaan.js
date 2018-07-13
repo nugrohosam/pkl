@@ -1,9 +1,14 @@
-var express = require('express');
-var permintaan = express.Router();
-var database = require('../database/database');
+var express = require('express')
+var permintaan = express.Router()
+var app = express()
 var cors = require('cors')
-var jwt = require('jsonwebtoken');
+var bodyParser = require('body-parser')
+var database = require('../database/database')
+var jwt = require('jsonwebtoken')
 var token;
+
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
 
 permintaan.use(cors())
 process.env.SECRET_KEY = "user_key"
@@ -20,6 +25,35 @@ permintaan.get('/', (req, res) => {
             console.log(err)
         }
     })
+})
+
+permintaan.post('/save', (req, res) => {
+    
+    var datetime = Date.now()
+    var id_permintaan = 'per'+datetime
+
+    console.log(req.body)
+    
+    /*
+    database.connection.getConnection((err, connection) => {
+        if(err){
+            appData["error"] = 1;
+            appData["data"] = "Internal Server Error";
+            res.status(500).json(appData);
+        }else{
+            connection.query('insert into permintaan values ( ?, ?, ?, ?, ? )', id_permintaan, nama, datetime, datetime, null, (err) => {
+                if (!err) {
+                    appData.error = 0;
+                    appData["data"] = "User registered successfully!";
+                    res.status(201).json(appData);
+                } else {
+                    appData["data"] = "Error Occured!";
+                    res.status(400).json(appData);
+                }
+            });
+            connection.release();
+        }
+    })*/
 })
 
 permintaan.get('/find/:id', (req, res) => {
