@@ -10,12 +10,12 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-var Users = require('./Routes/Users')
-var Permintaan = require('./Routes/Permintaan')
+var users = require('./routes/users')
+var permintaan = require('./routes/permintaan')
 
 app.use(express.static('src/assets/'))
-app.use('/users',Users)
-app.use('/permintaan',Permintaan)
+app.use('/users',users)
+app.use('/permintaan',permintaan)
 
 app.listen(port,function(){
     console.log('Server is running on port: '+port);
