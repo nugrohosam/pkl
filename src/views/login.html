@@ -29,14 +29,14 @@
                 $('#button_login').attr('disabled', true)
                 
                 $.ajax({
-                    url : 'http://localhost:3000/',
+                    url : '/login/proccess',
                     header : {
                         'content-type' : 'application/json'
                     },
                     type : 'post',
                     dataType : 'json',
                     data : JSON.stringify({
-                        'username' : $('#username').val(), 'password' : $('#password').val()
+                        'email' : $('#email').val(), 'password' : $('#password').val()
                     }),
                     success : function(response){
                         if(!response.status){
@@ -61,6 +61,12 @@
     </head>
     
     <body>
+        <form action="/login/proccess" method="post">
+            <input type="text" value="" name="email">
+            <input type="text" value="" name="password">
+            <input type="submit" name="submit">
+        </form>
+
         <center>
             </br>
             <div class="col-md-4">
