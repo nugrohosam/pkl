@@ -1,5 +1,5 @@
 var express = require('express')
-var permintaan = express.Router()
+var login = express.Router()
 var cors = require('cors')
 var jwt = require('jsonwebtoken')
 
@@ -9,60 +9,45 @@ var options = {
     root: './src/views/'
 }
 
-permintaan.use(cors())
+login.use(cors())
 
-permintaan.use((req, res, next) => {
-    if(!req.cookies.token){
+login.use((req, res, next) => {
+    if(!req.cookies.token && req.method != 'POST'){
         var fileName = 'login.html'
-        res.sendfile(fileName, options, (err) => {
-            if(err){
-                console.log(err)
-            }  
+            res.sendfile(fileName, options, (err) => {
+                if(err){
+                    console.log(err)
+                }  
         })
-    }else{
+    }else if(req.url != '/proccess'){
         token = req.cookies.token
-    }
-
-    var decoded = jwt.verify(token, 'secret_token')
-    if(decoded.logged_in){
-        var fileName = 'permintaan.html'
-        res.sendfile(fileName, options, (err) => {
-            if(err){
-                console.log(err)
-            }
-        })
-    }else{
-        var fileName = 'login.html'
-        res.sendfile(fileName, options, (err) => {
-            if(err){
-                console.log(err)
-            }  
-        })
-    }
-
-
-})
-
-permintaan.get('/', (req, res, next) => {
-    var fileName = 'login.html'
-    res.sendfile(fileName, options, (err) => {
-        if(err){
-            console.log(err)
+        var decoded = jwt.verify(token, 'secret_token')
+        if(decoded.logged_in){
+            next()
+        }else{
+            var fileName = 'login.html'
+            res.sendfile(fileName, options, (err) => {
+                if(err){
+                    console.log(err)
+                }  
+            })
         }
-    })
+    }else{
+        next()
+    }
 })
 
-permintaan.post('/proccess', (req, res) => {
+login.post('/proccess', (req, res) => {
     
     var email = req.body.username
     var password = req.body.password
     
     if(email == 'admin' && password == 'admin'){
-        var token_code = jwt.sign({ data: {logged_in : true}}, 'secret_token', { expiresIn: '1d' })   
+        var token_code = jwt.sign({logged_in  : true}, 'secret_token')
         res.status(200).json({ status : true, token : token_code })
     } else {
         res.status(200).json({ status : false })
     }
 })
 
-module.exports = permintaan;
+module.exports = login;

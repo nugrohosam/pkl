@@ -1,19 +1,19 @@
 var express = require('express')
-var permintaan = express.Router()
+var perintah_kerja = express.Router()
 var cors = require('cors')
 var database = require('../database/database')
 var jwt = require('jsonwebtoken')
 var token;
 
 var token = jwt.sign({ data: {logged_in : false}}, 'secret_token', { expiresIn: '1d' })
-permintaan.use(cors())
+perintah_kerja.use(cors())
 var appData = {}
 var options = {
     root: './src/views/'
 }
 
 
-permintaan.use((req, res, next) => {
+perintah_kerja.use((req, res, next) => {
     if(!req.cookies.token){
         var fileName = 'login.html'
             res.sendfile(fileName, options, (err) => {
@@ -37,8 +37,8 @@ permintaan.use((req, res, next) => {
     }
 })
 
-permintaan.get('/', (req, res) => {
-    var fileName = 'permintaan.html'
+perintah_kerja.get('/', (req, res) => {
+    var fileName = 'perintah_kerja.html'
     res.sendfile(fileName, options, (err) => {
         if(err){
             console.log(err)
@@ -46,7 +46,7 @@ permintaan.get('/', (req, res) => {
     })
 })
 
-permintaan.post('/save', (req, res) => {
+perintah_kerja.post('/save', (req, res) => {
     
     var datetime = Date.now()
     var id_permintaan = 'per'+datetime
@@ -74,7 +74,7 @@ permintaan.post('/save', (req, res) => {
     })
 })
 
-permintaan.get('/find/:id', (req, res) => {
+perintah_kerja.get('/find/:id', (req, res) => {
     
     database.connection.getConnection((err, connection) => {
         if (err) {
@@ -98,4 +98,4 @@ permintaan.get('/find/:id', (req, res) => {
         });
 })
 
-module.exports = permintaan;
+module.exports = perintah_kerja;

@@ -17,11 +17,11 @@ app.use(session({
     cookie: { secure: true }
   }))
 
-var users = require('./routes/users')
+var perintah_kerja = require('./routes/perintah_kerja')
 var permintaan = require('./routes/permintaan')
 var login = require('./routes/login')
 
-app.use('/users',users)
+app.use('/perintah_kerja',perintah_kerja)
 app.use('/login',login)
 app.use('/permintaan',permintaan)
 app.use(express.static('src/assets/'))
