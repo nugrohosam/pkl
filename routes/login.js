@@ -1,20 +1,49 @@
 var express = require('express')
 var permintaan = express.Router()
 var cors = require('cors')
-var bodyParser = require('body-parser')
-var database = require('../database/database')
 var jwt = require('jsonwebtoken')
-var token;
+
+var token = jwt.sign({logged_in  : false}, 'secret_token')
+var appData = {}
+var options = {
+    root: './src/views/'
+}
 
 permintaan.use(cors())
-process.env.SECRET_KEY = "user_key"
-var appData = {}
 
-permintaan.get('/', (req, res) => {
-    var options = {
-        root: './src/views/'
+permintaan.use((req, res, next) => {
+    if(!req.cookies.token){
+        var fileName = 'login.html'
+        res.sendfile(fileName, options, (err) => {
+            if(err){
+                console.log(err)
+            }  
+        })
+    }else{
+        token = req.cookies.token
     }
 
+    var decoded = jwt.verify(token, 'secret_token')
+    if(decoded.logged_in){
+        var fileName = 'permintaan.html'
+        res.sendfile(fileName, options, (err) => {
+            if(err){
+                console.log(err)
+            }
+        })
+    }else{
+        var fileName = 'login.html'
+        res.sendfile(fileName, options, (err) => {
+            if(err){
+                console.log(err)
+            }  
+        })
+    }
+
+
+})
+
+permintaan.get('/', (req, res, next) => {
     var fileName = 'login.html'
     res.sendfile(fileName, options, (err) => {
         if(err){
@@ -25,29 +54,15 @@ permintaan.get('/', (req, res) => {
 
 permintaan.post('/proccess', (req, res) => {
     
-    //var email = req.body.email
-    //var password = req.body.password
-
-    console.log(req.body)
-    /*database.connection.getConnection((err, connection) => {
-        if (err) {
-            appData["error"] = 1;
-            appData["data"] = "Internal Server Error";
-            res.status(500).json(appData);
-        } else {
-            connection.query('select * from users where email = ? and password = ? ', email, password, (err, rows, fields) => {
-                if (!err) {
-                    appData.error = 0;
-                    appData["data"] = rows;
-                    console.log(re)
-                } else {
-                    appData["data"] = "Error Occured!";
-                    res.status(400).json(appData);
-                }
-            });
-                connection.release();
-            }
-        });*/
+    var email = req.body.username
+    var password = req.body.password
+    
+    if(email == 'admin' && password == 'admin'){
+        var token_code = jwt.sign({ data: {logged_in : true}}, 'secret_token', { expiresIn: '1d' })   
+        res.status(200).json({ status : true, token : token_code })
+    } else {
+        res.status(200).json({ status : false })
+    }
 })
 
 module.exports = permintaan;

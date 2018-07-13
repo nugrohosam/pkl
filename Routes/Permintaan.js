@@ -1,30 +1,63 @@
 var express = require('express')
 var permintaan = express.Router()
-var app = express()
 var cors = require('cors')
-var bodyParser = require('body-parser')
 var database = require('../database/database')
 var jwt = require('jsonwebtoken')
 var token;
 
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser.json())
-
+var token = jwt.sign({ data: {logged_in : false}}, 'secret_token', { expiresIn: '1d' })
 permintaan.use(cors())
 process.env.SECRET_KEY = "user_key"
 var appData = {}
+var options = {
+    root: './src/views/'
+}
 
-permintaan.get('/', (req, res) => {
-    var options = {
-        root: './src/views/'
+
+permintaan.use((req, res, next) => {
+    if(!req.cookies.token){
+        var fileName = 'login.html'
+        res.sendfile(fileName, options, (err) => {
+            if(err){
+                console.log(err)
+            }  
+        })
+    }else{
+        token = req.cookies.token
     }
 
-    var fileName = 'permintaan.html'
-    res.sendfile(fileName, options, (err) => {
-        if(err){
-            console.log(err)
-        }
-    })
+    var decoded = jwt.verify(token, 'secret_token')
+    if(decoded.logged_in){
+        var fileName = 'permintaan.html'
+        res.sendfile(fileName, options, (err) => {
+            if(err){
+                console.log(err)
+            }
+        })
+    }else{
+        var fileName = 'login.html'
+        res.sendfile(fileName, options, (err) => {
+            if(err){
+                console.log(err)
+            }  
+        })
+    }
+})
+
+permintaan.use((req, res, next) => {
+    token = req.cookkies.token
+    var decoded = jwt.verify(token, 'secret')
+
+    if(decoded.logged_in){
+        next()
+    }else{
+        var fileName = 'login.html'
+        res.sendfile(fileName, options, (err) => {
+            if(err){
+                console.log(err)
+            }
+        })
+    }
 })
 
 permintaan.post('/save', (req, res) => {
@@ -34,7 +67,6 @@ permintaan.post('/save', (req, res) => {
 
     console.log(req.body)
     
-    /*
     database.connection.getConnection((err, connection) => {
         if(err){
             appData["error"] = 1;
@@ -53,7 +85,7 @@ permintaan.post('/save', (req, res) => {
             });
             connection.release();
         }
-    })*/
+    })
 })
 
 permintaan.get('/find/:id', (req, res) => {
