@@ -46,20 +46,22 @@ users.post('/register', function(req, res) {
 });
 
 users.post('/login', function(req, res) {
-    var appData = {};
-    var email = req.body.email;
-    var password = req.body.password;
+    var appData = {}
+    var email = req.body.email
+    var password = req.body.password
+
+    console.log(req.body)
     database.connection.getConnection(function(err, connection) {
         if (err) {
-        appData["error"] = 1;
-        appData["data"] = "Internal Server Error";
-        res.status(500).json(appData);
+            appData["error"] = 1;
+            appData["data"] = "Internal Server Error";
+            res.status(500).json(appData);
         } else {
             connection.query('SELECT * FROM users WHERE email = ?', [email], function(err, rows, fields) {
                 if (err) {
-                appData.error = 1;
-                appData["data"] = "Error Occured!";
-                res.status(400).json(appData);
+                    appData.error = 1;
+                    appData["data"] = "Error Occured!";
+                    res.status(400).json(appData);
                 } else {
                     if (rows.length > 0) {
                         if (rows[0].password == password) {
@@ -129,4 +131,5 @@ users.get('/getusers', function(req, res) {
         }
     });
 });
+
 module.exports = users;
