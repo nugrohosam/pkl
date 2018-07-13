@@ -23,7 +23,22 @@ perintah_kerja.use((req, res, next) => {
         })
     }else{
         token = req.cookies.token
-        var decoded = jwt.verify(token, 'secret_token')
+        var decoded = {
+            logged_in : false
+        }
+        
+        try {
+            decoded = jwt.verify(token, 'secret_token')
+        }
+        catch (error) {
+            var fileName = 'login.html'
+            res.sendfile(fileName, options, (err) => {
+                if(err){
+                    console.log(err)
+                }  
+            })
+        }
+
         if(decoded.logged_in){
             next()
         }else{

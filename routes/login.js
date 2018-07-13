@@ -21,7 +21,22 @@ login.use((req, res, next) => {
         })
     }else if(req.url != '/proccess'){
         token = req.cookies.token
-        var decoded = jwt.verify(token, 'secret_token')
+        var decoded = {
+            logged_in : false
+        }
+
+        try {
+            decoded = jwt.verify(token, 'secret_token')
+        }
+        catch (error) {
+            var fileName = 'login.html'
+            res.sendfile(fileName, options, (err) => {
+                if(err){
+                    console.log(err)
+                }  
+            })
+        }
+
         if(decoded.logged_in){
             next()
         }else{
@@ -43,7 +58,7 @@ login.post('/proccess', (req, res) => {
     var password = req.body.password
     
     if(email == 'admin' && password == 'admin'){
-        var token_code = jwt.sign({logged_in  : true}, 'secret_token')
+        var token_code = jwt.sign({logged_in  : true}, 'secret_token', { expiresIn : '1d'})
         res.status(200).json({ status : true, token : token_code })
     } else {
         res.status(200).json({ status : false })

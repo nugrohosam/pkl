@@ -83,7 +83,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="logout" class="nav-link">
+                                <a href="login" class="nav-link" onClick="logout()">
                                     <i class="nav-icon fa fa-sign-out"></i>
                                     <p>
                                     Logout
@@ -381,6 +381,10 @@
             
             function tambah_modal(id_pengguna){
                 $('#tambah_modal').modal('show');
+            }
+
+            function logout(){
+                document.cookie =  'token=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
             }
             
             /*
