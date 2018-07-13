@@ -1,0 +1,26 @@
+{
+  "name": "pkl-webjs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nugrhosam/PKL-WebJs.git"
+  },
+  "author": "pkl-dev",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nugrhosam/PKL-WebJs/issues"
+  },
+  "homepage": "https://github.com/nugrhosam/PKL-WebJs#readme",
+  “dependencies”: {
+    “body-parser”: “¹.17.2”,
+    “cors”: “².8.4”,
+    “express”: “⁴.15.4”,
+    “jsonwebtoken”: “⁷.4.2”,
+    “mysql”: “².14.1”
+    }
+}
