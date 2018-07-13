@@ -1,10 +1,10 @@
 {
   "name": "pkl-webjs",
   "version": "1.0.0",
-  "description": "",
+  "description": "pkl-for-love",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -16,11 +16,11 @@
     "url": "https://github.com/nugrhosam/PKL-WebJs/issues"
   },
   "homepage": "https://github.com/nugrhosam/PKL-WebJs#readme",
-  “dependencies”: {
-    “body-parser”: “¹.17.2”,
-    “cors”: “².8.4”,
-    “express”: “⁴.15.4”,
-    “jsonwebtoken”: “⁷.4.2”,
-    “mysql”: “².14.1”
-    }
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "jsonwebtoken": "^8.3.0",
+    "mysql": "^2.15.0"
+  }
 }
