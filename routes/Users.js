@@ -7,6 +7,7 @@ var token;
 
 users.use(cors());
 process.env.SECRET_KEY = "user_key";
+var appData = {}
 
 users.post('/register', function(req, res) {
     var today = new Date();
@@ -117,7 +118,7 @@ users.get('/getusers', function(req, res) {
             appData["data"] = "Internal Server Error";
             res.status(500).json(appData);
         } else {
-            connection.query('SELECT *FROM users', function(err, rows, fields) {
+            connection.query('SELECT * FROM users', function(err, rows, fields) {
             if (!err) {
                 appData["error"] = 0;
                 appData["data"] = rows;
