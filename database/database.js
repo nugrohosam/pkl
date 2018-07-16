@@ -7,4 +7,4 @@ var connection = pg.Client({
     port: 5432,
 })
 
-module.exports.connection = connection;
+module.exports = connection

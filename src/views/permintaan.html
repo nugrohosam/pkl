@@ -363,7 +363,7 @@
               </div>
             </div>
             
-            <div id="notif_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div id="status_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                   <div class="modal-body">
@@ -378,8 +378,11 @@
                 $(document).ready(
                     function(){
                         table = $('#table-pengguna').DataTable(
-                            {
-                                'columnDefs': [
+                            {   
+                                'processing': true,
+                                'serverSide': true,
+                                'ajax': '/permintaan/find',
+                                        'columnDefs': [
                                 {
                                     'targets': [ -1 ],
                                     'orderable': false,

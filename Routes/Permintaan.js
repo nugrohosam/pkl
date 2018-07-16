@@ -85,7 +85,8 @@ permintaan.post('/save', (req, res) => {
     var panjang_data = detail_permintaan.length
     
     var values = [id_permintaan, nomor_surat, tannggal, divisi, nama_peminta, buat_pada, ubah_pada]
-    try{
+    
+    /*try{
         dbconn.connect()
         dbconn.query('BEGIN', (err) => {
             if (shouldAbort(err)) {status_exec = false; return}
@@ -129,20 +130,20 @@ permintaan.post('/save', (req, res) => {
             status : false
         })
         dbconn.end()
-    } 
+    }*/
 })
 
-permintaan.post('/find', (req, res) => {
+permintaan.get('/find', (req, res) => {
 
-    var panjang_baris = req.body.length
-    var awal_baris = req.body.start
-    var pencarian = req.body.search
-    var isi_pencarian = pencarian['value'];
-    var order = req.body.order
-    var order_kolom = order['0']['column'];
-    var tipe_order = order['0']['dir'];
-    var draw = req.body.draw
-
+    var panjang_baris = req.query.length
+    var awal_baris = req.query.start
+    var pencarian = req.query.search
+    var isi_pencarian = pencarian.value
+    var order = req.query.order
+    var order_kolom = order['0'].column;
+    var tipe_order = order['0'].dir
+    var draw = req.query.draw
+    
     if(order == null){
         order = 'id_permintaan'
         tipe_order = 'desc'
@@ -150,7 +151,7 @@ permintaan.post('/find', (req, res) => {
 
     var values = [pencarian, pencarian, pencarian, pencarian, order, tipe_order]
     try{
-        dbconn.connect()
+        console.log(dbconn.connect())
         dbconn.query('SELECT * FROM permintaan WHERE ( nomor_surat \'%$1%\' OR tanggal \'%$2%\' OR divisi \'%$3%\' OR nama_peminta \'%$4%\') ORDER BY $5 $6',
             values, (err, resquery) => {
                 if (err) {
