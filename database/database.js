@@ -1,5 +1,6 @@
-var pg = require('pg')
-var connection = pg.Client({
+const pg = require('pg')
+
+const pool = pg.Pool({
     user: 'expressconn',
     host: 'localhost',
     database: 'dbipl',
@@ -7,4 +8,6 @@ var connection = pg.Client({
     port: 5432,
 })
 
-module.exports = connection
+module.exports = {
+    query: (text, params) => pool.query(text, params)
+}   

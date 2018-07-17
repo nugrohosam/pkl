@@ -14,9 +14,7 @@
         <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker-bs3.css">
         <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
         <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-        <link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap4.css">
-        <link rel="stylesheet" href="../assets/css/style.css">
-        
+        <link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap4.css">        
         
         <script src="plugins/jquery/jquery.min.js"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
@@ -115,255 +113,271 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                      <table id="table-pengguna" class="table table-sm table-striped">
+                      <table id="table-pengguna" class="table table-sm">
                         <thead class="bg-warning">
                         <tr>
-                            <th>No</th>
+                            <th>No Surat</th>
                             <th>Tanggal</th>
+                            <th>Divisi</th>
                             <th>Peminta</th>
-                            <th>Nama barang</th>
-                            <th>Banyaknya</th>
-                            <th>Dengan huruf</th>
-                            <th>Keterangan</th>
                             <th>Status</th>
                             <th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>
-                                    1
-                                </td>
-                                <td>
-                                    2018-07-02
-                                </td>
-                                <td>
-                                    Bpk. Masrul
-                                </td>
-                                <td>
-                                    Sepatu
-                                </td>
-                                <td>
-                                    2
-                                </td>
-                                <td>
-                                    dua buah
-                                </td>
-                                <td>
-                                    dipinjam
-                                </td>
-                                <td>
-                                    masih terpinjam
-                                </td>
-                                <td>
-                                <button class="btn btn-danger" onClick="ubah_modal()"><i class="left fa fa-pencil" style="cursor : pointer" ></i><span style="cursor : pointer" onClick="ubah_modal()"> Edit</span></button>
-                            </td>
-                            </tr>
                         </tbody>
                       </table>
                     </div>
                 </div>
-                <!-- /.card-body -->
               </div>
               
-            <div id="ubah_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-              <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Ubah Surat</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+              <div id="ubah_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content">
+                          <div class="modal-header">
+                              <h5 class="modal-title">Detail Surat</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                              </button>
+                          </div>
+                          <div class="modal-body">
+                            <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:16%" hidden>
+                                <input class="form-control" id="id_permintaan_ubah">
+                            </div>
+                              <div class="form-group">
+                                <label class="control-label col-sm-2" style="display: inline">No
+                                    <span style="text-align: right">:</span>
+                                </label>
+                                <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:16%">
+                                    <input class="form-control" id="nomor_surat_ubah">
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                  <label class="control-label col-sm-2" style="display: inline">Tanggal :</label>
+                                  <div class="col-sm-8 form-ubah" style="display: inline-block" >
+                                      <input class="form-control datepick" id="tanggal_ubah">
+                                  </div>
+                              </div>
+                              <div class="form-group">
+                                  <label class="control-label col-sm-2" style="display: inline">Divisi :</label>
+                                  <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:4%">
+                                      <input class="form-control" id="divisi_ubah">
+                                  </div>
+                              </div>
+                              <div class="form-group">
+                                  <label class="control-label col-sm-2" style="display: inline">Peminta :</label>
+                                  <div class="col-sm-8 form-ubah" style="display: inline-block">
+                                      <input class="form-control" id="nama_peminta_ubah">
+                                  </div>
+                              </div>
+                              <div class="form-group">
+                                  <label class="control-label col-sm-2" style="display: inline">Status :</label>
+                                  <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:11%">
+                                      <!-- <input class="form-control" id="status_tambah"> -->
+                                      <select id="status_ubah">
+                                          <option value="Diterima" class="btn">Diterima</option>
+                                          <option value="Dikerjakan" class="btn">Dikerjakan</option>
+                                          <option value="Selesai" class="btn">Selesai</option>
+                                          <!-- <option value="audi">Audi</option> -->
+                                      </select>
+                                  </div>
+                              </div>
+                              <div>
+                                  <table class="table table-sm table-striped" id="table_detail_permintaan_ubah">
+                                      <thead class="bg-warning">
+                                          <tr>
+                                            <th>
+                                                Barang
+                                            </th>
+                                            <th>
+                                                Huruf
+                                            </th>
+                                            <th>
+                                                Jumlah
+                                            </th>
+                                            <th>
+                                                keterangan
+                                            </th>
+                                            <th>
+                                                Act
+                                            </th>
+                                          </tr>
+                                      </thead>
+                                      <tbody id="detail_permintaan_ubah">
+                                      </tbody>
+                                  </table>
+                              </div>
+                             <button type="button" class="btn btn-success" id="tambah_baris_detail" onClick="tambah_baris_detail_ubah()">+</button>
+                          </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" id="button_save_ubah" onClick="ubah_proccess()">Save</button>
+                        </div>
+                      </div>
                     </div>
-                    <div class="modal-body">
-                        <div class="form-group">
+                  </div>
+
+                  <div id="tambah_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <h5 class="modal-title">Tambah Surat</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                  </button>
+                              </div>
+                              <div class="modal-body">
+                                  <div class="form-group">
+                                    <label class="control-label col-sm-2" style="display: inline">No
+                                        <span style="text-align: right">:</span>
+                                    </label>
+                                    <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:16%">
+                                        <input class="form-control" id="nomor_surat_tambah">
+                                    </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <label class="control-label col-sm-2" style="display: inline">Tanggal :</label>
+                                      <div class="col-sm-8 form-ubah" style="display: inline-block">
+                                          <input class="form-control datepick" id="tanggal_tambah">
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <label class="control-label col-sm-2" style="display: inline">Divisi :</label>
+                                      <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:4%">
+                                          <input class="form-control" id="divisi_tambah">
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <label class="control-label col-sm-2" style="display: inline">Peminta :</label>
+                                      <div class="col-sm-8 form-ubah" style="display: inline-block">
+                                          <input class="form-control" id="nama_peminta_tambah">
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <label class="control-label col-sm-2" style="display: inline">Status :</label>
+                                      <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:11%">
+                                          <!-- <input class="form-control" id="status_tambah"> -->
+                                          <select id="status_tambah">
+                                              <option value="Diterima" class="btn">Diterima</option>
+                                              <option value="Dikerjakan" class="btn">Dikerjakan</option>
+                                              <option value="Selesai" class="btn">Selesai</option>
+                                              <!-- <option value="audi">Audi</option> -->
+                                          </select>
+                                      </div>
+                                  </div>
+                                  <div>
+                                      <table class="table table-sm table-striped" id="table_detail_permintaan_ubah">
+                                          <thead class="bg-warning">
+                                              <tr>
+                                                <th>
+                                                    Barang
+                                                </th>
+                                                <th>
+                                                    Huruf
+                                                </th>
+                                                <th>
+                                                    Jumlah
+                                                </th>
+                                                <th>
+                                                    keterangan
+                                                </th>
+                                                <th>
+                                                    Act
+                                                </th>
+                                              </tr>
+                                          </thead>
+                                          <tbody id="detail_permintaan_tambah">
+                                          </tbody>
+                                      </table>
+                                  </div>
+                                 <button type="button" class="btn btn-success" id="hapus_baris_detail_tambah" onClick="tambah_baris_detail_tambah()">+</button>
+                              </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" id="button_save_ubah" onClick="tambah_proccess()">Save</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+            <div id="detail_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <h5 class="modal-title">Detail Surat</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                          </button>
+                      </div>
+                      <div class="modal-body">
+
+                        <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:16%" hidden>
+                            <input class="form-control" id="id_permintaan_detail">
+                        </div>
+                          <div class="form-group">
                             <label class="control-label col-sm-2" style="display: inline">No
                                 <span style="text-align: right">:</span>
                             </label>
                             <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:16%">
-                                <input class="form-control" id="no_tambah">
+                                <input class="form-control" id="nomor_surat_detail">
                             </div>
+                          </div>
+                          <div class="form-group">
+                              <label class="control-label col-sm-2" style="display: inline">Tanggal :</label>
+                              <div class="col-sm-8 form-ubah" style="display: inline-block">
+                                  <input class="form-control" id="tanggal_detail">
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label class="control-label col-sm-2" style="display: inline">Divisi :</label>
+                              <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:4%">
+                                  <input class="form-control" id="divisi_detail">
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label class="control-label col-sm-2" style="display: inline">Peminta :</label>
+                              <div class="col-sm-8 form-ubah" style="display: inline-block">
+                                  <input class="form-control" id="nama_peminta_detail">
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label class="control-label col-sm-2" style="display: inline">Status :</label>
+                              <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:11%">
+                                  <!-- <input class="form-control" id="status_tambah"> -->
+                                  <select id="status_detail">
+                                      <option value="Diterima" class="btn">Diterima</option>
+                                      <option value="Dikerjakan" class="btn">Dikerjakan</option>
+                                      <option value="Selesai" class="btn">Selesai</option>
+                                      <!-- <option value="audi">Audi</option> -->
+                                  </select>
+                              </div>
+                          </div>
+                          <div>
+                              <table class="table table-sm table-striped">
+                                  <thead class="bg-warning">
+                                      <tr>
+                                        <th>
+                                            Barang
+                                        </th>
+                                        <th>
+                                            Huruf
+                                        </th>
+                                        <th>
+                                            Jumlah
+                                        </th>
+                                        <th>
+                                            keterangan
+                                        </th>
+                                      </tr>
+                                  </thead>
+                                  <tbody id="detail_permintaan_detail">
+                                  </tbody>
+                              </table>
+                          </div>
                         </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-2" style="display: inline">Nama Barang :</label>
-                            <div class="col-sm-8 form-ubah" style="display: inline-block">
-                                <input class="form-control" id="nama_barang_tambah">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-2" style="display: inline">Banyaknya :</label>
-                            <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:4%">
-                                <input class="form-control" id="banyaknya_tambah">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-2" style="display: inline">Dengan Huruf :</label>
-                            <div class="col-sm-8 form-ubah" style="display: inline-block">
-                                <input class="form-control" id="dengan_huruf_tambah">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-2" style="display: inline">Keterangan :</label>
-                            <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:3%">
-                                <input class="form-control" id="keterangan_tambah">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-2" style="display: inline">Status :</label>
-                            <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:11%">
-                                <!-- <input class="form-control" id="status_tambah"> -->
-                                <select id="status_tambah">
-                                    <option value="Diterima" class="btn">Diterima</option>
-                                    <option value="Dikerjakan" class="btn">Dikerjakan</option>
-                                    <option value="Selesai" class="btn">Selesai</option>
-                                    <!-- <option value="audi">Audi</option> -->
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" id="button_save_ubah">Save changes</button>
-                    </div>
-                </div>
-              </div>
-            </div>
-    
-            <div id="tambah_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-              <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title">Tambah Surat</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                      <div class="form-group">
-                        <label class="control-label col-sm-2" style="display: inline">No <span style="text-align: right">:</span> </label>
-                        <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:16%">
-                            <input class="form-control" id="no_tambah">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2" style="display: inline">Nama Barang :</label>
-                        <div class="col-sm-8 form-ubah" style="display: inline-block"> 
-                            <input class="form-control" id="nama_barang_tambah">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2" style="display: inline">Banyaknya :</label>
-                        <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:4%"> 
-                            <input class="form-control" id="banyaknya_tambah">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2" style="display: inline">Dengan Huruf :</label>
-                        <div class="col-sm-8 form-ubah" style="display: inline-block"> 
-                            <input class="form-control" id="dengan_huruf_tambah">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2" style="display: inline">Keterangan :</label>
-                        <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:3%"> 
-                            <input class="form-control" id="keterangan_tambah">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2" style="display: inline">Status :</label>
-                        <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:11%"> 
-                            <!-- <input class="form-control" id="status_tambah"> -->
-                            <select id="status_tambah">
-                                <option value="Diterima" class="btn">Diterima</option>
-                                <option value="Dikerjakan"  class="btn">Dikerjakan</option>
-                                <option value="Selesai"  class="btn">Selesai</option>
-                                <!-- <option value="audi">Audi</option> -->
-                            </select>
-                        </div>
-                    </div>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="button_save_ubah">Save changes</button>
                   </div>
                 </div>
               </div>
-            </div>
             
-            <div id="detail_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-              <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title">Ubah</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    <div class="form-group">
-                    <label class="col-sm-2 col-form-label col-form-label-sm">Id Pengguna</label>
-                    <div class="col-sm-10">
-                            <input class="form-control form-control-sm" id="id_pengguna_detail">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                    <label class="col-sm-2 col-form-label col-form-label-sm">Tipe</label>
-                    <div class="col-sm-10">
-                            <input class="form-control form-control-sm" id="tipe_detail">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                    <label class="col-sm-2 col-form-label col-form-label-sm">Nama</label>
-                        <div class="col-sm-10"> 
-                            <input class="form-control form-control-sm" id="nama_detail">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                    <label class="col-sm-2 col-form-label col-form-label-sm">Jenis Kelamin</label>
-                        <div class="col-sm-10"> 
-                            <input class="form-control form-control-sm" id="jenis_kelamin_detail">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                    <label class="col-sm-2 col-form-label col-form-label-sm">Tanggal Lahir</label>
-                        <div class="col-sm-10"> 
-                            <input class="form-control form-control-sm" id="tanggal_lahir_detail">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                    <label class="col-sm-2 col-form-label col-form-label-sm">Email</label>
-                        <div class="col-sm-10"> 
-                            <input class="form-control form-control-sm" id="email_detail">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                    <label class="col-sm-2 col-form-label col-form-label-sm">Nomor Telepon</label>
-                        <div class="col-sm-10"> 
-                            <input class="form-control form-control-sm" id="nomor_telepon_detail">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                    <label class="col-sm-2 col-form-label col-form-label-sm">Buat Pada</label>
-                        <div class="col-sm-10"> 
-                            <input class="form-control form-control-sm" id="buat_pada_detail">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                    <label class="col-sm-2 col-form-label col-form-label-sm">Ubah Pada</label>
-                        <div class="col-sm-10"> 
-                            <input class="form-control form-control-sm" id="ubah_pada_detail">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                    <label class="col-sm-2 col-form-label col-form-label-sm">Hapus Pada</label>
-                        <div class="col-sm-10"> 
-                            <input class="form-control form-control-sm" id="hapus_pada_detail">
-                        </div>
-                    </div>  
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div id="status_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div id="notif_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                   <div class="modal-body">
@@ -374,7 +388,8 @@
               
             <script type="text/javascript">
                 var table;
-                
+                var index_detail_table = 0;
+
                 $(document).ready(
                     function(){
                         table = $('#table-pengguna').DataTable(
@@ -390,38 +405,204 @@
                             ]
                             }
                         );
+
+                        $('.datepick').datepicker({
+                            autoclose: true,
+                            format: "yyyy-mm-dd",
+                            todayHighlight: true,
+                            orientation: "top auto",
+                            todayBtn: true,
+                            todayHighlight: true,
+                        });
                     }
                 );
                 
-                
-                function ubah_modal(id_pengguna){
-                    $('#ubah_modal').modal('show');
-                }
-                
-                function tambah_modal(id_pengguna){
-                    $('#tambah_modal').modal('show');
+                function tambah_baris_detail_ubah(){
+                    var string_append = '';
+                    string_append = '<tr id="tr_detail_table_ubah'+index_detail_table+'">';
+                    string_append = string_append+'<td><input class="form-control" value=""></td>';
+                    string_append = string_append+'<td><input class="form-control" value=""></td>';
+                    string_append = string_append+'<td><input class="form-control" value=""></td>';
+                    string_append = string_append+'<td><input class="form-control" value=""></td>';
+                    string_append = string_append+'<td><button type="button" class="btn btn-danger" id="tambah_baris_detail" onClick="hapus_baris_detail_ubah('+index_detail_table+')">X</button></td>';
+                    string_append = string_append+'</tr>';
+
+                    $('#detail_permintaan_ubah').append(string_append)
+
+                    index_detail_table++;
                 }
 
+                function tambah_baris_detail_tambah(){
+                    var string_append = '';
+                    string_append = '<tr id="tr_detail_table_tambah'+index_detail_table+'">';
+                    string_append = string_append+'<td><input class="form-control" value=""></td>';
+                    string_append = string_append+'<td><input class="form-control" value=""></td>';
+                    string_append = string_append+'<td><input class="form-control" value=""></td>';
+                    string_append = string_append+'<td><input class="form-control" value=""></td>';
+                    string_append = string_append+'<td><button type="button" class="btn btn-danger" id="tambah_baris_detail" onClick="hapus_baris_detail_tambah('+index_detail_table+')">X</button></td>';
+                    string_append = string_append+'</tr>';
+
+                    $('#detail_permintaan_tambah').append(string_append)
+
+                    index_detail_table++;
+                }
+
+                function hapus_baris_detail_ubah(id_tr){;
+                    $('#tr_detail_table_ubah'+id_tr).html('');
+                    $('#tr_detail_table_ubah'+id_tr).remove();
+                }
+                
+                function hapus_baris_detail_tambah(id_tr){
+                    $('#tr_detail_table_tambah'+id_tr).html('');
+                    $('#tr_detail_table_tambah'+id_tr).remove();
+                }
+
+                function tambah_modal(){
+                    $('#tambah_modal').modal('show');
+                }
+                
+                function ubah_modal(id_permintaan){
+                    $('#ubah_modal').modal('show');
+                    $('#detail_permintaan_ubah').html('');
+                    $.ajax({
+                        url : "/permintaan/find/"+id_permintaan,
+                        header : {
+                            "Content-type" : "applocation/json"
+                        },
+                        type : "get",
+                        dataType : "json",
+                        success : function(response){
+                            $('#id_permintaan_ubah').val(response.id_permintaan);
+                            $('#nomor_surat_ubah').val(response.nomor_surat);
+                            $('#tanggal_ubah').val(response.tanggal);
+                            $('#divisi_ubah').val(response.divisi);
+                            $('#nama_peminta_ubah').val(response.nama_peminta);
+                            $('#status_ubah').val(response.status);
+                            
+                            var i = 0;
+                            var string_append = '';
+                            response.detail.forEach(function(item){
+                                string_append = '<tr id="tr_detail_table_ubah'+i+'">';
+                                string_append = string_append+'<td><input class="form-control" value=\''+item.barang+'\'></td>';
+                                string_append = string_append+'<td><input class="form-control" value=\''+item.huruf+'\'></td>';
+                                string_append = string_append+'<td><input class="form-control" value=\''+item.jumlah+'\'></td>';
+                                string_append = string_append+'<td><input class="form-control" value=\''+item.keterangan+'\'></td>';
+                                string_append = string_append+'<td><button type="button" class="btn btn-danger" id="tambah_baris_detail" onClick="hapus_baris_detail_ubah('+i+')">X</button></td>';
+                                string_append = string_append+'</tr>';
+
+                                $('#detail_permintaan_ubah').append(string_append)
+                                i++;
+                            })
+
+
+                            index_detail_table = i;
+                            reload_table();
+                        },
+                        error : function(){
+                            setTimeout(function(){
+                                $('#notif_modal').modal('hide');
+                            }, 1000);
+                        }
+                    });
+                }
+                
                 function logout(){
                     document.cookie =  'token=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
                 }
                 
-                /*
-                function ubah_process(id_pengguna){
+                function parsing_to_text(input_tag){
+                    var arr = input_tag.split('<input class="form-control" value="');
+                    var text = arr[1].split('">').join();
+
+                    return text
+                }
+
+                function tambah_proccess(){
+                    $('#tambah_modal').modal('hide');
+                    $('#notif_modal').modal('show');
+                    
+
+                    var detail_tambah = $('#detail_permintaan_tambah')[0];
+                    
+                    var kolom = detail_tambah.rows[0].cells.length;
+                    var baris = detail_tambah.rows.length;
+
+                    var data_detail_permintaan = new Array();
+                    var i;
+
+                    for(i = 0; i < baris; i++){
+                        var data = new Array();
+
+                        data['barang'] = this.parsing_to_text(detail_tambah.rows[i].cells[0].innerHTML);
+                        data['huruf'] = this.parsing_to_text(detail_tambah.rows[i].cells[1].innerHTML);
+                        data['jumlah'] = this.parsing_to_text(detail_tambah.rows[i].cells[2].innerHTML);
+                        data['keterangan'] = this.parsing_to_text(detail_tambah.rows[i].cells[3].innerHTML);
+                        
+                        data_detail_permintaan[i] = data;
+                    };
+
                     $.ajax({
-                        url : "<?php echo base_url()?>index.php/pengguna/ubah_dengan_id",
+                        url : '/permintaan/save',
                         header : {
-                            "Content-type" : "applocation/application/x-www-form-urlencoded"
+                            "Content-type" : "applocation/json"
                         },
-                        type : "put",
+                        type : "post",
                         dataType : "json",
                         data : {
-                            "id_pengguna" : id_pengguna,
-                            "tipe" : $('#tipe_ubah').val(),
-                            "nama" : $('#nama_ubah').val(),
-                            "jenis_kelamin" : $('#jenis_kelamin_ubah').val(),
-                            "tanggal_lahir" : $('#tanggal_lahir_ubah').val(),
-                            "email" : $('#email_ubah').val()
+                            'nomor_surat' : $('#nomor_surat_tambah'),
+                            'tanggal' : $('#tanggal_tambah'),
+                            'divisi' : $('#divisi_tambah'),
+                            'nama_peminta' : $('#nama_peminta_tambah'),
+                            'status' : $('#status_tambah'),
+                            'detail_permintaan' : data_detail_permintaan
+                        },
+                        success : function(){
+
+                        },
+                        error : function(){
+                            
+                        }
+                    })
+                }
+
+                function ubah_proccess(){
+                    $('#ubah_modal').modal('hide');
+                    $("#notif_modal").modal('show');
+                    
+                    var id_permintaan = $('#id_permintaan_ubah').val();
+                    var detail_ubah = $('#detail_permintaan_ubah')[0];
+                    
+                    var kolom = detail_ubah.rows[0].cells.length;
+                    var baris = detail_ubah.rows.length;
+
+                    var data_detail_permintaan = new Array();
+                    var i;
+
+                    for(i = 0; i < baris; i++){
+                        var data = {barang : '', huruf : '', jumlah : '', keterangan : ''};
+
+                        data.barang = this.parsing_to_text(detail_ubah.rows[i].cells[0].innerHTML);
+                        data.huruf = this.parsing_to_text(detail_ubah.rows[i].cells[1].innerHTML);
+                        data.jumlah = this.parsing_to_text(detail_ubah.rows[i].cells[2].innerHTML);
+                        data.keterangan = this.parsing_to_text(detail_ubah.rows[i].cells[3].innerHTML);
+                        
+                        data_detail_permintaan[i] = data
+                    };
+                    
+                    $.ajax({
+                        url : "/permintaan/update/"+id_permintaan,
+                        header : {
+                            "Content-type" : "applocation/json"
+                        },
+                        type : "post",
+                        dataType : "json",
+                        data : {
+                            'nomor_surat' : $('#nomor_surat_ubah').val(),
+                            'tanggal' : $('#tanggal_ubah'),
+                            'divisi' : $('divisi_ubah').val(),
+                            'nama_peminta' : $('nama_peminta_ubah').val(),
+                            'status' : $('#status_ubah').val(),
+                            'detail_permintaan' : data_detail_permintaan
                         },
                         success : function(response){
                             $('#ubah_modal').modal('hide');
@@ -445,31 +626,33 @@
                         }
                     });
                 }
-    
-                function detail_modal(id_pengguna){
+
+                function detail_modal(id_permintaan){
                     $('#detail_modal').modal('show');
+                    $('#detail_permintaan_detail').html('');
                     $.ajax({
-                        url : "<?php echo base_url()?>index.php/pengguna/ambil_semua_dengan_id",
+                        url : "/permintaan/find/"+id_permintaan,
                         header : {
-                            "Content-type" : "applocation/application/x-www-form-urlencoded"
+                            "Content-type" : "applocation/json"
                         },
                         type : "get",
                         dataType : "json",
-                        data : {
-                            "id_pengguna" : id_pengguna  
-                        },
                         success : function(response){
-                            $('#id_pengguna_detail').val(response.id_pengguna);
-                            $('#tipe_detail').val(response.tipe);
-                            $('#nama_detail').val(response.nama);
-                            $('#jenis_kelamin_detail').val(response.jenis_kelamin);
-                            $('#tanggal_lahir_detail').val(response.tanggal_lahir);
-                            $('#email_detail').val(response.email);
-                            $('#path_gambar_detail').val(response.email);
-                            $('#buat_pada_detail').val(response.buat_pada);
-                            $('#ubah_pada_detail').val(response.ubah_pada);
-                            $('#hapus_pada_detail').val(response.hapus_pada);
+                            $('#id_permintaan_detail').val(response.id_permintaan);
+                            $('#nomor_surat_detail').val(response.nomor_surat);
+                            $('#tanggal_detail').val(response.tanggal);
+                            $('#divisi_detail').val(response.divisi);
+                            $('#nama_peminta_detail').val(response.nama_peminta);
+                            $('#status_detail').val(response.status);
                             
+                            response.detail.forEach(function(item){
+                                $('#detail_permintaan_detail').append('<tr>');
+                                $('#detail_permintaan_detail').append('<td>'+item.barang+'</td>');
+                                $('#detail_permintaan_detail').append('<td>'+item.huruf+'</td>');
+                                $('#detail_permintaan_detail').append('<td>'+item.jumlah+'</td>');
+                                $('#detail_permintaan_detail').append('<td>'+item.keterangan+'</td>');
+                                $('#detail_permintaan_detail').append('</tr>');
+                            })
                             reload_table();
                         },
                         error : function(){
@@ -479,45 +662,7 @@
                         }
                     });
                 }
-                
-                function hapus_process(id_pengguna){
-                    $.ajax({
-                        url : "<?php echo base_url()?>index.php/pengguna/hapus_dengan_id/"+id_pengguna,
-                        header : {
-                            "Content-type" : "applocation/application/x-www-form-urlencoded"
-                        },
-                        type : "delete",
-                        dataType : "json",
-                        data : {
-                            'id_pengguna' : id_pengguna  
-                        },
-                        success : function(response){
-                            $('#hapus_modal').modal('hide');
-                            $('#notif_modal').modal('show');
-                            if(!response.status){
-                                $("#notif_modal div div div").html('gagal hapus');
-                            }else{
-                                $("#notif_modal div div div").html('sukses hapus');
-                            }
-                            setTimeout(function(){
-                                $('#notif_modal').modal('hide');
-                            }, 1000);
-                            
-                            reload_table();
-                        },
-                        error : function(){
-                            $("#notif_modal div div div").html('sukses hapus');
-                            setTimeout(function(){
-                                $('#notif_modal').modal('hide');
-                            }, 1000);
-                        }
-                    });
-                }
-                */
 
-                
-                
-                
                 function reload_table(){
                     table.ajax.reload(null,false);
                 }
