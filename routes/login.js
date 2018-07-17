@@ -38,7 +38,12 @@ login.use((req, res, next) => {
         }
 
         if(decoded.logged_in){
-            next()
+            var fileName = 'permintaan.html'
+            res.sendfile(fileName, options, (err) => {
+                if(err){
+                    console.log(err)
+                }  
+            })
         }else{
             var fileName = 'login.html'
             res.sendfile(fileName, options, (err) => {

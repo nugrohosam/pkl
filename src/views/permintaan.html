@@ -183,7 +183,7 @@
                                   </div>
                               </div>
                               <div>
-                                  <table class="table table-sm table-striped" id="table_detail_permintaan_ubah">
+                                  <table class="table table-sm table-striped">
                                       <thead class="bg-warning">
                                           <tr>
                                             <th>
@@ -257,15 +257,15 @@
                                       <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:11%">
                                           <!-- <input class="form-control" id="status_tambah"> -->
                                           <select id="status_tambah">
-                                              <option value="Diterima" class="btn">Diterima</option>
-                                              <option value="Dikerjakan" class="btn">Dikerjakan</option>
-                                              <option value="Selesai" class="btn">Selesai</option>
+                                              <option value="Diterima" class="btn">diterima</option>
+                                              <option value="Dikerjakan" class="btn">dikerjakan</option>
+                                              <option value="Selesai" class="btn">selesai</option>
                                               <!-- <option value="audi">Audi</option> -->
                                           </select>
                                       </div>
                                   </div>
                                   <div>
-                                      <table class="table table-sm table-striped" id="table_detail_permintaan_ubah">
+                                      <table class="table table-sm table-striped">
                                           <thead class="bg-warning">
                                               <tr>
                                                 <th>
@@ -343,9 +343,9 @@
                               <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:11%">
                                   <!-- <input class="form-control" id="status_tambah"> -->
                                   <select id="status_detail">
-                                      <option value="Diterima" class="btn">Diterima</option>
-                                      <option value="Dikerjakan" class="btn">Dikerjakan</option>
-                                      <option value="Selesai" class="btn">Selesai</option>
+                                      <option value="Diterima" class="btn">diterima</option>
+                                      <option value="Dikerjakan" class="btn">dikerjakan</option>
+                                      <option value="Selesai" class="btn">selesai</option>
                                       <!-- <option value="audi">Audi</option> -->
                                   </select>
                               </div>
@@ -414,17 +414,21 @@
                             todayBtn: true,
                             todayHighlight: true,
                         });
+
+                        $('input').on('change', function(){
+                            $(this).attr('value', $(this).val())
+                        })
                     }
                 );
                 
                 function tambah_baris_detail_ubah(){
                     var string_append = '';
                     string_append = '<tr id="tr_detail_table_ubah'+index_detail_table+'">';
-                    string_append = string_append+'<td><input class="form-control" value=""></td>';
-                    string_append = string_append+'<td><input class="form-control" value=""></td>';
-                    string_append = string_append+'<td><input class="form-control" value=""></td>';
-                    string_append = string_append+'<td><input class="form-control" value=""></td>';
-                    string_append = string_append+'<td><button type="button" class="btn btn-danger" id="tambah_baris_detail" onClick="hapus_baris_detail_ubah('+index_detail_table+')">X</button></td>';
+                    string_append = string_append+'<td><textarea class="form-control" rows="1"></textarea></td>';
+                    string_append = string_append+'<td><textarea class="form-control" rows="1"></textarea></td>';
+                    string_append = string_append+'<td><textarea class="form-control" rows="1"></textarea></td>';
+                    string_append = string_append+'<td><textarea class="form-control" rows="1"></textarea></td>';
+                    string_append = string_append+'<td><button type="button" class="btn btn-danger" id="tambah_baris_detail" onClick="hapus_baris_detail_tambah('+index_detail_table+')">X</button></td>';
                     string_append = string_append+'</tr>';
 
                     $('#detail_permintaan_ubah').append(string_append)
@@ -435,10 +439,10 @@
                 function tambah_baris_detail_tambah(){
                     var string_append = '';
                     string_append = '<tr id="tr_detail_table_tambah'+index_detail_table+'">';
-                    string_append = string_append+'<td><input class="form-control" value=""></td>';
-                    string_append = string_append+'<td><input class="form-control" value=""></td>';
-                    string_append = string_append+'<td><input class="form-control" value=""></td>';
-                    string_append = string_append+'<td><input class="form-control" value=""></td>';
+                    string_append = string_append+'<td><textarea class="form-control" rows="1"></textarea></td>';
+                    string_append = string_append+'<td><textarea class="form-control" rows="1"></textarea></td>';
+                    string_append = string_append+'<td><textarea class="form-control" rows="1"></textarea></td>';
+                    string_append = string_append+'<td><textarea class="form-control" rows="1"></textarea></td>';
                     string_append = string_append+'<td><button type="button" class="btn btn-danger" id="tambah_baris_detail" onClick="hapus_baris_detail_tambah('+index_detail_table+')">X</button></td>';
                     string_append = string_append+'</tr>';
 
@@ -464,6 +468,7 @@
                 function ubah_modal(id_permintaan){
                     $('#ubah_modal').modal('show');
                     $('#detail_permintaan_ubah').html('');
+                    
                     $.ajax({
                         url : "/permintaan/find/"+id_permintaan,
                         header : {
@@ -483,10 +488,10 @@
                             var string_append = '';
                             response.detail.forEach(function(item){
                                 string_append = '<tr id="tr_detail_table_ubah'+i+'">';
-                                string_append = string_append+'<td><input class="form-control" value=\''+item.barang+'\'></td>';
-                                string_append = string_append+'<td><input class="form-control" value=\''+item.huruf+'\'></td>';
-                                string_append = string_append+'<td><input class="form-control" value=\''+item.jumlah+'\'></td>';
-                                string_append = string_append+'<td><input class="form-control" value=\''+item.keterangan+'\'></td>';
+                                string_append = string_append+'<td><textarea class="form-control" rows="1">'+item.barang+'</textarea></td>';
+                                string_append = string_append+'<td><textarea class="form-control" rows="1">'+item.huruf+'</textarea></td>';
+                                string_append = string_append+'<td><textarea class="form-control" rows="1">'+item.jumlah+'</textarea></td>';
+                                string_append = string_append+'<td><textarea class="form-control" rows="1">'+item.keterangan+'</textarea></td>';
                                 string_append = string_append+'<td><button type="button" class="btn btn-danger" id="tambah_baris_detail" onClick="hapus_baris_detail_ubah('+i+')">X</button></td>';
                                 string_append = string_append+'</tr>';
 
@@ -509,21 +514,13 @@
                 function logout(){
                     document.cookie =  'token=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
                 }
-                
-                function parsing_to_text(input_tag){
-                    var arr = input_tag.split('<input class="form-control" value="');
-                    var text = arr[1].split('">').join();
-
-                    return text
-                }
 
                 function tambah_proccess(){
                     $('#tambah_modal').modal('hide');
                     $('#notif_modal').modal('show');
-                    
-
+                    $("#notif_modal div div div").html('proccess tambah');
                     var detail_tambah = $('#detail_permintaan_tambah')[0];
-                    
+
                     var kolom = detail_tambah.rows[0].cells.length;
                     var baris = detail_tambah.rows.length;
 
@@ -531,14 +528,14 @@
                     var i;
 
                     for(i = 0; i < baris; i++){
-                        var data = new Array();
-
-                        data['barang'] = this.parsing_to_text(detail_tambah.rows[i].cells[0].innerHTML);
-                        data['huruf'] = this.parsing_to_text(detail_tambah.rows[i].cells[1].innerHTML);
-                        data['jumlah'] = this.parsing_to_text(detail_tambah.rows[i].cells[2].innerHTML);
-                        data['keterangan'] = this.parsing_to_text(detail_tambah.rows[i].cells[3].innerHTML);
+                        var data = {barang : '', huruf : '', jumlah : '', keterangan : ''};
                         
-                        data_detail_permintaan[i] = data;
+                        data.barang = $('#tr_detail_table_tambah'+i+' td:nth-child(1) textarea:nth-child(1)').val();
+                        data.huruf = $('#tr_detail_table_tambah'+i+' td:nth-child(2) textarea:nth-child(1)').val();
+                        data.jumlah = $('#tr_detail_table_tambah'+i+' td:nth-child(3) textarea:nth-child(1)').val();
+                        data.keterangan = $('#tr_detail_table_tambah'+i+' td:nth-child(4) textarea:nth-child(1)').val();
+                        
+                        data_detail_permintaan[i] = data
                     };
 
                     $.ajax({
@@ -549,29 +546,44 @@
                         type : "post",
                         dataType : "json",
                         data : {
-                            'nomor_surat' : $('#nomor_surat_tambah'),
-                            'tanggal' : $('#tanggal_tambah'),
-                            'divisi' : $('#divisi_tambah'),
-                            'nama_peminta' : $('#nama_peminta_tambah'),
-                            'status' : $('#status_tambah'),
+                            'nomor_surat' : $('#nomor_surat_tambah').val(),
+                            'tanggal' : $('#tanggal_tambah').val(),
+                            'divisi' : $('#divisi_tambah').val(),
+                            'nama_peminta' : $('#nama_peminta_tambah').val(),
+                            'status' : $('#status_tambah').val(),
                             'detail_permintaan' : data_detail_permintaan
                         },
-                        success : function(){
+                        success : function(response){
+                            if(!response.status){
+                                $("#notif_modal div div div").html('gagal ubah');
+                            }else{
+                                $("#notif_modal div div div").html('sukses ubah');
+                            }
 
+                            setTimeout(function(){
+                                $('#notif_modal').modal('hide');
+                            }, 1000);
+                            
+                            reload_table();
                         },
                         error : function(){
-                            
+                            $("#notif_modal div div div").html('gagal hapus');
+                            setTimeout(function(){
+                                $('#notif_modal').modal('hide');
+                            }, 1000);
                         }
                     })
                 }
 
                 function ubah_proccess(){
                     $('#ubah_modal').modal('hide');
-                    $("#notif_modal").modal('show');
+                    $('#notif_modal').modal('show');
+                    $("#notif_modal div div div").html('proccess ubah');
                     
-                    var id_permintaan = $('#id_permintaan_ubah').val();
-                    var detail_ubah = $('#detail_permintaan_ubah')[0];
+                    var baris_permintaan = $('#id_permintaan_ubah td');
+                    var kolom_1 = baris_permintaan;
                     
+                    /*
                     var kolom = detail_ubah.rows[0].cells.length;
                     var baris = detail_ubah.rows.length;
 
@@ -598,15 +610,13 @@
                         dataType : "json",
                         data : {
                             'nomor_surat' : $('#nomor_surat_ubah').val(),
-                            'tanggal' : $('#tanggal_ubah'),
+                            'tanggal' : $('#tanggal_ubah').val(),
                             'divisi' : $('divisi_ubah').val(),
                             'nama_peminta' : $('nama_peminta_ubah').val(),
                             'status' : $('#status_ubah').val(),
                             'detail_permintaan' : data_detail_permintaan
                         },
                         success : function(response){
-                            $('#ubah_modal').modal('hide');
-                            $('#notif_modal').modal('show');
                             if(!response.status){
                                 $("#notif_modal div div div").html('gagal ubah');
                             }else{
@@ -619,12 +629,12 @@
                             reload_table();
                         },
                         error : function(){
-                            $("#notif_modal div div div").html('sukses hapus');
+                            $("#notif_modal div div div").html('gagal hapus');
                             setTimeout(function(){
                                 $('#notif_modal').modal('hide');
                             }, 1000);
-                        }
-                    });
+                        
+                    });*/
                 }
 
                 function detail_modal(id_permintaan){

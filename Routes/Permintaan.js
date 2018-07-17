@@ -67,10 +67,9 @@ permintaan.get('/', (req, res) => {
     })
 })
 
-permintaan.post('/save', (req, res) => {
+permintaan.post('/save', async (req, res) => {
     
-    console.log(req.body)
-    /*var datetime = 'perm'+Date.now()
+    var datetime = 'perm'+Date.now()
     var id_permintaan = 'per'+datetime
     var datetime_format = year+'-'+month+'-'+day+' '+hour+':'+minute+':'+second;
 
@@ -85,53 +84,22 @@ permintaan.post('/save', (req, res) => {
     var detail_permintaan = data.detail_permintaan
     var panjang_data = detail_permintaan.length
     
-    var values = [id_permintaan, nomor_surat, tannggal, divisi, nama_peminta, buat_pada, ubah_pada]
-    
     try{
-        dbconn.query('BEGIN', (err) => {
-            if (shouldAbort(err)) {status_exec = false; return}
-            dbconn.query('INSERT INTO permintaan (id_permintaan, nomor_surat, tanggal, divisi, nama_peminta, buat_pada, ubah_pada) VALUES ($1, $2, $3, $4, $5, $6, $7)',
-                values, (err) => {
-                    if (shouldAbort(err)) return
-                    var i = 0
-                    for(i = 0; i < panjang_data; i++){
-                        
-                        var barang = detail_permintaan[i].barang
-                        var huruf = detail_permintaan[i].huruf
-                        var jumlah = detail_permintaan[i].jumlah
-                        var kerterangan = detail_permintaan[i].keterangan
-                        
-                        values = [id_permintaan, barang, huruf, jumlah, keterangan]
-                        dbconn.query('DELETE FROM detail_permintaan WHERE id_permintaan = ')
-                        dbconn.query('INSERT INTO detail_permintaan (id_permintaan, barang, huruf, jumlah, keterangan) VALUES ($1, $2, $3, $4, $5)',
-                            values, (err) => {
-                                if (shouldAbort(err)) return
-                                if (i == (panjang_data-1)){
-                                    dbconn.query('COMMIT', (err) => {
-                                        if(err){
-                                            res.status(200).json({
-                                                status : false
-                                            })
-                                        }else{
-                                            res.status(200).json({
-                                                satus : true
-                                            })
-                                        }
-                                    })
-                                }
-                            }
-                        )
-                    }
-                }
-            )
+        var sql = 'INSERT INTO permintaan VALUES (\''+id_permintaan+'\', \''+tanggal+'\', \''+divisi+'\', \''+nama_peminta+'\', \''+status+'\')';
+        await dbconn.query(sql, (err) => {
+            if(err){
+                res.status(200).json({status : false})
+            }else{
+                foreach()
+                sql = 'INSERT INTO detail_permintaan VALUES ()'
+                dbconn.query('')
+            }
         })
-        dbconn.end()
     } catch(err) {
         res.status(400).json({
             status : false
         })
-        dbconn.end()
-    }*/
+    }
 })
 
 permintaan.get('/find', async (req, res) => {
@@ -249,10 +217,11 @@ permintaan.get('/find/:id', async (req, res) => {
     }
 })
 
-permintaan.post('/update/:id', async (err, res) => {
+permintaan.post('/update/:id', async (req, res) => {
 
-    console.log(req)
-    /*
+    console.log(req.body)
+    res.status(200).json({status : true})
+
     var datetime = 'perm'+Date.now()
     var id_permintaan = req.params.id
     var datetime_format = year+'-'+month+'-'+day+' '+hour+':'+minute+':'+second;
@@ -289,7 +258,7 @@ permintaan.post('/update/:id', async (err, res) => {
                             var jumlah = detail_permintaan[i]['jumlah']
                             var keterangan = detail_permintaan[i]['keterangan']
 
-                            sql = 'INSERT INTO detail_permintaan VALUES (\''+id_permintaan+'\', \''+barang+'\', \''+huruf+'\', \''+jumlah+'\', \''+keterangan+'\' ')
+                            sql = 'INSERT INTO detail_permintaan VALUES (\''+id_permintaan+'\', \''+barang+'\', \''+huruf+'\', \''+jumlah+'\', \''+keterangan+'\' '
                             dbconn.query(sql, (err) => {
                                 if(err){
                                     res.status(200).json({
@@ -311,7 +280,7 @@ permintaan.post('/update/:id', async (err, res) => {
         res.status(400).json({
             status : false
         })
-    }*/
+    }
 })
 
 module.exports = permintaan;
