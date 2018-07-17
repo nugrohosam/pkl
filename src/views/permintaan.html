@@ -175,9 +175,9 @@
                                   <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:11%">
                                       <!-- <input class="form-control" id="status_tambah"> -->
                                       <select id="status_ubah">
-                                          <option value="Diterima" class="btn">Diterima</option>
-                                          <option value="Dikerjakan" class="btn">Dikerjakan</option>
-                                          <option value="Selesai" class="btn">Selesai</option>
+                                          <option value="diterima" class="btn">diterima</option>
+                                          <option value="dikerjakan" class="btn">dikerjakan</option>
+                                          <option value="selesai" class="btn">selesai</option>
                                           <!-- <option value="audi">Audi</option> -->
                                       </select>
                                   </div>
@@ -397,12 +397,12 @@
                                 'processing': true,
                                 'serverSide': true,
                                 'ajax': '/permintaan/find',
-                                        'columnDefs': [
-                                {
-                                    'targets': [ -1 ],
-                                    'orderable': false,
-                                } 
-                            ]
+                                    'columnDefs': [
+                                    {
+                                        'targets': [ -1 ],
+                                        'orderable': false,
+                                    } 
+                                ]
                             }
                         );
 
@@ -528,16 +528,16 @@
                     var i;
 
                     for(i = 0; i < baris; i++){
-                        var data = {barang : '', huruf : '', jumlah : '', keterangan : ''};
+                        var obj = new Array()
                         
-                        data.barang = $('#tr_detail_table_tambah'+i+' td:nth-child(1) textarea:nth-child(1)').val();
-                        data.huruf = $('#tr_detail_table_tambah'+i+' td:nth-child(2) textarea:nth-child(1)').val();
-                        data.jumlah = $('#tr_detail_table_tambah'+i+' td:nth-child(3) textarea:nth-child(1)').val();
-                        data.keterangan = $('#tr_detail_table_tambah'+i+' td:nth-child(4) textarea:nth-child(1)').val();
+                        obj[0] = $('#tr_detail_table_tambah'+i+' td:nth-child(1) textarea:nth-child(1)').val();
+                        obj[1] = $('#tr_detail_table_tambah'+i+' td:nth-child(2) textarea:nth-child(1)').val();
+                        obj[2] = $('#tr_detail_table_tambah'+i+' td:nth-child(3) textarea:nth-child(1)').val();
+                        obj[3] = $('#tr_detail_table_tambah'+i+' td:nth-child(4) textarea:nth-child(1)').val();
                         
-                        data_detail_permintaan[i] = data
+                        data_detail_permintaan[i] = obj
                     };
-
+                    
                     $.ajax({
                         url : '/permintaan/save',
                         header : {
@@ -546,18 +546,18 @@
                         type : "post",
                         dataType : "json",
                         data : {
-                            'nomor_surat' : $('#nomor_surat_tambah').val(),
-                            'tanggal' : $('#tanggal_tambah').val(),
-                            'divisi' : $('#divisi_tambah').val(),
-                            'nama_peminta' : $('#nama_peminta_tambah').val(),
-                            'status' : $('#status_tambah').val(),
-                            'detail_permintaan' : JSON.stringify(data_detail_permintaan)
+                                'nomor_surat' : $('#nomor_surat_tambah').val(),
+                                'tanggal' : $('#tanggal_tambah').val(),
+                                'divisi' : $('#divisi_tambah').val(),
+                                'nama_peminta' : $('#nama_peminta_tambah').val(),
+                                'status' : $('#status_tambah').val(),
+                                'detail' : data_detail_permintaan
                         },
                         success : function(response){
                             if(!response.status){
-                                $("#notif_modal div div div").html('gagal ubah');
+                                $("#notif_modal div div div").html('gagal tambah');
                             }else{
-                                $("#notif_modal div div div").html('sukses ubah');
+                                $("#notif_modal div div div").html('sukses tambah');
                             }
 
                             setTimeout(function(){
@@ -567,7 +567,7 @@
                             reload_table();
                         },
                         error : function(){
-                            $("#notif_modal div div div").html('gagal hapus');
+                            $("#notif_modal div div div").html('gagal tambah');
                             setTimeout(function(){
                                 $('#notif_modal').modal('hide');
                             }, 1000);
@@ -579,30 +579,27 @@
                     $('#ubah_modal').modal('hide');
                     $('#notif_modal').modal('show');
                     $("#notif_modal div div div").html('proccess ubah');
-                    
-                    var baris_permintaan = $('#id_permintaan_ubah td');
-                    var kolom_1 = baris_permintaan;
-                    
-                    /*
+                    var detail_ubah = $('#detail_permintaan_ubah')[0];
+
                     var kolom = detail_ubah.rows[0].cells.length;
                     var baris = detail_ubah.rows.length;
 
-                    var data_detail_permintaan = new Array();
+                    var data_detail_permintaan = new Array()
                     var i;
 
                     for(i = 0; i < baris; i++){
-                        var data = {barang : '', huruf : '', jumlah : '', keterangan : ''};
-
-                        data.barang = this.parsing_to_text(detail_ubah.rows[i].cells[0].innerHTML);
-                        data.huruf = this.parsing_to_text(detail_ubah.rows[i].cells[1].innerHTML);
-                        data.jumlah = this.parsing_to_text(detail_ubah.rows[i].cells[2].innerHTML);
-                        data.keterangan = this.parsing_to_text(detail_ubah.rows[i].cells[3].innerHTML);
+                        var obj = new Array()
                         
-                        data_detail_permintaan[i] = data
+                        obj[0] = $('#tr_detail_table_ubah'+i+' td:nth-child(1) textarea:nth-child(1)').val();
+                        obj[1] = $('#tr_detail_table_ubah'+i+' td:nth-child(2) textarea:nth-child(1)').val();
+                        obj[2] = $('#tr_detail_table_ubah'+i+' td:nth-child(3) textarea:nth-child(1)').val();
+                        obj[3] = $('#tr_detail_table_ubah'+i+' td:nth-child(4) textarea:nth-child(1)').val();
+                        
+                        data_detail_permintaan[i] = obj
                     };
                     
                     $.ajax({
-                        url : "/permintaan/update/"+id_permintaan,
+                        url : '/permintaan/update/'+$('#id_permintaan_ubah').val(),
                         header : {
                             "Content-type" : "applocation/json"
                         },
@@ -611,10 +608,10 @@
                         data : {
                             'nomor_surat' : $('#nomor_surat_ubah').val(),
                             'tanggal' : $('#tanggal_ubah').val(),
-                            'divisi' : $('divisi_ubah').val(),
-                            'nama_peminta' : $('nama_peminta_ubah').val(),
+                            'divisi' : $('#divisi_ubah').val(),
+                            'nama_peminta' : $('#nama_peminta_ubah').val(),
                             'status' : $('#status_ubah').val(),
-                            'detail_permintaan' : data_detail_permintaan
+                            'detail' : data_detail_permintaan
                         },
                         success : function(response){
                             if(!response.status){
@@ -622,6 +619,7 @@
                             }else{
                                 $("#notif_modal div div div").html('sukses ubah');
                             }
+
                             setTimeout(function(){
                                 $('#notif_modal').modal('hide');
                             }, 1000);
@@ -629,12 +627,12 @@
                             reload_table();
                         },
                         error : function(){
-                            $("#notif_modal div div div").html('gagal hapus');
+                            $("#notif_modal div div div").html('gagal ubah');
                             setTimeout(function(){
                                 $('#notif_modal').modal('hide');
                             }, 1000);
-                        
-                    });*/
+                        }
+                    })
                 }
 
                 function detail_modal(id_permintaan){

@@ -69,39 +69,54 @@ permintaan.get('/', (req, res) => {
 
 permintaan.post('/save', async (req, res) => {
     
-    var datetime = 'perm'+Date.now()
-    var id_permintaan = 'per'+datetime
+    var datetime = Date.now()
+    var id_permintaan = 'perm'+datetime
     var datetime_format = year+'-'+month+'-'+day+' '+hour+':'+minute+':'+second;
 
     var data = req.body
     var nomor_surat = data.nomor_surat
-    var tanggal = year+'-'+month+'-'+day
+    var tanggal = data.tanggal
     var divisi = data.divisi
     var nama_peminta = data.nama_peminta
+    var status = data.status
     var buat_pada = datetime_format
     var ubah_pada = datetime_format
 
-    var detail_permintaan = data.detail_permintaan
-
-    res.status(200).json({status : false})
-
-    /*
+    var detail = data.detail
+    var panjang_detail = detail.length
+    
     try{
-        var sql = 'INSERT INTO permintaan VALUES (\''+id_permintaan+'\', \''+tanggal+'\', \''+divisi+'\', \''+nama_peminta+'\', \''+status+'\')';
+        var sql = 'INSERT INTO permintaan (id_permintaan, nomor_surat, tanggal, divisi, nama_peminta, status, buat_pada, ubah_pada) VALUES (\''+id_permintaan+'\', \''+nomor_surat+'\', \''+tanggal+'\', \''+divisi+'\', \''+nama_peminta+'\', \''+status+'\', \''+buat_pada+'\', \''+ubah_pada+'\')';
         await dbconn.query(sql, (err) => {
             if(err){
                 res.status(200).json({status : false})
             }else{
-                foreach()
-                sql = 'INSERT INTO detail_permintaan VALUES ()'
-                dbconn.query('')
+                sql = 'INSERT INTO detail_permintaan VALUES ' 
+
+                for(i = 0; i < panjang_detail; i++){
+                    if(i != (panjang_detail-1)){
+                        sql = sql+'( \''+id_permintaan+'\', \''+detail[i][0]+'\', \''+detail[i][1]+'\', \''+detail[i][2]+'\', \''+detail[i][3]+'\'), '
+                    }else{
+                        sql = sql+'( \''+id_permintaan+'\', \''+detail[i][0]+'\', \''+detail[i][1]+'\', \''+detail[i][2]+'\', \''+detail[i][3]+'\') '
+                    }
+
+                    console.log(sql)
+                }
+
+                dbconn.query(sql, (err) => {
+                    if(err){
+                        res.status(200).json({status : false})
+                    }else{
+                        res.status(200).json({status : true})
+                    }
+                })
             }
         })
     } catch(err) {
         res.status(400).json({
             status : false
         })
-    }*/
+    }
 })
 
 permintaan.get('/find', async (req, res) => {
@@ -115,7 +130,8 @@ permintaan.get('/find', async (req, res) => {
     var tipe_order = order['0'].dir
     var draw = req.query.draw
     
-    var kolom = ['nomo_surat', 'tanggal', 'divisi', 'nama_peminta']
+    var kolom = ['nomor_surat', 'tanggal', 'divisi', 'nama_peminta', 'status']
+
     if(order_kolom == '0'){
         order_kolom = 'id_permintaan'
         tipe_order = 'desc'
@@ -123,24 +139,25 @@ permintaan.get('/find', async (req, res) => {
         order_kolom = kolom[order_kolom]
     }
 
-    var values = [isi_pencarian, isi_pencarian, isi_pencarian, isi_pencarian, order_kolom, tipe_order]
-    var sql = "SELECT * FROM permintaan WHERE ( nomor_surat like '%"+isi_pencarian+"%' OR tanggal like '%"+isi_pencarian+"%' OR divisi like '%"+isi_pencarian+"%' OR nama_peminta like '%"+isi_pencarian+"%') ORDER BY "+order_kolom+" "+tipe_order
+    var sql = "SELECT * FROM permintaan WHERE ( nomor_surat like '%"+isi_pencarian+"%' OR tanggal like '%"+isi_pencarian+"%' OR divisi like '%"+isi_pencarian+"%' OR nama_peminta like '%"+isi_pencarian+"%') ORDER BY "+order_kolom+" "+tipe_order+" LIMIT "+panjang_baris+" OFFSET "+awal_baris
     
+    var data = new Array()
+    var recordsFiltered = 0
+    var recordsTotal = 0
+
     try{
         await dbconn.query(sql, (err, resquery) => {
                 if (err) {
                     var json_return = {
-                        draw : 0,
+                        draw : draw,
                         recordsTotal : 0,
                         recordsFiltered : 0,
                         data : [],
-                        message: err
+                        message : err
                     }
                     res.status(200).json(json_return)
                 }else{
-                        var data = new Array()
-                        var i = 0
-
+                        var i = 0;
                         resquery.rows.forEach((item) => {
                             var script_html = '<i class="left fa fa-pencil" style="cursor : pointer" onClick="ubah_modal(\''+item.id_permintaan+'\')"></i><span style="cursor : pointer" onClick="ubah_modal(\''+item.id_permintaan+'\')"> Edit</span> <i class="left fa fa-eye" style="cursor : pointer" onClick="detail_modal(\''+item.id_permintaan+'\')"></i><span style="cursor : pointer" onClick="detail_modal(\''+item.id_permintaan+'\')"> Detail</span>'
                             var data_table = [item.nomor_surat, item.tanggal, item.divisi, item.nama_peminta, item.status, script_html]
@@ -148,27 +165,59 @@ permintaan.get('/find', async (req, res) => {
                             i++
                         })
 
-                        var json_return = {
-                            draw : draw,
-                            recordsTotal : resquery.rows.length,
-                            recordsFiltered : resquery.rows.length,
-                            data : data
+                        sql = "SELECT * FROM permintaan"
+                        dbconn.query(sql,  (err, resquery) => {
+                            if (err) {
+                                var json_return = {
+                                    draw : draw,
+                                    recordsTotal : 0,
+                                    recordsFiltered : 0,
+                                    data : [],
+                                    message : err
+                                }
+                                res.status(200).json(json_return)
+                            }else{  
+                                recordsTotal = resquery.rows.length
+
+                                sql = "SELECT * FROM permintaan WHERE ( nomor_surat like '%"+isi_pencarian+"%' OR tanggal like '%"+isi_pencarian+"%' OR divisi like '%"+isi_pencarian+"%' OR nama_peminta like '%"+isi_pencarian+"%') ORDER BY "+order_kolom
+                                dbconn.query(sql,  (err, resquery) => {
+                                        if (err) {
+                                            var json_return = {
+                                                draw : draw,
+                                                recordsTotal : 0,
+                                                recordsFiltered : 0,
+                                                data : [],
+                                                message : err
+                                            }
+                                            res.status(200).json(json_return)
+                                        }else{  
+                                            recordsFiltered = resquery.rows.length
+                                            var json_return = {
+                                                draw : draw,
+                                                recordsTotal : recordsTotal,
+                                                recordsFiltered : recordsFiltered,
+                                                data : data
+                                            }
+
+                                            res.status(200).json(json_return)
+                                        }
+                                    }
+                                )
+                            }
                         }
-                        res.status(200).json(json_return)
+                    )
                 }
             }
         )
     } catch (err){
         var json_return = {
-            draw : 1,
-            recordsTotal : 0,
-            recordsFiltered : 0,
-            data : [],
-            message: err
+            draw : draw,
+            recordsTotal : recordsTotal,
+            recordsFiltered : recordsFiltered,
+            data : data
         }
         res.status(200).json(json_return)
     }
-    
 })
 
 permintaan.get('/find/:id', async (req, res) => {
@@ -221,10 +270,6 @@ permintaan.get('/find/:id', async (req, res) => {
 
 permintaan.post('/update/:id', async (req, res) => {
 
-    console.log(req.body)
-    res.status(200).json({status : true})
-
-    var datetime = 'perm'+Date.now()
     var id_permintaan = req.params.id
     var datetime_format = year+'-'+month+'-'+day+' '+hour+':'+minute+':'+second;
 
@@ -233,49 +278,43 @@ permintaan.post('/update/:id', async (req, res) => {
     var tanggal = data.tanggal
     var divisi = data.divisi
     var nama_peminta = data.nama_peminta
+    var status = data.status
     var ubah_pada = datetime_format
 
-    var detail_permintaan = data.detail_permintaan
-    var panjang_data = detail_permintaan.length
+    var detail = data.detail
+    var panjang_detail = detail.length
     
-    var values = [nomor_surat, tannggal, divisi, nama_peminta, buat_pada, ubah_pada, id_per]
+    console.log(data)
     try{
-        var sql = 'UPDATE permintaan SET nomor_surat = \''+nomor_surat+'\', tanggal = \''+tanggal+'\', nama_peminta = \''+nama_peminta+'\', status = \''+status+'\', ubah_pada = \''+ubah_pada+'\' WHERE id_permintaan = \''+id_permintaan+'\' ';
+        var sql = 'UPDATE permintaan SET nomor_surat = \''+nomor_surat+'\', tanggal =  \''+tanggal+'\', divisi = \''+divisi+'\', nama_peminta = \''+nama_peminta+'\', status = \''+status+'\', ubah_pada = \''+ubah_pada+'\' WHERE id_permintaan = \''+id_permintaan+'\'';
         await dbconn.query(sql, (err) => {
             if(err){
-                res.status(200).json({
-                    status : false
-                })
+                res.status(200).json({status : false, message : err})
             }else{
-                dbconn.query('DELETE FROM detail_permintaan WHERE id_permintaan = \''+id_permintaan+'\'', (err) => {
-                    if(err){
-                        res.status(200).json({
-                            status : false
-                        })  
+                sql = 'DELETE FROM detail_permintaan WHERE id_permintaan = \''+id_permintaan+'\''
+                dbconn.query(sql, (err) => {
+                    if(err){                
+                        res.status(200).json({status : false, trace : 'pada delete', message : err})
                     }else{
-                        var i;
-                        for(i = 0; i < panjang_data; i++){
-                            var barang = detail_permintaan[i]['barang']
-                            var huruf = detail_permintaan[i]['huruf']
-                            var jumlah = detail_permintaan[i]['jumlah']
-                            var keterangan = detail_permintaan[i]['keterangan']
+                        sql = 'INSERT INTO detail_permintaan VALUES ' 
+                        for(i = 0; i < panjang_detail; i++){
+                            if(i != (panjang_detail-1)){
+                                sql = sql+'( \''+id_permintaan+'\', \''+detail[i][0]+'\', \''+detail[i][1]+'\', \''+detail[i][2]+'\', \''+detail[i][3]+'\'), '
+                            }else{
+                                sql = sql+'( \''+id_permintaan+'\', \''+detail[i][0]+'\', \''+detail[i][1]+'\', \''+detail[i][2]+'\', \''+detail[i][3]+'\') '
+                            }
 
-                            sql = 'INSERT INTO detail_permintaan VALUES (\''+id_permintaan+'\', \''+barang+'\', \''+huruf+'\', \''+jumlah+'\', \''+keterangan+'\' '
-                            dbconn.query(sql, (err) => {
-                                if(err){
-                                    res.status(200).json({
-                                        status : false
-                                    })  
-                                }else{
-                                    res.status(200).json({
-                                        status : true
-                                    })  
-                                }
-                            })
+                            console.log(sql)
                         }
+                        dbconn.query(sql, (err) => {
+                            if(err){
+                                res.status(200).json({status : false, message : err})
+                            }else{
+                                res.status(200).json({status : true})
+                            }
+                        })
                     }
                 })
-                
             }
         })
     } catch(err) {
