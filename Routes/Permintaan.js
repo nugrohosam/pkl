@@ -82,8 +82,10 @@ permintaan.post('/save', async (req, res) => {
     var ubah_pada = datetime_format
 
     var detail_permintaan = data.detail_permintaan
-    var panjang_data = detail_permintaan.length
-    
+
+    res.status(200).json({status : false})
+
+    /*
     try{
         var sql = 'INSERT INTO permintaan VALUES (\''+id_permintaan+'\', \''+tanggal+'\', \''+divisi+'\', \''+nama_peminta+'\', \''+status+'\')';
         await dbconn.query(sql, (err) => {
@@ -99,7 +101,7 @@ permintaan.post('/save', async (req, res) => {
         res.status(400).json({
             status : false
         })
-    }
+    }*/
 })
 
 permintaan.get('/find', async (req, res) => {

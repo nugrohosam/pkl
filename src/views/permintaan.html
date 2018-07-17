@@ -524,7 +524,7 @@
                     var kolom = detail_tambah.rows[0].cells.length;
                     var baris = detail_tambah.rows.length;
 
-                    var data_detail_permintaan = new Array();
+                    var data_detail_permintaan = new Array()
                     var i;
 
                     for(i = 0; i < baris; i++){
@@ -551,7 +551,7 @@
                             'divisi' : $('#divisi_tambah').val(),
                             'nama_peminta' : $('#nama_peminta_tambah').val(),
                             'status' : $('#status_tambah').val(),
-                            'detail_permintaan' : data_detail_permintaan
+                            'detail_permintaan' : JSON.stringify(data_detail_permintaan)
                         },
                         success : function(response){
                             if(!response.status){
