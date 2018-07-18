@@ -1,10 +1,10 @@
 const pg = require('pg')
 
 const pool = pg.Pool({
-    user: 'admin',
+    user: 'expresconn',
     host: 'localhost',
     database: 'dbipl',
-    password: 'admin',
+    password: 'expressconn',
     port: 50851,
 })
 
