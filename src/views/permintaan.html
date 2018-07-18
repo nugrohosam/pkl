@@ -202,56 +202,140 @@
                     </div>
                   </div>
 
-                  <div id="tambah_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div id="tambah_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered" role="document">
-                          <div class="modal-content">
-                              <div class="modal-header">
-                                  <h5 class="modal-title">Tambah Surat</h5>
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                      <span aria-hidden="true">&times;</span>
-                                  </button>
-                              </div>
-                              <div class="modal-body">
-                                  <div class="form-group">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Tambah Surat</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2" style="display: inline">No
+                                            <span style="text-align: right">:</span>
+                                        </label>
+                                        <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:16%">
+                                            <input class="form-control" id="nomor_surat_tambah">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2" style="display: inline">Tanggal :</label>
+                                        <div class="col-sm-8 form-ubah" style="display: inline-block">
+                                            <input class="form-control datepick" id="tanggal_tambah">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2" style="display: inline">Divisi :</label>
+                                        <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:4%">
+                                            <input class="form-control" id="divisi_tambah">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2" style="display: inline">Peminta :</label>
+                                        <div class="col-sm-8 form-ubah" style="display: inline-block">
+                                            <input class="form-control" id="nama_peminta_tambah">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2" style="display: inline">Status :</label>
+                                        <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:11%">
+                                            <select id="status_tambah">
+                                                <option value="diterima" class="btn">diterima</option>
+                                                <option value="dikerjakan" class="btn">dikerjakan</option>
+                                                <option value="selesai" class="btn">selesai</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <table class="table table-sm table-striped">
+                                            <thead class="bg-warning">
+                                                <tr>
+                                                    <th>
+                                                        Barang
+                                                    </th>
+                                                    <th>
+                                                        Huruf
+                                                    </th>
+                                                    <th>
+                                                        Jumlah
+                                                    </th>
+                                                    <th>
+                                                        keterangan
+                                                    </th>
+                                                    <th>
+                                                        Act
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="detail_permintaan_tambah">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <button type="button" class="btn btn-success" id="hapus_baris_detail_tambah" onClick="tambah_baris_detail_tambah()">+</button>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" id="button_save_ubah" onClick="tambah_proccess()">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="detail_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Detail Surat</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+
+                                <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:16%" hidden>
+                                    <input class="form-control" id="id_permintaan_detail">
+                                </div>
+                                <div class="form-group">
                                     <label class="control-label col-sm-2" style="display: inline">No
                                         <span style="text-align: right">:</span>
                                     </label>
                                     <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:16%">
-                                        <input class="form-control" id="nomor_surat_tambah">
+                                        <input class="form-control" id="nomor_surat_detail">
                                     </div>
-                                  </div>
-                                  <div class="form-group">
-                                      <label class="control-label col-sm-2" style="display: inline">Tanggal :</label>
-                                      <div class="col-sm-8 form-ubah" style="display: inline-block">
-                                          <input class="form-control datepick" id="tanggal_tambah">
-                                      </div>
-                                  </div>
-                                  <div class="form-group">
-                                      <label class="control-label col-sm-2" style="display: inline">Divisi :</label>
-                                      <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:4%">
-                                          <input class="form-control" id="divisi_tambah">
-                                      </div>
-                                  </div>
-                                  <div class="form-group">
-                                      <label class="control-label col-sm-2" style="display: inline">Peminta :</label>
-                                      <div class="col-sm-8 form-ubah" style="display: inline-block">
-                                          <input class="form-control" id="nama_peminta_tambah">
-                                      </div>
-                                  </div>
-                                  <div class="form-group">
-                                      <label class="control-label col-sm-2" style="display: inline">Status :</label>
-                                      <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:11%">
-                                          <select id="status_tambah">
-                                              <option value="diterima" class="btn">diterima</option>
-                                              <option value="dikerjakan" class="btn">dikerjakan</option>
-                                              <option value="selesai" class="btn">selesai</option>
-                                          </select>
-                                      </div>
-                                  </div>
-                                  <div>
-                                      <table class="table table-sm table-striped">
-                                          <thead class="bg-warning">
-                                              <tr>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2" style="display: inline">Tanggal :</label>
+                                    <div class="col-sm-8 form-ubah" style="display: inline-block">
+                                        <input class="form-control" id="tanggal_detail">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2" style="display: inline">Divisi :</label>
+                                    <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:4%">
+                                        <input class="form-control" id="divisi_detail">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2" style="display: inline">Peminta :</label>
+                                    <div class="col-sm-8 form-ubah" style="display: inline-block">
+                                        <input class="form-control" id="nama_peminta_detail">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2" style="display: inline">Status :</label>
+                                    <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:11%">
+                                        <select id="status_detail">
+                                            <option value="diterima" class="btn">diterima</option>
+                                            <option value="dikerjakan" class="btn">dikerjakan</option>
+                                            <option value="selesai" class="btn">selesai</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div>
+                                    <table class="table table-sm table-striped">
+                                        <thead class="bg-warning">
+                                            <tr>
                                                 <th>
                                                     Barang
                                                 </th>
@@ -264,100 +348,16 @@
                                                 <th>
                                                     keterangan
                                                 </th>
-                                                <th>
-                                                    Act
-                                                </th>
-                                              </tr>
-                                          </thead>
-                                          <tbody id="detail_permintaan_tambah">
-                                          </tbody>
-                                      </table>
-                                  </div>
-                                 <button type="button" class="btn btn-success" id="hapus_baris_detail_tambah" onClick="tambah_baris_detail_tambah()">+</button>
-                              </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-primary" id="button_save_ubah" onClick="tambah_proccess()">Save</button>
-                            </div>
-                          </div>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="detail_permintaan_detail">
+                                        </tbody>
+                                    </table>
+                                </div>
+                                </div>
                         </div>
-                      </div>
-
-            <div id="detail_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                  <div class="modal-content">
-                      <div class="modal-header">
-                          <h5 class="modal-title">Detail Surat</h5>
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                          </button>
-                      </div>
-                      <div class="modal-body">
-
-                        <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:16%" hidden>
-                            <input class="form-control" id="id_permintaan_detail">
                         </div>
-                          <div class="form-group">
-                            <label class="control-label col-sm-2" style="display: inline">No
-                                <span style="text-align: right">:</span>
-                            </label>
-                            <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:16%">
-                                <input class="form-control" id="nomor_surat_detail">
-                            </div>
-                          </div>
-                          <div class="form-group">
-                              <label class="control-label col-sm-2" style="display: inline">Tanggal :</label>
-                              <div class="col-sm-8 form-ubah" style="display: inline-block">
-                                  <input class="form-control" id="tanggal_detail">
-                              </div>
-                          </div>
-                          <div class="form-group">
-                              <label class="control-label col-sm-2" style="display: inline">Divisi :</label>
-                              <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:4%">
-                                  <input class="form-control" id="divisi_detail">
-                              </div>
-                          </div>
-                          <div class="form-group">
-                              <label class="control-label col-sm-2" style="display: inline">Peminta :</label>
-                              <div class="col-sm-8 form-ubah" style="display: inline-block">
-                                  <input class="form-control" id="nama_peminta_detail">
-                              </div>
-                          </div>
-                          <div class="form-group">
-                              <label class="control-label col-sm-2" style="display: inline">Status :</label>
-                              <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:11%">
-                                  <select id="status_detail">
-                                      <option value="diterima" class="btn">diterima</option>
-                                      <option value="dikerjakan" class="btn">dikerjakan</option>
-                                      <option value="selesai" class="btn">selesai</option>
-                                  </select>
-                              </div>
-                          </div>
-                          <div>
-                              <table class="table table-sm table-striped">
-                                  <thead class="bg-warning">
-                                      <tr>
-                                        <th>
-                                            Barang
-                                        </th>
-                                        <th>
-                                            Huruf
-                                        </th>
-                                        <th>
-                                            Jumlah
-                                        </th>
-                                        <th>
-                                            keterangan
-                                        </th>
-                                      </tr>
-                                  </thead>
-                                  <tbody id="detail_permintaan_detail">
-                                  </tbody>
-                              </table>
-                          </div>
-                        </div>
-                  </div>
-                </div>
-              </div>
+                    </div>
             
             <div id="notif_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered" role="document">
