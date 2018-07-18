@@ -29,6 +29,20 @@ app.use('/permintaan',permintaan)
 app.use('/login',login)
 app.use(express.static('src/assets/'))
 
+app.use(function(req, res, next) {
+    var err = new Error('Not Found');
+    err.status = 404;
+    next(err);
+});
+
+app.use(function(err, req, res, next) {
+    res.status(err.status || 500);
+    var options = {
+        root: './src/views/'
+    }
+    res.sendFile('error404.html', options)
+});
+
 app.listen(port,function(){
     console.log('Server is running on port: '+port);
 });
