@@ -100,7 +100,6 @@ permintaan.post('/save', async (req, res) => {
                         sql = sql+'( \''+id_permintaan+'\', \''+detail[i][0]+'\', \''+detail[i][1]+'\', \''+detail[i][2]+'\', \''+detail[i][3]+'\') '
                     }
 
-                    console.log(sql)
                 }
 
                 dbconn.query(sql, (err) => {
@@ -284,7 +283,6 @@ permintaan.post('/update/:id', async (req, res) => {
     var detail = data.detail
     var panjang_detail = detail.length
     
-    console.log(data)
     try{
         var sql = 'UPDATE permintaan SET nomor_surat = \''+nomor_surat+'\', tanggal =  \''+tanggal+'\', divisi = \''+divisi+'\', nama_peminta = \''+nama_peminta+'\', status = \''+status+'\', ubah_pada = \''+ubah_pada+'\' WHERE id_permintaan = \''+id_permintaan+'\'';
         await dbconn.query(sql, (err) => {
@@ -304,7 +302,6 @@ permintaan.post('/update/:id', async (req, res) => {
                                 sql = sql+'( \''+id_permintaan+'\', \''+detail[i][0]+'\', \''+detail[i][1]+'\', \''+detail[i][2]+'\', \''+detail[i][3]+'\') '
                             }
 
-                            console.log(sql)
                         }
                         dbconn.query(sql, (err) => {
                             if(err){
