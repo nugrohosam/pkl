@@ -392,7 +392,10 @@
                             {   
                                 'processing': true,
                                 'serverSide': true,
-                                'ajax': '/permintaan/find',
+                                'ajax': {
+                                    'url' : '/permintaan/find',
+                                    'timeout' : 15000
+                                },
                                     'columnDefs': [
                                     {
                                         'targets': [ -1 ],
@@ -518,7 +521,8 @@
                             setTimeout(function(){
                                 $('#notif_modal').modal('hide');
                             }, 1000);
-                        }
+                        },
+                        timeout : 15000
                     });
                 }
                 
@@ -578,6 +582,7 @@
                             },
                             success : function(response){
                                 if(!response.status){
+                                    $("#notif_modal div div div").html('masuk false tambah');
                                     $("#notif_modal div div div").html('gagal tambah');
                                 }else{
                                     $("#notif_modal div div div").html('sukses tambah');
@@ -594,7 +599,8 @@
                                 setTimeout(function(){
                                     $('#notif_modal').modal('hide');
                                 }, 1000);
-                            }
+                            },
+                            timeout : 15000
                         })
                     }
                 }
@@ -667,7 +673,8 @@
                                 setTimeout(function(){
                                     $('#notif_modal').modal('hide');
                                 }, 1000);
-                            }
+                            },
+                            timeout : 15000
                         })
                     }
                 }
@@ -704,7 +711,8 @@
                             setTimeout(function(){
                                 $('#notif_modal').modal('hide');
                             }, 1000);
-                        }
+                        },
+                        timeout : 15000
                     });
                 }
 
