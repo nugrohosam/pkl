@@ -135,7 +135,7 @@
                     <div class="modal-dialog modal-dialog-centered" role="document">
                       <div class="modal-content">
                           <div class="modal-header">
-                              <h5 class="modal-title">Detail Surat</h5>
+                              <h5 class="modal-title">Ubah Surat</h5>
                               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                   <span aria-hidden="true">&times;</span>
                               </button>
@@ -145,40 +145,28 @@
                                 <input class="form-control" id="id_permintaan_ubah">
                             </div>
                               <div class="form-group">
-                                <label class="control-label col-sm-2" style="display: inline">No
-                                    <span style="text-align: right">:</span>
-                                </label>
-                                <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:16%">
-                                    <input class="form-control" id="nomor_surat_ubah">
-                                </div>
+                                <label class="control-label col-sm-2" style="display: inline">No : </label>
+                                <input class="form-control" id="nomor_surat_ubah">
                               </div>
                               <div class="form-group">
                                   <label class="control-label col-sm-2" style="display: inline">Tanggal :</label>
-                                  <div class="col-sm-8 form-ubah" style="display: inline-block" >
-                                      <input class="form-control datepick" id="tanggal_ubah">
-                                  </div>
+                                  <input class="form-control datepick" id="tanggal_ubah">
                               </div>
                               <div class="form-group">
                                   <label class="control-label col-sm-2" style="display: inline">Divisi :</label>
-                                  <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:4%">
-                                      <input class="form-control" id="divisi_ubah">
-                                  </div>
+                                  <input class="form-control" id="divisi_ubah">
                               </div>
                               <div class="form-group">
                                   <label class="control-label col-sm-2" style="display: inline">Peminta :</label>
-                                  <div class="col-sm-8 form-ubah" style="display: inline-block">
-                                      <input class="form-control" id="nama_peminta_ubah">
-                                  </div>
+                                  <input class="form-control" id="nama_peminta_ubah">
                               </div>
                               <div class="form-group">
                                   <label class="control-label col-sm-2" style="display: inline">Status :</label>
-                                  <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:11%">
-                                      <select id="status_ubah">
-                                          <option value="diterima" class="btn">diterima</option>
-                                          <option value="dikerjakan" class="btn">dikerjakan</option>
-                                          <option value="selesai" class="btn">selesai</option>
-                                      </select>
-                                  </div>
+                                <select id="status_ubah" class="form-control">
+                                    <option value="diterima" class="btn">diterima</option>
+                                    <option value="dikerjakan" class="btn">dikerjakan</option>
+                                    <option value="selesai" class="btn">selesai</option>
+                                </select>                                  
                               </div>
                               <div>
                                   <table class="table table-sm table-striped">
@@ -337,12 +325,10 @@
                           <div class="form-group">
                               <label class="control-label col-sm-2" style="display: inline">Status :</label>
                               <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:11%">
-                                  <!-- <input class="form-control" id="status_tambah"> -->
                                   <select id="status_detail">
                                       <option value="diterima" class="btn">diterima</option>
                                       <option value="dikerjakan" class="btn">dikerjakan</option>
                                       <option value="selesai" class="btn">selesai</option>
-                                      <!-- <option value="audi">Audi</option> -->
                                   </select>
                               </div>
                           </div>
