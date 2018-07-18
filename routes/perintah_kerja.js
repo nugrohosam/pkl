@@ -65,8 +65,6 @@ perintah_kerja.post('/save', (req, res) => {
     
     var datetime = Date.now()
     var id_permintaan = 'per'+datetime
-
-    console.log(req.body)
     
     database.connection.getConnection((err, connection) => {
         if(err){

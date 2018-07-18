@@ -52,7 +52,7 @@
             </nav>
     
             <aside class="main-sidebar sidebar-dark-primary elevation-4">
-                <a href="/" class="brand-link">
+                <a href="/dashboard" class="brand-link">
                   <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
                        style="opacity: .8">
                   <span class="brand-text font-weight-light">Admin IPL</span>
@@ -173,12 +173,10 @@
                               <div class="form-group">
                                   <label class="control-label col-sm-2" style="display: inline">Status :</label>
                                   <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:11%">
-                                      <!-- <input class="form-control" id="status_tambah"> -->
                                       <select id="status_ubah">
                                           <option value="diterima" class="btn">diterima</option>
                                           <option value="dikerjakan" class="btn">dikerjakan</option>
                                           <option value="selesai" class="btn">selesai</option>
-                                          <!-- <option value="audi">Audi</option> -->
                                       </select>
                                   </div>
                               </div>
@@ -255,12 +253,10 @@
                                   <div class="form-group">
                                       <label class="control-label col-sm-2" style="display: inline">Status :</label>
                                       <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:11%">
-                                          <!-- <input class="form-control" id="status_tambah"> -->
                                           <select id="status_tambah">
-                                              <option value="Diterima" class="btn">diterima</option>
-                                              <option value="Dikerjakan" class="btn">dikerjakan</option>
-                                              <option value="Selesai" class="btn">selesai</option>
-                                              <!-- <option value="audi">Audi</option> -->
+                                              <option value="diterima" class="btn">diterima</option>
+                                              <option value="dikerjakan" class="btn">dikerjakan</option>
+                                              <option value="selesai" class="btn">selesai</option>
                                           </select>
                                       </div>
                                   </div>
@@ -343,9 +339,9 @@
                               <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:11%">
                                   <!-- <input class="form-control" id="status_tambah"> -->
                                   <select id="status_detail">
-                                      <option value="Diterima" class="btn">diterima</option>
-                                      <option value="Dikerjakan" class="btn">dikerjakan</option>
-                                      <option value="Selesai" class="btn">selesai</option>
+                                      <option value="diterima" class="btn">diterima</option>
+                                      <option value="dikerjakan" class="btn">dikerjakan</option>
+                                      <option value="selesai" class="btn">selesai</option>
                                       <!-- <option value="audi">Audi</option> -->
                                   </select>
                               </div>
@@ -454,15 +450,32 @@
                 function hapus_baris_detail_ubah(id_tr){;
                     $('#tr_detail_table_ubah'+id_tr).html('');
                     $('#tr_detail_table_ubah'+id_tr).remove();
+                    
+                    detail_ubah = $('#detail_permintaan_ubah')[0]
+                    if(!detail_ubah.rows[0]){
+                        this.tambah_baris_detail_ubah()
+                    }
                 }
                 
                 function hapus_baris_detail_tambah(id_tr){
                     $('#tr_detail_table_tambah'+id_tr).html('');
                     $('#tr_detail_table_tambah'+id_tr).remove();
+                    
+                    detail_tambah = $('#detail_permintaan_tambah')[0]
+                    if(detail_tambah.rows.length == 0){
+                        this.tambah_baris_detail_tambah()
+                    }
                 }
 
                 function tambah_modal(){
                     $('#tambah_modal').modal('show');
+
+                    detail_tambah = $('#detail_permintaan_tambah')[0]
+                    if(detail_tambah.rows.length == 0){
+                        $('#detail_permintaan_tambah').html('')
+                        this.tambah_baris_detail_tambah();
+                        index_detail_table = 0;
+                    }
                 }
                 
                 function ubah_modal(id_permintaan){
@@ -482,7 +495,7 @@
                             $('#tanggal_ubah').val(response.tanggal);
                             $('#divisi_ubah').val(response.divisi);
                             $('#nama_peminta_ubah').val(response.nama_peminta);
-                            $('#status_ubah').val(response.status);
+                            $('#status_ubah').attr('value', response.status);
                             
                             var i = 0;
                             var string_append = '';
@@ -499,9 +512,7 @@
                                 i++;
                             })
 
-
                             index_detail_table = i;
-                            reload_table();
                         },
                         error : function(){
                             setTimeout(function(){
@@ -518,121 +529,147 @@
                 function tambah_proccess(){
                     $('#tambah_modal').modal('hide');
                     $('#notif_modal').modal('show');
-                    $("#notif_modal div div div").html('proccess tambah');
                     var detail_tambah = $('#detail_permintaan_tambah')[0];
-
-                    var kolom = detail_tambah.rows[0].cells.length;
-                    var baris = detail_tambah.rows.length;
-
-                    var data_detail_permintaan = new Array()
-                    var i;
-
-                    for(i = 0; i < baris; i++){
-                        var obj = new Array()
-                        
-                        obj[0] = $('#tr_detail_table_tambah'+i+' td:nth-child(1) textarea:nth-child(1)').val();
-                        obj[1] = $('#tr_detail_table_tambah'+i+' td:nth-child(2) textarea:nth-child(1)').val();
-                        obj[2] = $('#tr_detail_table_tambah'+i+' td:nth-child(3) textarea:nth-child(1)').val();
-                        obj[3] = $('#tr_detail_table_tambah'+i+' td:nth-child(4) textarea:nth-child(1)').val();
-                        
-                        data_detail_permintaan[i] = obj
-                    };
                     
-                    $.ajax({
-                        url : '/permintaan/save',
-                        header : {
-                            "Content-type" : "applocation/json"
-                        },
-                        type : "post",
-                        dataType : "json",
-                        data : {
-                                'nomor_surat' : $('#nomor_surat_tambah').val(),
-                                'tanggal' : $('#tanggal_tambah').val(),
-                                'divisi' : $('#divisi_tambah').val(),
-                                'nama_peminta' : $('#nama_peminta_tambah').val(),
-                                'status' : $('#status_tambah').val(),
-                                'detail' : data_detail_permintaan
-                        },
-                        success : function(response){
-                            if(!response.status){
-                                $("#notif_modal div div div").html('gagal tambah');
-                            }else{
-                                $("#notif_modal div div div").html('sukses tambah');
-                            }
+                    var bool1 = $('#detail_permintaan_tambah tr:nth-child(1) td:nth-child(1) textarea:nth-child(1)').val() == '';
+                    var bool2 = $('#detail_permintaan_tambah tr:nth-child(1) td:nth-child(2) textarea:nth-child(1)').val() == '';
+                    var bool3 = $('#detail_permintaan_tambah tr:nth-child(1) td:nth-child(3) textarea:nth-child(1)').val() == '';
+                    var bool4 = $('#detail_permintaan_tambah tr:nth-child(1) td:nth-child(4) textarea:nth-child(1)').val() == '';
+                    
+                    if(bool1 || bool2 || bool3 || bool4){
+                        $("#notif_modal div div div").html('detail harus terisi');
+                        setTimeout(function(){
+                            $('#notif_modal').modal('hide');
+                            $('#tambah_modal').modal('show');
+                        }, 1500);
+                    }else{
+                        $("#notif_modal div div div").html('proccess tambah');
+                        var kolom = detail_tambah.rows[0].cells.length;
+                        var baris = detail_tambah.rows.length;
 
-                            setTimeout(function(){
-                                $('#notif_modal').modal('hide');
-                            }, 1000);
+                        var data_detail_permintaan = new Array()
+                        var i;
+
+                        for(i = 0; i < baris; i++){
+                            var obj = new Array()
                             
-                            reload_table();
-                        },
-                        error : function(){
-                            $("#notif_modal div div div").html('gagal tambah');
-                            setTimeout(function(){
-                                $('#notif_modal').modal('hide');
-                            }, 1000);
-                        }
-                    })
+                            obj[0] = $('#tr_detail_table_tambah'+i+' td:nth-child(1) textarea:nth-child(1)').val();
+                            obj[1] = $('#tr_detail_table_tambah'+i+' td:nth-child(2) textarea:nth-child(1)').val();
+                            obj[2] = $('#tr_detail_table_tambah'+i+' td:nth-child(3) textarea:nth-child(1)').val();
+                            obj[3] = $('#tr_detail_table_tambah'+i+' td:nth-child(4) textarea:nth-child(1)').val();
+                            
+                            data_detail_permintaan[i] = obj
+                        };
+                        
+                        $.ajax({
+                            url : '/permintaan/save',
+                            header : {
+                                "Content-type" : "applocation/json"
+                            },
+                            type : "post",
+                            dataType : "json",
+                            data : {
+                                    'nomor_surat' : $('#nomor_surat_tambah').val(),
+                                    'tanggal' : $('#tanggal_tambah').val(),
+                                    'divisi' : $('#divisi_tambah').val(),
+                                    'nama_peminta' : $('#nama_peminta_tambah').val(),
+                                    'status' : $('#status_tambah').val(),
+                                    'detail' : data_detail_permintaan
+                            },
+                            success : function(response){
+                                if(!response.status){
+                                    $("#notif_modal div div div").html('gagal tambah');
+                                }else{
+                                    $("#notif_modal div div div").html('sukses tambah');
+                                }
+
+                                setTimeout(function(){
+                                    $('#notif_modal').modal('hide');
+                                }, 1500);
+                                
+                                reload_table();
+                            },
+                            error : function(){
+                                $("#notif_modal div div div").html('gagal tambah');
+                                setTimeout(function(){
+                                    $('#notif_modal').modal('hide');
+                                }, 1000);
+                            }
+                        })
+                    }
                 }
 
                 function ubah_proccess(){
                     $('#ubah_modal').modal('hide');
                     $('#notif_modal').modal('show');
-                    $("#notif_modal div div div").html('proccess ubah');
                     var detail_ubah = $('#detail_permintaan_ubah')[0];
-
-                    var kolom = detail_ubah.rows[0].cells.length;
-                    var baris = detail_ubah.rows.length;
-
-                    var data_detail_permintaan = new Array()
-                    var i;
-
-                    for(i = 0; i < baris; i++){
-                        var obj = new Array()
-                        
-                        obj[0] = $('#tr_detail_table_ubah'+i+' td:nth-child(1) textarea:nth-child(1)').val();
-                        obj[1] = $('#tr_detail_table_ubah'+i+' td:nth-child(2) textarea:nth-child(1)').val();
-                        obj[2] = $('#tr_detail_table_ubah'+i+' td:nth-child(3) textarea:nth-child(1)').val();
-                        obj[3] = $('#tr_detail_table_ubah'+i+' td:nth-child(4) textarea:nth-child(1)').val();
-                        
-                        data_detail_permintaan[i] = obj
-                    };
                     
-                    $.ajax({
-                        url : '/permintaan/update/'+$('#id_permintaan_ubah').val(),
-                        header : {
-                            "Content-type" : "applocation/json"
-                        },
-                        type : "post",
-                        dataType : "json",
-                        data : {
-                            'nomor_surat' : $('#nomor_surat_ubah').val(),
-                            'tanggal' : $('#tanggal_ubah').val(),
-                            'divisi' : $('#divisi_ubah').val(),
-                            'nama_peminta' : $('#nama_peminta_ubah').val(),
-                            'status' : $('#status_ubah').val(),
-                            'detail' : data_detail_permintaan
-                        },
-                        success : function(response){
-                            if(!response.status){
-                                $("#notif_modal div div div").html('gagal ubah');
-                            }else{
-                                $("#notif_modal div div div").html('sukses ubah');
-                            }
+                    var bool1 = $('#detail_permintaan_ubah tr:nth-child(1) td:nth-child(1) textarea:nth-child(1)').val() == '';
+                    var bool2 = $('#detail_permintaan_ubah tr:nth-child(1) td:nth-child(2) textarea:nth-child(1)').val() == '';
+                    var bool3 = $('#detail_permintaan_ubah tr:nth-child(1) td:nth-child(3) textarea:nth-child(1)').val() == '';
+                    var bool4 = $('#detail_permintaan_ubah tr:nth-child(1) td:nth-child(4) textarea:nth-child(1)').val() == '';
+                    
+                    if(bool1 || bool2 || bool3 || bool4){
+                        $("#notif_modal div div div").html('detail harus terisi');
+                        setTimeout(function(){
+                            $('#notif_modal').modal('hide');
+                            $('#ubah_modal').modal('show');
+                        }, 1500);
+                    }else{
+                        $("#notif_modal div div div").html('proccess ubah');
+                        var kolom = detail_ubah.rows[0].cells.length;
+                        var baris = detail_ubah.rows.length;
 
-                            setTimeout(function(){
-                                $('#notif_modal').modal('hide');
-                            }, 1000);
+                        var data_detail_permintaan = new Array()
+                        var i;
+
+                        for(i = 0; i < baris; i++){
+                            var obj = new Array()
                             
-                            reload_table();
-                        },
-                        error : function(){
-                            $("#notif_modal div div div").html('gagal ubah');
-                            setTimeout(function(){
-                                $('#notif_modal').modal('hide');
-                            }, 1000);
-                        }
-                    })
+                            obj[0] = $('#tr_detail_table_ubah'+i+' td:nth-child(1) textarea:nth-child(1)').val();
+                            obj[1] = $('#tr_detail_table_ubah'+i+' td:nth-child(2) textarea:nth-child(1)').val();
+                            obj[2] = $('#tr_detail_table_ubah'+i+' td:nth-child(3) textarea:nth-child(1)').val();
+                            obj[3] = $('#tr_detail_table_ubah'+i+' td:nth-child(4) textarea:nth-child(1)').val();
+                            
+                            data_detail_permintaan[i] = obj
+                        };
+                        
+                        $.ajax({
+                            url : '/permintaan/update/'+$('#id_permintaan_ubah').val(),
+                            header : {
+                                "Content-type" : "applocation/json"
+                            },
+                            type : "post",
+                            dataType : "json",
+                            data : {
+                                'nomor_surat' : $('#nomor_surat_ubah').val(),
+                                'tanggal' : $('#tanggal_ubah').val(),
+                                'divisi' : $('#divisi_ubah').val(),
+                                'nama_peminta' : $('#nama_peminta_ubah').val(),
+                                'status' : $('#status_ubah').val(),
+                                'detail' : data_detail_permintaan
+                            },
+                            success : function(response){
+                                if(!response.status){
+                                    $("#notif_modal div div div").html('gagal ubah');
+                                }else{
+                                    $("#notif_modal div div div").html('sukses ubah');
+                                }
+
+                                setTimeout(function(){
+                                    $('#notif_modal').modal('hide');
+                                }, 1000);
+                                
+                                reload_table();
+                            },
+                            error : function(){
+                                $("#notif_modal div div div").html('gagal ubah');
+                                setTimeout(function(){
+                                    $('#notif_modal').modal('hide');
+                                }, 1000);
+                            }
+                        })
+                    }
                 }
 
                 function detail_modal(id_permintaan){

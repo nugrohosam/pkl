@@ -18,12 +18,14 @@ app.use(session({
   }))
 
 var perintah_kerja = require('./routes/perintah_kerja')
+var dashboard = require('./routes/dashboard')
 var permintaan = require('./routes/permintaan')
 var login = require('./routes/login')
 
+app.use('/dashboard',dashboard)
 app.use('/perintah_kerja',perintah_kerja)
-app.use('/login',login)
 app.use('/permintaan',permintaan)
+app.use('/login',login)
 app.use(express.static('src/assets/'))
 
 app.listen(port,function(){

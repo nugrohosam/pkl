@@ -138,7 +138,7 @@ permintaan.get('/find', async (req, res) => {
         order_kolom = kolom[order_kolom]
     }
 
-    var sql = "SELECT * FROM permintaan WHERE ( nomor_surat like '%"+isi_pencarian+"%' OR tanggal like '%"+isi_pencarian+"%' OR divisi like '%"+isi_pencarian+"%' OR nama_peminta like '%"+isi_pencarian+"%') ORDER BY "+order_kolom+" "+tipe_order+" LIMIT "+panjang_baris+" OFFSET "+awal_baris
+    var sql = "SELECT * FROM permintaan WHERE ( nomor_surat LIKE '%"+isi_pencarian+"%' OR tanggal LIKE '%"+isi_pencarian+"%' OR divisi LIKE '%"+isi_pencarian+"%' OR nama_peminta LIKE '%"+isi_pencarian+"%' OR status LIKE '%"+isi_pencarian+"%') ORDER BY "+order_kolom+" "+tipe_order+" LIMIT "+panjang_baris+" OFFSET "+awal_baris
     
     var data = new Array()
     var recordsFiltered = 0
@@ -178,7 +178,7 @@ permintaan.get('/find', async (req, res) => {
                             }else{  
                                 recordsTotal = resquery.rows.length
 
-                                sql = "SELECT * FROM permintaan WHERE ( nomor_surat like '%"+isi_pencarian+"%' OR tanggal like '%"+isi_pencarian+"%' OR divisi like '%"+isi_pencarian+"%' OR nama_peminta like '%"+isi_pencarian+"%') ORDER BY "+order_kolom
+                                sql = "SELECT * FROM permintaan WHERE ( nomor_surat LIKE '%"+isi_pencarian+"%' OR tanggal LIKE '%"+isi_pencarian+"%' OR divisi LIKE '%"+isi_pencarian+"%' OR nama_peminta LIKE '%"+isi_pencarian+"%') ORDER BY "+order_kolom
                                 dbconn.query(sql,  (err, resquery) => {
                                         if (err) {
                                             var json_return = {

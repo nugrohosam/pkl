@@ -1,30 +1,39 @@
 var express = require('express')
-var login = express.Router()
+var dashboard = express.Router()
 var cors = require('cors')
+var dbconn = require('../database/database')
 var jwt = require('jsonwebtoken')
+var token;
 
-var token = jwt.sign({logged_in  : false}, 'secret_token')
+var token = jwt.sign({ data: {logged_in : false}}, 'secret_token', { expiresIn: '1d' })
+dashboard.use(cors())
 var appData = {}
 var options = {
     root: './src/views/'
 }
 
-login.use(cors())
+var now = new Date();
+var year = "" + now.getFullYear();
+var month = "" + (now.getMonth() + 1); if (month.length == 1) { month = "0" + month; }
+var day = "" + now.getDate(); if (day.length == 1) { day = "0" + day; }
+var hour = "" + now.getHours(); if (hour.length == 1) { hour = "0" + hour; }
+var minute = "" + now.getMinutes(); if (minute.length == 1) { minute = "0" + minute; }
+var second = "" + now.getSeconds(); if (second.length == 1) { second = "0" + second; }
 
-login.use((req, res, next) => {
-    if(!req.cookies.token && req.method != 'POST'){
+dashboard.use((req, res, next) => {
+    if(!req.cookies.token){
         var fileName = 'login.html'
             res.sendfile(fileName, options, (err) => {
                 if(err){
                     console.log(err)
                 }  
         })
-    }else if(req.url != '/proccess'){
+    }else{
         token = req.cookies.token
         var decoded = {
             logged_in : false
         }
-
+        
         try {
             decoded = jwt.verify(token, 'secret_token')
         }
@@ -36,14 +45,8 @@ login.use((req, res, next) => {
                 }  
             })
         }
-
         if(decoded.logged_in){
-            var fileName = 'dashboard.html'
-            res.sendfile(fileName, options, (err) => {
-                if(err){
-                    console.log(err)
-                }  
-            })
+            next()
         }else{
             var fileName = 'login.html'
             res.sendfile(fileName, options, (err) => {
@@ -52,22 +55,16 @@ login.use((req, res, next) => {
                 }  
             })
         }
-    }else{
-        next()
     }
 })
 
-login.post('/proccess', (req, res) => {
-    
-    var email = req.body.username
-    var password = req.body.password
-    
-    if(email == 'admin' && password == 'admin'){
-        var token_code = jwt.sign({logged_in  : true}, 'secret_token', { expiresIn : '1d'})
-        res.status(200).json({ status : true, token : token_code })
-    } else {
-        res.status(200).json({ status : false })
-    }
+dashboard.get('/', (req, res) => {
+    var fileName = 'dashboard.html'
+    res.sendfile(fileName, options, (err) => {
+        if(err){
+            console.log(err)
+        }  
+    })
 })
 
-module.exports = login;
+module.exports = dashboard;
