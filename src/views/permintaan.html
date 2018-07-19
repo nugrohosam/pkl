@@ -354,32 +354,6 @@
                                             <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:16%" hidden>
                                                 <input class="form-control" id="id_permintaan_detail">
                                             </div>
-<<<<<<< HEAD
-                                            <div class="form-group">
-                                                <label class="control-label col-sm-2" style="display: inline">No
-                                                    <span style="text-align: right">:</span>
-                                                </label>
-                                                <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:16%">
-                                                    <input class="form-control" id="nomor_surat_detail">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-sm-2" style="display: inline">Tanggal :</label>
-                                                <div class="col-sm-8 form-ubah" style="display: inline-block">
-                                                    <input class="form-control" id="tanggal_detail">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-sm-2" style="display: inline">Divisi :</label>
-                                                <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:4%">
-                                                    <input class="form-control" id="divisi_detail">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-sm-2" style="display: inline">Peminta :</label>
-                                                <div class="col-sm-8 form-ubah" style="display: inline-block">
-                                                    <input class="form-control" id="nama_peminta_detail">
-=======
                                             <div class="modal-body">
                                                 <div class="col-sm-8 form-ubah" hidden>
                                                     <input class="form-control" id="id_permintaan_detail">
@@ -418,7 +392,6 @@
                                                             <option value="selesai" class="btn">selesai</option>
                                                         </select>
                                                     </div>
->>>>>>> d6bd7d2e0950b5bc8eaaae9f6678d4e8d7d88164
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -472,7 +445,6 @@
                                 var index_detail_table = 0;
 
                                 $(document).ready(
-<<<<<<< HEAD
 
                                     function () {
                                         table = $('#table_permintaan').DataTable({
@@ -497,61 +469,6 @@
                                                             i + ') td:nth-child(5)').attr(
                                                             'style', 'background-color: green')
                                                     }
-=======
-                                    
-                                    function () {
-                                        table = $('#table_permintaan').DataTable({
-                                            "initComplete": function() {
-                                                var baris = $('#table_permintaan tbody')[0].rows.length
-                                                console.log(baris)
-                                                var i
-                                                for(i = 1; i <= baris; i++){
-                                                    var status = $('#table_permintaan tbody tr:nth-child('+i+') td:nth-child(5)').html();
-                                                    if(status == 'diterima'){
-                                                        $('#table_permintaan tbody tr:nth-child('+i+') td:nth-child(5)').attr('style', 'background-color: orange')
-                                                    }else if(status == 'dikerjakan'){
-                                                        $('#table_permintaan tbody tr:nth-child('+i+') td:nth-child(5)').attr('style', 'background-color: cyan')                                                        
-                                                    }else{
-                                                        $('#table_permintaan tbody tr:nth-child('+i+') td:nth-child(5)').attr('style', 'background-color: green')
-                                                    }
-                                                }},
-                                                'processing': true,
-                                                'serverSide': true,
-                                                'ajax': {
-                                                    'url': '/permintaan/find',
-                                                    'timeout': 15000
-                                                },
-                                                'columnDefs': [{
-                                                    'targets': [-1],
-                                                    'orderable': false,
-                                                }]
-                                            });
-
-                                            $('.datepick').datepicker({
-                                                autoclose: true,
-                                                format: "yyyy-mm-dd",
-                                                todayHighlight: true,
-                                                orientation: "top auto",
-                                                todayBtn: true,
-                                                todayHighlight: true,
-                                            });
-
-                                            $('input').on('change', function () {
-                                                $(this).attr('value', $(this).val())
-                                            })
-
-                                            $('#status_ubah').on('change', function () {
-                                                var status_ubah_val = $('#status_ubah').val();
-                                                if (status_ubah_val == 'diterima') {
-                                                    $('#status_ubah').attr('style',
-                                                        'background-color: orange')
-                                                } else if (status_ubah_val == 'dikerjakan') {
-                                                    $('#status_ubah').attr('style',
-                                                        'background-color: cyan')
-                                                } else {
-                                                    $('#status_ubah').attr('style',
-                                                        'background-color: green')
->>>>>>> d6bd7d2e0950b5bc8eaaae9f6678d4e8d7d88164
                                                 }
                                             },
                                             'processing': true,
