@@ -104,10 +104,10 @@
             <section class="content">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-lg-3 col-6">
+                        <div class="col-lg-4 col-6">
                             <div class="small-box bg-primary">
                                 <div class="inner">
-                                    <h3>150</h3>
+                                    <h3 id="tahun_ini">150</h3>
                                     <p>Permintaan Tahun Ini</p>
                                 </div>
                                 <div class="icon" style="margin-top: 6px">
@@ -115,10 +115,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-6">
+                        <div class="col-lg-4 col-6">
                             <div class="small-box bg-success">
                                 <div class="inner">
-                                    <h3>150</h3>
+                                    <h3 id="bulan_ini">0</h3>
                                     <p>Permintaan Bulan Ini</p>
                                 </div>
                                 <div class="icon" style="margin-top: 6px">
@@ -126,21 +126,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-6">
-                            <div class="small-box bg-danger">
-                                <div class="inner">
-                                    <h3>150</h3>
-                                    <p>Permintaan Minggu Ini</p>
-                                </div>
-                                <div class="icon" style="margin-top: 6px">
-                                    <i class="ion ion-document"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-6">
+                        <div class="col-lg-4 col-6">
                             <div class="small-box bg-warning">
                                 <div class="inner">
-                                    <h3>150</h3>
+                                    <h3 id="hari_ini">0</h3>
                                     <p>Permintaan Hari Ini</p>
                                 </div>
                                 <div class="icon" style="margin-top: 6px">
@@ -149,6 +138,32 @@
                             </div>
                         </div>
 
+                        <table id="table-pengguna" class="table table-sm">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        Respon diterima - dikerjakan
+                                    </td>
+                                    <td>
+                                        September
+                                    </td>
+                                    <td>
+                                        15 menit
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Respon dikerjakan - selesai
+                                    </td>
+                                    <td>
+                                        September
+                                    </td>
+                                    <td>
+                                        15 menit
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                         <div class="col-lg-12 col-6">
                             <table id="table-pengguna" class="table table-sm">
                                 <thead class="bg-warning">
@@ -188,6 +203,33 @@
                 </div>
             </section>
         </div>
+
+        <script>
+            var page
+            $(document).ready(function(){
+                page = $.ajax({
+                    url : '/dashboard/data',
+                    header: {
+                        "Content-type": "applocation/json"
+                    },
+                    dataType: "json",
+                    success : function(response) {
+                        $('#tahun_ini').html(response.tahun_ini);
+                        $('#bulan_ini').html(response.bulan_ini);
+                        $('#hari_ini').html(response.hari_ini);
+                    },
+                    error : function() {
+                        $('#tahun_ini').html('0');
+                        $('#bulan_ini').html('0');
+                        $('#hari_ini').html('0');
+                    },
+                    timeout: 15000
+                })
+
+
+            });
+        </script>
+
 
         <footer class="main-footer">
             <strong>Copyright &copy; 2018 - forever
