@@ -960,28 +960,6 @@
 
                                 function reload_table() {
                                     table.ajax.reload(null, false);
-                                    var baris = $('#table_permintaan tbody')[0].rows.length
-                                        var i
-                                        for (i = 1; i <= baris; i++) {
-                                            var status = $(
-                                                '#table_permintaan tbody tr:nth-child(' +
-                                                i + ') td:nth-child(5)').html()
-                                            if (status == 'diterima') {
-                                                $('#table_permintaan tbody tr:nth-child(' +
-                                                    i + ') td:nth-child(5)').attr(
-                                                    'style', 'background-color: whitesmoke'
-                                                )
-                                            } else if (status == 'dikerjakan') {
-                                                $('#table_permintaan tbody tr:nth-child(' +
-                                                    i + ') td:nth-child(5)').attr(
-                                                    'style', 'background-color: cadetblue')
-                                            } else {
-                                                $('#table_permintaan tbody tr:nth-child(' +
-                                                    i + ') td:nth-child(5)').attr(
-                                                    'style', 'background-color: lightgreen'
-                                                )
-                                            }
-                                        }
                                 }
                             </script>
 
