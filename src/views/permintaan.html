@@ -234,7 +234,7 @@
                                                             </th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody id="detail_status">
+                                                    <tbody id="detail_status_ubah">
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -313,29 +313,32 @@
                                                 </div>
                                             </div>
 
-                                            <table class="table table-sm table-striped">
-                                                <thead class="bg-warning">
-                                                    <tr>
-                                                        <th>
-                                                            Permintaan
-                                                        </th>
-                                                        <th>
-                                                            Huruf
-                                                        </th>
-                                                        <th>
-                                                            Jumlah
-                                                        </th>
-                                                        <th>
-                                                            keterangan
-                                                        </th>
-                                                        <th>
-                                                            Act
-                                                        </th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="detail_permintaan_tambah">
-                                                </tbody>
-                                            </table>
+                                            <div>
+                                                <table class="table table-sm table-striped">
+                                                    <thead class="bg-warning">
+                                                        <tr>
+                                                            <th>
+                                                                Permintaan
+                                                            </th>
+                                                            <th>
+                                                                Huruf
+                                                            </th>
+                                                            <th>
+                                                                Jumlah
+                                                            </th>
+                                                            <th>
+                                                                keterangan
+                                                            </th>
+                                                            <th>
+                                                                Act
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="detail_permintaan_tambah">
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            
                                             <button type="button" class="btn btn-success" id="hapus_baris_detail_tambah" onClick="tambah_baris_detail_tambah()">+</button>
 
                                             <div class="modal-footer">
@@ -404,6 +407,28 @@
                                                     </div>
                                                 </div>
                                             </div>
+
+
+                                            <div>
+                                                <table class="table table-sm table-striped">
+                                                    <thead class="bg-warning">
+                                                        <tr>
+                                                            <th>
+                                                                Diterima
+                                                            </th>
+                                                            <th>
+                                                                Dikerjakan
+                                                            </th>
+                                                            <th>
+                                                                Selesai
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="detail_status_detail">
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
                                             <div>
                                                 <table class="table table-sm table-striped">
                                                     <thead class="bg-warning">
@@ -617,7 +642,7 @@
                                                 '</td>';
                                             isi_table_detail_status = isi_table_detail_status + '</tr>';
 
-                                            $('#detail_status').html(isi_table_detail_status)
+                                            $('#detail_status_ubah').html(isi_table_detail_status)
                                             if (response.status_permintaan == 'diterima') {
                                                 $('#status_ubah').attr('style', 'background-color : white');
                                             } else if (response.status_permintaan == 'dikerjakan') {
@@ -715,7 +740,7 @@
                                             }
                                             if ($('#detail_permintaan_tambah tr:nth-child(' + i +
                                                     ') td:nth-child(2) textarea:nth-child(1)').val() != '') {
-                                                obj[1] = $('#detail_permintaan_tambah' + i +
+                                                obj[1] = $('#detail_permintaan_tambah tr:nth-child('+ i +
                                                     ' td:nth-child(2) textarea:nth-child(1)').val();
                                             } else {
                                                 status = false
@@ -937,6 +962,22 @@
                                                     .keterangan + '</td>');
                                                 $('#detail_permintaan_detail').append('</tr>');
                                             })
+                                            
+
+                                            var isi_table_detail_status = '<tr>';
+                                            isi_table_detail_status = isi_table_detail_status + '<td>' +
+                                                (response.diterima != null ? response.diterima.replace('T',
+                                                    ' ').replace('.000Z', '') : 'belum') + '</td>';
+                                            isi_table_detail_status = isi_table_detail_status + '<td>' +
+                                                (response.dikerjakan != null ? response.dikerjakan.replace(
+                                                    'T', ' ').replace('.000Z', '') : 'belum') + '</td>';
+                                            isi_table_detail_status = isi_table_detail_status + '<td>' +
+                                                (response.selesai != null ? response.selesai.replace('T',
+                                                    ' ').replace('.000Z', '') : 'belum') +
+                                                '</td>';
+                                            isi_table_detail_status = isi_table_detail_status + '</tr>';
+
+                                            $('#detail_status_detail').html(isi_table_detail_status)
                                             reload_table();
                                         },
                                         error: function () {

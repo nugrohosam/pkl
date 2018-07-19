@@ -242,6 +242,16 @@ permintaan.post('/update/:id', async (req, res) => {
         await dbconn.query('BEGIN')
 
         sql = 'UPDATE permintaan SET nomor_surat = \''+nomor_surat+'\', tanggal =  \''+tanggal+'\', divisi = \''+divisi+'\', nama_peminta = \''+nama_peminta+'\', status = \''+status+'\', ubah_pada = \''+ubah_pada+'\' WHERE id_permintaan = \''+id_permintaan+'\'';
+
+        if(status == 'dikerjakan'){
+            var dikerjakan = datetime_format
+            sql = 'UPDATE permintaan SET nomor_surat = \''+nomor_surat+'\', tanggal =  \''+tanggal+'\', divisi = \''+divisi+'\', nama_peminta = \''+nama_peminta+'\', status = \''+status+'\', dikerjakan = \''+dikerjakan+'\', ubah_pada = \''+ubah_pada+'\' WHERE id_permintaan = \''+id_permintaan+'\'';
+        }
+
+        if(status == 'selesai'){
+            var selesai = datetime_format
+            sql = 'UPDATE permintaan SET nomor_surat = \''+nomor_surat+'\', tanggal =  \''+tanggal+'\', divisi = \''+divisi+'\', nama_peminta = \''+nama_peminta+'\', status = \''+status+'\', selesai = \''+selesai+'\', ubah_pada = \''+ubah_pada+'\' WHERE id_permintaan = \''+id_permintaan+'\'';
+        }
         await dbconn.query(sql)
 
         sql = 'DELETE FROM detail_permintaan WHERE id_permintaan = \''+id_permintaan+'\''
