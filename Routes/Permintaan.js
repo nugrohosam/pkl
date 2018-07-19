@@ -81,7 +81,8 @@ permintaan.post('/save', async (req, res) => {
     var status = data.status
     var buat_pada = datetime_format
     var ubah_pada = datetime_format
-
+    var diterima = datetime_format
+    
     var detail = data.detail
     var panjang_detail = detail.length
     var sql
