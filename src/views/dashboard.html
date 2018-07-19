@@ -138,52 +138,44 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 form-group">
-                            <select id="status_detail" class="form-control">
+                        <div class="col-lg-3 form-group">
+                            <select id="divisi" class="form-control">
                                 <option value="" class="btn">-- Divisi --</option>
-                                <option value="diterima" class="btn">diterima</option>
-                                <option value="dikerjakan" class="btn">dikerjakan</option>
-                                <option value="selesai" class="btn">selesai</option>
+                                <option value="ITIKOM" class="btn">ITIKOM</option>
                             </select>
                         </div>
-                        <div class="col-lg-4 form-group">
-                            <input class="form-control datepick" id="tanggal_detail" placeholder="Tanggal..">
+                        <div class="col-lg-3 form-group">
+                            <input class="form-control" placeholder="Tahun.." id="tahun">
                         </div>
-                        <div class="col-lg-4 form-group">
-                            <button class="form-control bg-success">Search</button>
+                        <div class="col-lg-3 form-group">
+                            <select id="bulan" class="form-control">
+                                <option value="" class="btn">-- Bulan --</option>
+                                <option value="01" class="btn">januari</option>
+                                <option value="02" class="btn">februari</option>
+                                <option value="03" class="btn">maret</option>
+                                <option value="04" class="btn">april</option>
+                                <option value="05" class="btn">mei</option>
+                                <option value="06" class="btn">juni</option>
+                                <option value="07" class="btn">juli</option>
+                                <option value="08" class="btn">agustus</option>
+                                <option value="09" class="btn">september</option>
+                                <option value="10" class="btn">oktober</option>
+                                <option value="11" class="btn">november</option>
+                                <option value="12" class="btn">desember</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-3 form-group">
+                            <button class="form-control bg-success" onClick="search_proccess()">Search</button>
                         </div>
                         <div class="col-lg-12 col-6">
-                            <table id="table-pengguna" class="table table-sm">
+                            <table id="" class="table table-sm">
                                 <thead class="bg-warning">
                                     <tr>
                                         <th>Subject</th>
-                                        <th>Bulan</th>
                                         <th>Rata - rata</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            Respon diterima - dikerjakan
-                                        </td>
-                                        <td>
-                                            September
-                                        </td>
-                                        <td>
-                                            15 menit
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Respon dikerjakan - selesai
-                                        </td>
-                                        <td>
-                                            September
-                                        </td>
-                                        <td>
-                                            15 menit
-                                        </td>
-                                    </tr>
+                                <tbody id="table_pencarian">
                                 </tbody>
                             </table>
                         </div>
@@ -191,6 +183,16 @@
                 </div>
             </section>
         </div>
+
+        <div id="notif_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <script>
             var page
@@ -225,8 +227,80 @@
                     todayHighlight: true,
                 });
 
-
             });
+
+            function search_proccess() {
+                var divisi_val = $('#divisi').val();
+                var tahun_val = $('#tahun').val();
+                var bulan_val = $('#bulan').val();
+                
+                var url = '/dashboard/find/' + divisi_val + '/' + tahun_val + '/' + bulan_val;
+                if(bulan_val == ''){
+                    url = '/dashboard/find/' + divisi_val + '/' + tahun_val 
+                }
+                $('#notif_modal').modal('show')
+                $("#notif_modal div div div").html('proses mencari');
+                
+                $.ajax({
+                    url: url,
+                    header: {
+                        "Content-type": "applocation/json"
+                    },
+                    dataType: "json",
+                    success: function (response) {
+
+                        var rata_rata_diterima_dikerjakan = response.rata_rata_diterima_dikerjakan
+                        var rata_rata_dikerjakan_selesai = response.rata_rata_dikerjakan_selesai;
+                        var selesai = response.selesai;
+                        var dikerjakan = response.dikerjakan;
+                        var i;
+                        var isi_table = '';
+                        
+                        isi_table = isi_table + '<tr>';
+                        isi_table = isi_table + '<td>Response diterima - dikerjakan</td>';
+    
+                        if(rata_rata_diterima_dikerjakan != null){
+                            isi_table = isi_table + '<td>' + rata_rata_diterima_dikerjakan + ' menit</td>';
+                        }else{
+                            isi_table = isi_table + '<td> belum ada </td>';
+                        }
+    
+                        isi_table = isi_table + '</tr>';
+                        isi_table = isi_table + '<tr>';
+                        isi_table = isi_table + '<td>Response dikerjakan - selesai</td>';
+                        
+                        if(rata_rata_diterima_dikerjakan != null){
+                            isi_table = isi_table + '<td>' + rata_rata_dikerjakan_selesai + ' menit</td>';
+                        }else{
+                            isi_table = isi_table + '<td> belum ada </td>';
+                        }
+                        
+                        isi_table = isi_table + '</tr>';
+                        isi_table = isi_table + '<tr>';
+                        isi_table = isi_table + '<td>Selesai</td>';
+                        isi_table = isi_table + '<td>' + selesai + '</td>';
+                        isi_table = isi_table + '</tr>';
+                        isi_table = isi_table + '<tr>';
+                        isi_table = isi_table + '<td>Dikerjakan</td>';
+                        isi_table = isi_table + '<td>' + dikerjakan + '</td>';
+                        isi_table = isi_table + '</tr>';
+                        
+                        console.log(isi_table)
+                        $('#table_pencarian').html(isi_table)
+                        $("#notif_modal div div div").html('sukses mencari');
+                        setTimeout(function () {
+                            $('#notif_modal').modal('hide');
+                        }, 1500);
+                    },
+                    error: function () {
+                        setTimeout(function () {
+                            $("#notif_modal div div div").html('gagal mencari');
+                            $('#notif_modal').modal('hide');
+                        }, 1500);
+                    },
+                    timeout : 15000
+                })
+            }
         </script>
 
 

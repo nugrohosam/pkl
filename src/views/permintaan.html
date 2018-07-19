@@ -759,7 +759,7 @@
                                             $('#tanggal_detail').val(response.tanggal);
                                             $('#divisi_detail').val(response.divisi);
                                             $('#nama_peminta_detail').val(response.nama_peminta);
-                                            $('#status_detail').val(response.status);
+                                            $('#status_detail').attr('value', response.status);
 
                                             response.detail.forEach(function (item) {
                                                 $('#detail_permintaan_detail').append('<tr>');
