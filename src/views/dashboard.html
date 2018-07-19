@@ -57,7 +57,7 @@
         </nav>
 
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
-            <a href="/dashbord" class="brand-link">
+            <a href="/dashboard" class="brand-link">
                 <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
                 <span class="brand-text font-weight-light">Admin IPL</span>
             </a>
@@ -100,7 +100,8 @@
             </div>
         </aside>
 
-        <div class="content-wrapper"></br>
+        <div class="content-wrapper">
+            </br>
             <section class="content">
                 <div class="container-fluid">
                     <div class="row">
@@ -137,33 +138,20 @@
                                 </div>
                             </div>
                         </div>
-
-                        <table id="table-pengguna" class="table table-sm">
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        Respon diterima - dikerjakan
-                                    </td>
-                                    <td>
-                                        September
-                                    </td>
-                                    <td>
-                                        15 menit
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Respon dikerjakan - selesai
-                                    </td>
-                                    <td>
-                                        September
-                                    </td>
-                                    <td>
-                                        15 menit
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="col-lg-4 form-group">
+                            <select id="status_detail" class="form-control">
+                                <option value="" class="btn">-- Divisi --</option>
+                                <option value="diterima" class="btn">diterima</option>
+                                <option value="dikerjakan" class="btn">dikerjakan</option>
+                                <option value="selesai" class="btn">selesai</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-4 form-group">
+                            <input class="form-control datepick" id="tanggal_detail" placeholder="Tanggal..">
+                        </div>
+                        <div class="col-lg-4 form-group">
+                            <button class="form-control bg-success">Search</button>
+                        </div>
                         <div class="col-lg-12 col-6">
                             <table id="table-pengguna" class="table table-sm">
                                 <thead class="bg-warning">
@@ -206,25 +194,36 @@
 
         <script>
             var page
-            $(document).ready(function(){
+            $(document).ready(function () {
+
                 page = $.ajax({
-                    url : '/dashboard/data',
+                    url: '/dashboard/data',
                     header: {
                         "Content-type": "applocation/json"
                     },
                     dataType: "json",
-                    success : function(response) {
+                    success: function (response) {
                         $('#tahun_ini').html(response.tahun_ini);
                         $('#bulan_ini').html(response.bulan_ini);
                         $('#hari_ini').html(response.hari_ini);
                     },
-                    error : function() {
+                    error: function () {
                         $('#tahun_ini').html('0');
                         $('#bulan_ini').html('0');
                         $('#hari_ini').html('0');
                     },
                     timeout: 15000
                 })
+
+
+                $('.datepick').datepicker({
+                    autoclose: true,
+                    format: "yyyy-mm-dd",
+                    todayHighlight: true,
+                    orientation: "top auto",
+                    todayBtn: true,
+                    todayHighlight: true,
+                });
 
 
             });
