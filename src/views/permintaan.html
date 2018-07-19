@@ -182,7 +182,7 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title">Ubah Surat</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" onClick="reaload_table()">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
@@ -253,7 +253,7 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title">Tambah Surat</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" onClick="reaload_table()">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
@@ -319,13 +319,14 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
 
                                 <div id="detail_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h5 class="modal-title">Detail Surat</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onClick="reaload_table()">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
@@ -399,7 +400,7 @@
                                 <div id="notif_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                         <div class="modal-content">
-                                            <div class="modal-header">
+                                            <div class="modal-body">
                                             </div>
                                         </div>
                                     </div>
@@ -719,10 +720,11 @@
                                                     timeout: 15000
                                                 })
                                             }else{                  
-                                                $("#notif_modal div div div").html('detail harus terisi');
+                                                $("#notif_modal div div div").html('detail harus terisi dengan benar');
                                                 $('#notif_modal').modal('show');                          
                                                 setTimeout(function () {
                                                     $('#notif_modal').modal('hide');
+                                                    $('#tambah_modal').modal('hide');
                                                 }, 1500);
                                             }
                                         }
