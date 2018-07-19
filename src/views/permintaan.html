@@ -413,7 +413,6 @@
                                     
                                     function () {
                                         table = $('#table_permintaan').DataTable({
-<<<<<<< HEAD
                                             "initComplete": function() {
                                                 var baris = $('#table_permintaan tbody')[0].rows.length
                                                 var i
@@ -427,19 +426,6 @@
                                                         $('#table_permintaan tbody tr:nth-child('+i+') td:nth-child(5)').attr('style', 'background-color: green')
                                                     }
                                                 }
-=======
-                                            "createdRow":function (row,data,index) {
-                                                    var status = $('#table_permintaan tbody:nth-child(1) tr:nth-child(1)').html();
-                                                        console.log(status)    
-                                                        if ( status === "diterima") {
-                                                            $('td:nth-child(5)', row).css("background-color", "red");
-                                                        } else if (status === "dikerjakan") {
-                                                             $('td:nth-child(5)', row).css("background-color", "yellow");
-                                                        } else if (status === "selesai") {
-                                                             $('td:nth-child(5)', row).css("background-color", "green");
-                                                        } 
-                                                   
->>>>>>> 28d8c63d780912a2b66c6d549523ae5b2d9aad1b
                                             },
                                             'processing': true,
                                             'serverSide': true,
