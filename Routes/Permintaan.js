@@ -201,8 +201,13 @@ permintaan.get('/find/:id', async (req, res) => {
             divisi : rows[0].divisi,
             nama_peminta : rows[0].nama_peminta,
             status_permintaan : rows[0].status,
+            diterima : rows[0].diterima,
+            dikerjakan : rows[0].dikerjakan,
+            selesai : rows[0].selesai,
             detail : []
         }
+
+        console.log(json_return)
 
         sql = 'SELECT * FROM detail_permintaan WHERE id_permintaan = \''+id+'\''            
         var { rows } = await dbconn.query(sql)
