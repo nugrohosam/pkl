@@ -241,16 +241,16 @@ permintaan.post('/update/:id', async (req, res) => {
     try{
         await dbconn.query('BEGIN')
 
-        sql = 'UPDATE permintaan SET nomor_surat = \''+nomor_surat+'\', tanggal =  \''+tanggal+'\', divisi = \''+divisi+'\', nama_peminta = \''+nama_peminta+'\', status = \''+status+'\', ubah_pada = \''+ubah_pada+'\' WHERE id_permintaan = \''+id_permintaan+'\'';
+        sql = 'UPDATE permintaan SET nomor_surat = \''+nomor_surat+'\', tanggal =  \''+tanggal+'\', divisi = \''+divisi+'\', nama_peminta = \''+nama_peminta+'\', status = \''+status+'\', ubah_pada = \''+ubah_pada+'\' WHERE id_permintaan = \''+id_permintaan+'\' AND dikerjakan is null AND diterima is null';
 
         if(status == 'dikerjakan'){
             var dikerjakan = datetime_format
-            sql = 'UPDATE permintaan SET nomor_surat = \''+nomor_surat+'\', tanggal =  \''+tanggal+'\', divisi = \''+divisi+'\', nama_peminta = \''+nama_peminta+'\', status = \''+status+'\', dikerjakan = \''+dikerjakan+'\', ubah_pada = \''+ubah_pada+'\' WHERE id_permintaan = \''+id_permintaan+'\'';
+            sql = 'UPDATE permintaan SET nomor_surat = \''+nomor_surat+'\', tanggal =  \''+tanggal+'\', divisi = \''+divisi+'\', nama_peminta = \''+nama_peminta+'\', status = \''+status+'\', dikerjakan = \''+dikerjakan+'\', ubah_pada = \''+ubah_pada+'\' WHERE id_permintaan = \''+id_permintaan+'\' AND diterima is not null AND selesai is null';
         }
 
         if(status == 'selesai'){
             var selesai = datetime_format
-            sql = 'UPDATE permintaan SET nomor_surat = \''+nomor_surat+'\', tanggal =  \''+tanggal+'\', divisi = \''+divisi+'\', nama_peminta = \''+nama_peminta+'\', status = \''+status+'\', selesai = \''+selesai+'\', ubah_pada = \''+ubah_pada+'\' WHERE id_permintaan = \''+id_permintaan+'\'';
+            sql = 'UPDATE permintaan SET nomor_surat = \''+nomor_surat+'\', tanggal =  \''+tanggal+'\', divisi = \''+divisi+'\', nama_peminta = \''+nama_peminta+'\', status = \''+status+'\', selesai = \''+selesai+'\', ubah_pada = \''+ubah_pada+'\' WHERE id_permintaan = \''+id_permintaan+'\' AND diterima is not null AND dikerjakan is not null AND selesai is not null';
         }
         await dbconn.query(sql)
 
