@@ -69,6 +69,18 @@
             flex-direction: row-reverse;
             margin-left: 15%;
         }
+
+        .biru{
+            background-color: blue !important;
+        }
+
+        .orange{
+            background-color: orange !important;
+        }
+
+        .hijau{
+            background-color: green !important;
+        }
     </style>
 
 </head>
@@ -140,6 +152,7 @@
                             <div class="card">
                                 <button class="btn btn-success" onClick="tambah_modal()">Tambah Surat</button>
                             </div>
+
                             <div class="card">
                                 <div class="card-header">
                                     <h3 class="card-title">Permintaan</h3>
@@ -396,9 +409,47 @@
                                 var table;
                                 var index_detail_table = 0;
 
+
+
+    // var table = $('#table_permintaan').dataTable({
+    //     "rowCallback": function (row, data, index) {
+    //         var nosurat = parseFloat(data[0]),
+    //             tanggal = parseFloat(data[1]),
+    //             divisi = parseFloat(data[2]),
+    //             peminta = parseFloat(data[3]),
+    //             status = parseFloat(data[4]),
+    //             action = parseFloat(data[5]),
+    //             $node = this.api().row(row).nodes().to$();
+
+    //         if (status == "diterima") {
+    //             $node.addClass('biru')
+    //         } else if (status == "dikerjakan") {
+    //             $node.addClass('orange')
+    //         } else if (status == "selesai") {
+    //             $node.addClass('hijau')
+    //         }
+    //     }
+
+    // })  
+
+
+
                                 $(document).ready(
+                                    
                                     function () {
                                         table = $('#table_permintaan').DataTable({
+                                            "createdRow":function (row,data,index) {
+                                                    var status = $('#table_permintaan tbody:nth-child(1) tr:nth-child(1)').html();
+                                                        console.log(status)    
+                                                        if ( status === "diterima") {
+                                                            $('td:nth-child(5)', row).css("background-color", "red");
+                                                        } else if (status === "dikerjakan") {
+                                                             $('td:nth-child(5)', row).css("background-color", "yellow");
+                                                        } else if (status === "selesai") {
+                                                             $('td:nth-child(5)', row).css("background-color", "green");
+                                                        } 
+                                                   
+                                            },
                                             'processing': true,
                                             'serverSide': true,
                                             'ajax': {
@@ -410,6 +461,8 @@
                                                 'orderable': false,
                                             }]
                                         });
+                                        
+                                        set_status()
 
                                         $('.datepick').datepicker({
                                             autoclose: true,
@@ -434,6 +487,7 @@
                                                 $('#status_ubah').attr('style', 'background-color: green')
                                             }
                                         })
+                                        
                                     }
                                 );
 
