@@ -139,7 +139,6 @@
                             <div class="card">
                                 <button class="btn btn-success" onClick="tambah_modal()">Tambah Surat</button>
                             </div>
-<<<<<<< HEAD
                             <div class="card">
                                 <div class="card-header">
                                     <h3 class="card-title">Permintaan</h3>
@@ -147,120 +146,6 @@
                                 <div class="card-body">
                                     <div class="table-responsive">
                                         <table id="table-pengguna" class="table table-sm">
-=======
-                              <div class="form-group">
-                                <label class="control-label col-sm-2" style="display: inline">No : </label>
-                                <input class="form-control" id="nomor_surat_ubah">
-                              </div>
-                              <div class="form-group">
-                                  <label class="control-label col-sm-2" style="display: inline">Tanggal :</label>
-                                  <input class="form-control datepick" id="tanggal_ubah">
-                              </div>
-                              <div class="form-group">
-                                  <label class="control-label col-sm-2" style="display: inline">Divisi :</label>
-                                  <input class="form-control" id="divisi_ubah">
-                              </div>
-                              <div class="form-group">
-                                  <label class="control-label col-sm-2" style="display: inline">Peminta :</label>
-                                  <input class="form-control" id="nama_peminta_ubah">
-                              </div>
-                              <div class="form-group">
-                                  <label class="control-label col-sm-2" style="display: inline">Status :</label>
-                                <select id="status_ubah" class="form-control" onclick=ubah()>
-                                    <option value="diterima" class="btn">diterima</option>
-                                    <option value="dikerjakan" class="btn">dikerjakan</option>
-                                    <option value="selesai" class="btn">selesai</option>
-                                </select>                                  
-                              </div>
-                              <script>
-                                  var status = document.getElementById("status_ubah").value;
-                                  function ubah() {
-                                      if (status=="diterima"){
-                                          var style = document.createElement('style');
-                                          style.type = 'text/css';
-                                          style.innerHTML = '.cssClass { tbody > td:nth-child(5): rgb(33, 136, 56); }';
-                                          document.getElementsByTagName('option')[0].appendChild(style);
-
-                                        //   document.getElementById('someElementId').className = 'cssClass';
-                                      }
-                                      
-                                  }
-                              
-                              </script>
-                              <div>
-                                  <table class="table table-sm table-striped">
-                                      <thead class="bg-warning">
-                                          <tr>
-                                            <th>
-                                                Barang
-                                            </th>
-                                            <th>
-                                                Huruf
-                                            </th>
-                                            <th>
-                                                Jumlah
-                                            </th>
-                                            <th>
-                                                keterangan
-                                            </th>
-                                            <th>
-                                                Act
-                                            </th>
-                                          </tr>
-                                      </thead>
-                                      <tbody id="detail_permintaan_ubah">
-                                      </tbody>
-                                  </table>
-                              </div>
-                             <button type="button" class="btn btn-success" id="tambah_baris_detail" onClick="tambah_baris_detail_ubah()">+</button>
-                          </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" id="button_save_ubah" onClick="ubah_proccess()">Save</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                    <div id="tambah_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Tambah Surat</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body flex-wrapper">
-                                    <div class="form-group">
-                                        <label class="control-label col-sm-2">No
-                                            <!-- <span style="text-align: right">:</span> -->
-                                        </label><span>:</span>
-                                        <div class="col-sm-8 form-ubah">
-                                            <input class="form-control" id="nomor_surat_tambah">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-sm-2">Tanggal</label><span>:</span>
-                                        <div class="col-sm-8 form-ubah">
-                                            <input class="form-control datepick" id="tanggal_tambah">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-sm-2">Divisi</label><span>:</span>
-                                        <div class="col-sm-8 form-ubah">
-                                            <input class="form-control" id="divisi_tambah">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-sm-2">Peminta</label><span>:</span>
-                                        <div class="col-sm-8 form-ubah">
-                                            <input class="form-control" id="nama_peminta_tambah">
-                                        </div>
-                                    </div>
-                                   
-                                    <div>
-                                        <table class="table table-sm table-striped">
->>>>>>> 904c26d1d304706946259b5cf55f716e3c00724c
                                             <thead class="bg-warning">
                                                 <tr>
                                                     <th>No Surat</th>
