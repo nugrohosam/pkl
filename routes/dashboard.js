@@ -145,7 +145,7 @@ dashboard.get('/find/:divisi/:tahun', async (req, res) => {
     try {
         await dbconn.query('BEGIN')
 
-        sql = 'SELECT rentang_waktu_menit(diterima, dikerjakan) as jumlah_menit FROM permintaan WHERE divisi = \'' + divisi + '\' AND tanggal LIKE \'%' + tahun + '%\''
+        sql = 'SELECT rentang_waktu_menit(diterima, dikerjakan) as jumlah_menit FROM permintaan WHERE divisi = \'' + divisi + '\' AND tanggal LIKE \'%' + tahun + '%\' AND diterima is not null AND dikerjakan is not null'
         var {
             rows
         } = await dbconn.query(sql)
@@ -157,7 +157,7 @@ dashboard.get('/find/:divisi/:tahun', async (req, res) => {
         }
         rata_rata_diterima_dikerjakan = jumlah_menit / banyak_row
 
-        sql = 'SELECT rentang_waktu_menit(dikerjakan, selesai) as jumlah_menit FROM permintaan WHERE divisi = \'' + divisi + '\' AND tanggal LIKE \'%' + tahun + '%\''
+        sql = 'SELECT rentang_waktu_menit(dikerjakan, selesai) as jumlah_menit FROM permintaan WHERE divisi = \'' + divisi + '\' AND tanggal LIKE \'%' + tahun + '%\' AND dikerjakan is not null AND selesai is not null'
         var {
             rows
         } = await dbconn.query(sql)
@@ -217,7 +217,7 @@ dashboard.get('/find/:divisi/:tahun/:bulan', async (req, res) => {
     try {
         await dbconn.query('BEGIN')
 
-        sql = 'SELECT rentang_waktu_menit(diterima, dikerjakan) as jumlah_menit FROM permintaan WHERE divisi = \'' + divisi + '\' AND tanggal LIKE \'%' + tahun + '-' + bulan + '%\''
+        sql = 'SELECT rentang_waktu_menit(diterima, dikerjakan) as jumlah_menit FROM permintaan WHERE divisi = \'' + divisi + '\' AND tanggal LIKE \'%' + tahun + '-' + bulan + '%\' AND diterima is not null AND dikerjakan is not null'
         var {
             rows
         } = await dbconn.query(sql)
@@ -229,7 +229,80 @@ dashboard.get('/find/:divisi/:tahun/:bulan', async (req, res) => {
         }
         rata_rata_diterima_dikerjakan = jumlah_menit / banyak_row
 
-        sql = 'SELECT rentang_waktu_menit(dikerjakan, selesai) as jumlah_menit FROM permintaan WHERE divisi = \'' + divisi + '\' AND tanggal LIKE \'%' + tahun + '-' + bulan + '%\''
+        sql = 'SELECT rentang_waktu_menit(dikerjakan, selesai) as jumlah_menit FROM permintaan WHERE divisi = \'' + divisi + '\' AND tanggal LIKE \'%' + tahun + '-' + bulan + '%\' AND diterima is not null AND dikerjakan is not null'
+        var {
+            rows
+        } = await dbconn.query(sql)
+        var jumlah_menit = 0
+        var i
+        var banyak_row = rows.length
+        for (i = 0; i < banyak_row; i++) {
+            jumlah_menit = jumlah_menit + rows[i].jumlah_menit
+        }
+        rata_rata_dikerjakan_selesai = jumlah_menit / banyak_row
+
+        sql = 'SELECT * FROM permintaan WHERE divisi = \'' + divisi + '\' AND tanggal LIKE \'%' + tahun + '-' + bulan + '%\' AND selesai is not null'
+        var {
+            rows
+        } = await dbconn.query(sql)
+        selesai = rows.length
+
+
+        sql = 'SELECT * FROM permintaan WHERE divisi = \'' + divisi + '\' AND tanggal LIKE \'%' + tahun + '-' + bulan + '%\' AND dikerjakan is not null'
+        var {
+            rows
+        } = await dbconn.query(sql)
+        dikerjakan = rows.length
+
+        await dbconn.query('COMMIT')
+
+        var json_return = {
+            status: true,
+            rata_rata_diterima_dikerjakan: rata_rata_diterima_dikerjakan,
+            rata_rata_dikerjakan_selesai: rata_rata_dikerjakan_selesai,
+            selesai: selesai,
+            dikerjakan: dikerjakan
+        }
+        res.status(200).json(json_return)
+    } catch (err) {
+        await dbconn.query('ROLLBACK')
+        var json_return = {
+            status: false,
+            message: err
+        }
+        res.status(200).json(json_return)
+    } finally {
+        await dbconn.release
+    }
+})
+
+dashboard.get('/find/:divisi/:tahun/:bulan/:tanggal', async (req, res) => {
+    var sql
+    var divisi = req.params.divisi
+    var tahun = req.params.tahun
+    var bulan = req.params.bulan
+    var tanggal = req.params.tanggal
+    var sql
+    var rata_rata_diterima_dikerjakan
+    var rata_rata_dikerjakan_selesai
+    var selesai
+    var dikerjakan
+    try {
+        await dbconn.query('BEGIN')
+
+        sql = 'SELECT rentang_waktu_menit(diterima, dikerjakan) as jumlah_menit FROM permintaan WHERE divisi = \'' + divisi + '\' AND tanggal LIKE \'' + tahun + '-' + bulan + '-'+tanggal+'\' AND diterima is not null AND dikerjakan is not null'
+        var {
+            rows
+        } = await dbconn.query(sql)
+        var jumlah_menit = 0
+        var i
+        var banyak_row = rows.length
+        for (i = 0; i < banyak_row; i++) {
+            jumlah_menit = jumlah_menit + rows[i].jumlah_menit
+        }
+        rata_rata_diterima_dikerjakan = jumlah_menit / banyak_row
+
+        sql = 'SELECT rentang_waktu_menit(dikerjakan, selesai) as jumlah_menit FROM permintaan WHERE divisi = \'' + divisi + '\' AND tanggal LIKE \'' + tahun + '-' + bulan + '-'+tanggal+'\' AND diterima is not null AND dikerjakan is not null'
         var {
             rows
         } = await dbconn.query(sql)

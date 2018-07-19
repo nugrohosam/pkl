@@ -138,16 +138,16 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-3 form-group">
+                        <div class="col-lg-4 form-group">
                             <select id="divisi" class="form-control">
                                 <option value="" class="btn">-- Divisi --</option>
                                 <option value="ITIKOM" class="btn">ITIKOM</option>
                             </select>
                         </div>
-                        <div class="col-lg-3 form-group">
+                        <div class="col-lg-2 form-group">
                             <input class="form-control" placeholder="Tahun.." id="tahun">
                         </div>
-                        <div class="col-lg-3 form-group">
+                        <div class="col-lg-2 form-group">
                             <select id="bulan" class="form-control">
                                 <option value="" class="btn">-- Bulan --</option>
                                 <option value="01" class="btn">januari</option>
@@ -164,7 +164,10 @@
                                 <option value="12" class="btn">desember</option>
                             </select>
                         </div>
-                        <div class="col-lg-3 form-group">
+                        <div class="col-lg-2 form-group">
+                            <input class="form-control" placeholder="Tanggal.." id="tanggal">
+                        </div>
+                        <div class="col-lg-2 form-group">
                             <button class="form-control bg-success" onClick="search_proccess()">Search</button>
                         </div>
                         <div class="col-lg-12 col-6">
@@ -233,11 +236,17 @@
                 var divisi_val = $('#divisi').val();
                 var tahun_val = $('#tahun').val();
                 var bulan_val = $('#bulan').val();
+                var tanggal_val = $('#tanggal').val();
                 
-                var url = '/dashboard/find/' + divisi_val + '/' + tahun_val + '/' + bulan_val;
-                if(bulan_val == ''){
-                    url = '/dashboard/find/' + divisi_val + '/' + tahun_val 
+                var url = '/dashboard/find/' + divisi_val + '/' + tahun_val 
+
+                if(bulan_val != ''){  
+                    url = '/dashboard/find/' + divisi_val + '/' + tahun_val + '/' + bulan_val;
                 }
+                if(tanggal_val != '' ){
+                    url = '/dashboard/find/' + divisi_val + '/' + tahun_val + '/' + bulan_val + '/' + tanggal_val;
+                }
+
                 $('#notif_modal').modal('show')
                 $("#notif_modal div div div").html('proses mencari');
                 
@@ -269,7 +278,7 @@
                         isi_table = isi_table + '<tr>';
                         isi_table = isi_table + '<td>Response dikerjakan - selesai</td>';
                         
-                        if(rata_rata_diterima_dikerjakan != null){
+                        if(rata_rata_dikerjakan_selesai != null){
                             isi_table = isi_table + '<td>' + rata_rata_dikerjakan_selesai + ' menit</td>';
                         }else{
                             isi_table = isi_table + '<td> belum ada </td>';
@@ -285,7 +294,6 @@
                         isi_table = isi_table + '<td>' + dikerjakan + '</td>';
                         isi_table = isi_table + '</tr>';
                         
-                        console.log(isi_table)
                         $('#table_pencarian').html(isi_table)
                         $("#notif_modal div div div").html('sukses mencari');
                         setTimeout(function () {
