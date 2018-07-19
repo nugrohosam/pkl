@@ -500,12 +500,12 @@
                                         $('#status_ubah').on('change', function () {
                                             var status_ubah_val = $('#status_ubah').val();
                                             if (status_ubah_val == 'diterima') {
-                                                $('#status_ubah').attr('style', 'background-color : white');
+                                                $('#status_ubah').attr('style', 'background-color : smokewhite');
                                             } else if (status_ubah_val == 'dikerjakan') {
-                                                $('#status_ubah').attr('style', 'background-color : cyan')
+                                                $('#status_ubah').attr('style', 'background-color : cadetblue')
                                             } else {
                                                 $('#status_ubah').attr('style',
-                                                    'background-color : #43b770')
+                                                    'background-color : lightgreen')
                                             }
                                         })
 
@@ -619,12 +619,12 @@
 
                                             $('#detail_status').html(isi_table_detail_status)
                                             if (response.status_permintaan == 'diterima') {
-                                                $('#status_ubah').attr('style', 'background-color : white');
+                                                $('#status_ubah').attr('style', 'background-color : smokewhite');
                                             } else if (response.status_permintaan == 'dikerjakan') {
-                                                $('#status_ubah').attr('style', 'background-color : cyan')
+                                                $('#status_ubah').attr('style', 'background-color : cadetblue')
                                             } else {
                                                 $('#status_ubah').attr('style',
-                                                    'background-color : #43b770')
+                                                    'background-color : lightgreen')
                                             }
 
                                             var i = 0;
