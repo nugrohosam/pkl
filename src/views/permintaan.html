@@ -39,6 +39,37 @@
         <script src="dist/js/demo.js"></script>
         <script src="plugins/datatables/jquery.dataTables.js"></script>
         <script src="plugins/datatables/dataTables.bootstrap4.js"></script>
+
+        <style>
+            /* .flex-wrapper{
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                align-items: stretch;
+            } */
+
+            .form-group{
+                display: flex;
+                flex-direction: row;
+            }
+
+            div.form-group > label.control-label {
+                display: inline-block;
+                flex-direction: row;
+                justify-content: left;
+            }
+
+            div.form-group > span {
+                margin-left: 5%;
+            }
+
+           div.form-ubah > input.form-control {
+                display: inline;
+                flex-direction: row-reverse;
+                margin-left: 15%;
+            }
+        
+        </style>
         
     </head>
     <body class="hold-transition sidebar-mini">
@@ -162,12 +193,27 @@
                               </div>
                               <div class="form-group">
                                   <label class="control-label col-sm-2" style="display: inline">Status :</label>
-                                <select id="status_ubah" class="form-control">
+                                <select id="status_ubah" class="form-control" onclick=ubah()>
                                     <option value="diterima" class="btn">diterima</option>
                                     <option value="dikerjakan" class="btn">dikerjakan</option>
                                     <option value="selesai" class="btn">selesai</option>
                                 </select>                                  
                               </div>
+                              <script>
+                                  var status = document.getElementById("status_ubah").value;
+                                  function ubah() {
+                                      if (status=="diterima"){
+                                          var style = document.createElement('style');
+                                          style.type = 'text/css';
+                                          style.innerHTML = '.cssClass { tbody > td:nth-child(5): rgb(33, 136, 56); }';
+                                          document.getElementsByTagName('head')[0].appendChild(style);
+
+                                          document.getElementById('someElementId').className = 'cssClass';
+                                      }
+                                      
+                                  }
+                              
+                              </script>
                               <div>
                                   <table class="table table-sm table-striped">
                                       <thead class="bg-warning">
@@ -211,30 +257,30 @@
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <div class="modal-body">
+                                <div class="modal-body flex-wrapper">
                                     <div class="form-group">
-                                        <label class="control-label col-sm-2" style="display: inline">No
-                                            <span style="text-align: right">:</span>
-                                        </label>
-                                        <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:16%">
+                                        <label class="control-label col-sm-2">No
+                                            <!-- <span style="text-align: right">:</span> -->
+                                        </label><span>:</span>
+                                        <div class="col-sm-8 form-ubah">
                                             <input class="form-control" id="nomor_surat_tambah">
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="control-label col-sm-2" style="display: inline">Tanggal :</label>
-                                        <div class="col-sm-8 form-ubah" style="display: inline-block">
+                                        <label class="control-label col-sm-2">Tanggal</label><span>:</span>
+                                        <div class="col-sm-8 form-ubah">
                                             <input class="form-control datepick" id="tanggal_tambah">
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="control-label col-sm-2" style="display: inline">Divisi :</label>
-                                        <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:4%">
+                                        <label class="control-label col-sm-2">Divisi</label><span>:</span>
+                                        <div class="col-sm-8 form-ubah">
                                             <input class="form-control" id="divisi_tambah">
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="control-label col-sm-2" style="display: inline">Peminta :</label>
-                                        <div class="col-sm-8 form-ubah" style="display: inline-block">
+                                        <label class="control-label col-sm-2">Peminta</label><span>:</span>
+                                        <div class="col-sm-8 form-ubah">
                                             <input class="form-control" id="nama_peminta_tambah">
                                         </div>
                                     </div>
