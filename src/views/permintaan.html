@@ -438,21 +438,6 @@
                                     
                                     function () {
                                         table = $('#table_permintaan').DataTable({
-<<<<<<< HEAD
-                                            "initComplete": function() {
-                                                var baris = $('#table_permintaan tbody')[0].rows.length
-                                                var i
-                                                for(i = 1; i <= baris; i++){
-                                                    var status = $('#table_permintaan tbody tr:nth-child('+i+') td:nth-child(5)').html()
-                                                    if(status == 'diterima'){
-                                                        $('#table_permintaan tbody tr:nth-child('+i+') td:nth-child(5)').attr('style', 'background-color: orange')
-                                                    }else if(status == 'dikerjakan'){
-                                                        $('#table_permintaan tbody tr:nth-child('+i+') td:nth-child(5)').attr('style', 'background-color: cyan')                                                        
-                                                    }else{
-                                                        $('#table_permintaan tbody tr:nth-child('+i+') td:nth-child(5)').attr('style', 'background-color: green')
-                                                    }
-                                                }
-=======
                                             "createdRow":function (row,data,index) {
                                                     var status = $('#table_permintaan tbody:nth-child(1) tr:nth-child(1)').html();
                                                         console.log(status)    
@@ -464,7 +449,6 @@
                                                              $('td:nth-child(5)', row).css("background-color", "green");
                                                         } 
                                                    
->>>>>>> f9053dae29cac7ba0e24c7388acf20461d2fee3c
                                             },
                                             'processing': true,
                                             'serverSide': true,
