@@ -406,37 +406,28 @@
                                     </div>
                                 </div>
 
-                                <script type="text/javascript">
-                                    var table;
-                                    var index_detail_table = 0;
+                            <script type="text/javascript">
+                                var table;
+                                var index_detail_table = 0;
 
-                                    $(document).ready(
-
-                                        function () {
-                                            table = $('#table_permintaan').DataTable({
-                                                "initComplete": function () {
-                                                    var baris = $('#table_permintaan tbody')[0].rows.length
-                                                    var i
-                                                    for (i = 1; i <= baris; i++) {
-                                                        var status = $(
-                                                            '#table_permintaan tbody tr:nth-child(' +
-                                                            i + ') td:nth-child(5)').html()
-                                                        if (status == 'diterima') {
-                                                            $('#table_permintaan tbody tr:nth-child(' +
-                                                                i + ') td:nth-child(5)').attr(
-                                                                'style', 'background-color: orange'
-                                                            )
-                                                        } else if (status == 'dikerjakan') {
-                                                            $('#table_permintaan tbody tr:nth-child(' +
-                                                                i + ') td:nth-child(5)').attr(
-                                                                'style', 'background-color: cyan')
-                                                        } else {
-                                                            $('#table_permintaan tbody tr:nth-child(' +
-                                                                i + ') td:nth-child(5)').attr(
-                                                                'style', 'background-color: green')
-                                                        }
+                                $(document).ready(
+                                    
+                                    function () {
+                                        table = $('#table_permintaan').DataTable({
+                                            "initComplete": function() {
+                                                var baris = $('#table_permintaan tbody')[0].rows.length
+                                                console.log(baris)
+                                                var i
+                                                for(i = 1; i <= baris; i++){
+                                                    var status = $('#table_permintaan tbody tr:nth-child('+i+') td:nth-child(5)').html();
+                                                    if(status == 'diterima'){
+                                                        $('#table_permintaan tbody tr:nth-child('+i+') td:nth-child(5)').attr('style', 'background-color: orange')
+                                                    }else if(status == 'dikerjakan'){
+                                                        $('#table_permintaan tbody tr:nth-child('+i+') td:nth-child(5)').attr('style', 'background-color: cyan')                                                        
+                                                    }else{
+                                                        $('#table_permintaan tbody tr:nth-child('+i+') td:nth-child(5)').attr('style', 'background-color: green')
                                                     }
-                                                },
+                                                }},
                                                 'processing': true,
                                                 'serverSide': true,
                                                 'ajax': {
