@@ -64,12 +64,12 @@
             margin-left: 5%;
         }
 
-        div.form-ubah>input.form-control,div.form-ubah>select.form-control {
+        div.form-ubah>input.form-control,
+        div.form-ubah>select.form-control {
             display: inline;
             flex-direction: row-reverse;
             margin-left: 15%;
         }
-
     </style>
 
 </head>
@@ -171,7 +171,7 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title">Ubah Surat</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" onClick="reload_table()">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" >
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
@@ -180,37 +180,42 @@
                                                 <input class="form-control" id="id_permintaan_ubah">
                                             </div>
                                             <div class="form-group">
-                                                <label class="control-label col-sm-2">No</label><span>:</span>
+                                                <label class="control-label col-sm-2">No</label>
+                                                <span>:</span>
                                                 <div class="col-sm-8 form-ubah">
-                                                <input class="form-control" id="nomor_surat_ubah">
+                                                    <input class="form-control" id="nomor_surat_ubah">
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="control-label col-sm-2">Tanggal</label><span>:</span>
+                                                <label class="control-label col-sm-2">Tanggal</label>
+                                                <span>:</span>
                                                 <div class="col-sm-8 form-ubah">
-                                                <input class="form-control datepick" id="tanggal_ubah">
+                                                    <input class="form-control datepick" id="tanggal_ubah">
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="control-label col-sm-2">Divisi</label><span>:</span>
+                                                <label class="control-label col-sm-2">Divisi</label>
+                                                <span>:</span>
                                                 <div class="col-sm-8 form-ubah">
-                                                <input class="form-control" id="divisi_ubah">
+                                                    <input class="form-control" id="divisi_ubah">
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="control-label col-sm-2">Peminta</label><span>:</span>
+                                                <label class="control-label col-sm-2">Peminta</label>
+                                                <span>:</span>
                                                 <div class="col-sm-8 form-ubah">
-                                                <input class="form-control" id="nama_peminta_ubah">
+                                                    <input class="form-control" id="nama_peminta_ubah">
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="control-label col-sm-2">Status</label><span>:</span>
+                                                <label class="control-label col-sm-2">Status</label>
+                                                <span>:</span>
                                                 <div class="col-sm-8 form-ubah">
-                                                <select id="status_ubah" class="form-control">
-                                                    <option value="diterima" class="btn ">diterima</option>
-                                                    <option value="dikerjakan" class="btn">dikerjakan</option>
-                                                    <option value="selesai" class="btn">selesai</option>
-                                                </select>
+                                                    <select id="status_ubah" class="form-control">
+                                                        <option value="diterima" class="btn ">diterima</option>
+                                                        <option value="dikerjakan" class="btn">dikerjakan</option>
+                                                        <option value="selesai" class="btn">selesai</option>
+                                                    </select>
                                                 </div>
                                             </div>
 
@@ -273,7 +278,7 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title">Tambah Surat</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" onClick="reload_table()">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
@@ -346,7 +351,7 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title">Detail Surat</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" onClick="reload_table()">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
@@ -360,31 +365,36 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="control-label col-sm-2">No
-                                                    </label><span>:</span>
+                                                    </label>
+                                                    <span>:</span>
                                                     <div class="col-sm-8 form-ubah">
                                                         <input class="form-control" id="nomor_surat_detail">
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="control-label col-sm-2">Tanggal</label><span>:</span>
+                                                    <label class="control-label col-sm-2">Tanggal</label>
+                                                    <span>:</span>
                                                     <div class="col-sm-8 form-ubah">
                                                         <input class="form-control" id="tanggal_detail">
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="control-label col-sm-2">Divisi</label><span>:</span>
+                                                    <label class="control-label col-sm-2">Divisi</label>
+                                                    <span>:</span>
                                                     <div class="col-sm-8 form-ubah">
                                                         <input class="form-control" id="divisi_detail">
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="control-label col-sm-2">Peminta</label><span>:</span>
+                                                    <label class="control-label col-sm-2">Peminta</label>
+                                                    <span>:</span>
                                                     <div class="col-sm-8 form-ubah">
                                                         <input class="form-control" id="nama_peminta_detail">
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="control-label col-sm-2">Status</label><span>:</span>
+                                                    <label class="control-label col-sm-2">Status</label>
+                                                    <span>:</span>
                                                     <div class="col-sm-8 form-ubah">
                                                         <select id="status_detail" class="form-control">
                                                             <option value="diterima" class="btn">diterima</option>
@@ -467,7 +477,8 @@
                                                     } else {
                                                         $('#table_permintaan tbody tr:nth-child(' +
                                                             i + ') td:nth-child(5)').attr(
-                                                            'style', 'background-color: lightgreen')
+                                                            'style', 'background-color: lightgreen'
+                                                        )
                                                     }
                                                 }
                                             },
@@ -702,39 +713,39 @@
                                         var i;
                                         var status = true;
 
-                                        for (i = 0; i < baris; i++) {
+                                        for (i = 1; i <= baris; i++) {
                                             var obj = new Array()
 
-                                            if ($('#tr_detail_table_tambah' + i +
-                                                    ' td:nth-child(1) textarea:nth-child(1)').val() != '') {
-                                                obj[0] = $('#tr_detail_table_tambah' + i +
-                                                    ' td:nth-child(1) textarea:nth-child(1)').val();
+                                            if ($('#detail_permintaan_tambah tr:nth-child(' + i +
+                                                    ') td:nth-child(1) textarea:nth-child(1)').val() != '') {
+                                                obj[0] = $('#detail_permintaan_tambah tr:nth-child(' + i +
+                                                    ') td:nth-child(1) textarea:nth-child(1)').val();
                                             } else {
                                                 status = false
                                             }
-                                            if ($('#tr_detail_table_tambah' + i +
-                                                    ' td:nth-child(2) textarea:nth-child(1)').val() == '') {
-                                                obj[1] = $('#tr_detail_table_tambah' + i +
+                                            if ($('#detail_permintaan_ubah tr:nth-child(' + i +
+                                                    ') td:nth-child(2) textarea:nth-child(1)').val() != '') {
+                                                obj[1] = $('#tr_detail_table_ubah' + i +
                                                     ' td:nth-child(2) textarea:nth-child(1)').val();
                                             } else {
                                                 status = false
                                             }
-                                            if ($('#tr_detail_table_tambah' + i +
-                                                    ' td:nth-child(3) textarea:nth-child(1)').val() == '') {
-                                                obj[2] = $('#tr_detail_table_tambah' + i +
-                                                    ' td:nth-child(3) textarea:nth-child(1)').val();
+                                            if ($('#detail_permintaan_tambah tr:nth-child(' + i +
+                                                    ') td:nth-child(3) textarea:nth-child(1)').val() != '') {
+                                                obj[2] = $('#detail_permintaan_tambah tr:nth-child(' + i +
+                                                    ') td:nth-child(3) textarea:nth-child(1)').val();
                                             } else {
                                                 status = false
                                             }
-                                            if ($('#tr_detail_table_tambah' + i +
-                                                    ' td:nth-child(4) textarea:nth-child(1)').val() == '') {
-                                                obj[3] = $('#tr_detail_table_tambah' + i +
-                                                    ' td:nth-child(4) textarea:nth-child(1)').val();
+                                            if ($('#detail_permintaan_tambah tr:nth-child(' + i +
+                                                    ') td:nth-child(4) textarea:nth-child(1)').val() != '') {
+                                                obj[3] = $('#detail_permintaan_tambah tr:nth-child(' + i +
+                                                    ') td:nth-child(4) textarea:nth-child(1)').val();
                                             } else {
                                                 status = false
                                             }
 
-                                            data_detail_permintaan[i] = obj
+                                            data_detail_permintaan[i-1] = obj
 
                                         };
 
@@ -818,39 +829,39 @@
                                         var i;
                                         var status = true;
 
-                                        for (i = 0; i < baris; i++) {
+                                        for (i = 1; i <= baris; i++) {
                                             var obj = new Array()
 
-                                            if ($('#tr_detail_table_ubah' + i +
-                                                    ' td:nth-child(1) textarea:nth-child(1)').val() != '') {
-                                                obj[0] = $('#tr_detail_table_tambah' + i +
-                                                    ' td:nth-child(1) textarea:nth-child(1)').val();
+                                            if ($('#detail_permintaan_ubah tr:nth-child(' + i +
+                                                    ') td:nth-child(1) textarea:nth-child(1)').val() != '') {
+                                                obj[0] = $('#detail_permintaan_ubah tr:nth-child(' + i +
+                                                    ') td:nth-child(1) textarea:nth-child(1)').val();
                                             } else {
                                                 status = false
                                             }
-                                            if ($('#tr_detail_table_ubah' + i +
-                                                    ' td:nth-child(2) textarea:nth-child(1)').val() == '') {
-                                                obj[1] = $('#tr_detail_table_tambah' + i +
-                                                    ' td:nth-child(2) textarea:nth-child(1)').val();
+                                            if ($('#detail_permintaan_ubah tr:nth-child(' + i +
+                                                    ') td:nth-child(2) textarea:nth-child(1)').val() != '') {
+                                                obj[1] = $('#detail_permintaan_ubah tr:nth-child(' + i +
+                                                    ') td:nth-child(2) textarea:nth-child(1)').val();
                                             } else {
                                                 status = false
                                             }
-                                            if ($('#tr_detail_table_ubah' + i +
-                                                    ' td:nth-child(3) textarea:nth-child(1)').val() == '') {
-                                                obj[2] = $('#tr_detail_table_tambah' + i +
-                                                    ' td:nth-child(3) textarea:nth-child(1)').val();
+                                            if ($('#detail_permintaan_ubah tr:nth-child(' + i +
+                                                    ') td:nth-child(3) textarea:nth-child(1)').val() != '') {
+                                                obj[2] = $('#detail_permintaan_ubah tr:nth-child(' + i +
+                                                    ') td:nth-child(3) textarea:nth-child(1)').val();
                                             } else {
                                                 status = false
                                             }
-                                            if ($('#tr_detail_table_ubah' + i +
-                                                    ' td:nth-child(4) textarea:nth-child(1)').val() == '') {
-                                                obj[3] = $('#tr_detail_table_tambah' + i +
-                                                    ' td:nth-child(4) textarea:nth-child(1)').val();
+                                            if ($('#detail_permintaan_ubah tr:nth-child(' + i +
+                                                    ') td:nth-child(4) textarea:nth-child(1)').val() != '') {
+                                                obj[3] = $('#detail_permintaan_ubah tr:nth-child(' + i +
+                                                    ') td:nth-child(4) textarea:nth-child(1)').val();
                                             } else {
                                                 status = false
                                             }
 
-                                            data_detail_permintaan[i] = obj
+                                            data_detail_permintaan[i-1] = obj
 
                                         };
 
@@ -949,6 +960,28 @@
 
                                 function reload_table() {
                                     table.ajax.reload(null, false);
+                                    var baris = $('#table_permintaan tbody')[0].rows.length
+                                        var i
+                                        for (i = 1; i <= baris; i++) {
+                                            var status = $(
+                                                '#table_permintaan tbody tr:nth-child(' +
+                                                i + ') td:nth-child(5)').html()
+                                            if (status == 'diterima') {
+                                                $('#table_permintaan tbody tr:nth-child(' +
+                                                    i + ') td:nth-child(5)').attr(
+                                                    'style', 'background-color: whitesmoke'
+                                                )
+                                            } else if (status == 'dikerjakan') {
+                                                $('#table_permintaan tbody tr:nth-child(' +
+                                                    i + ') td:nth-child(5)').attr(
+                                                    'style', 'background-color: cadetblue')
+                                            } else {
+                                                $('#table_permintaan tbody tr:nth-child(' +
+                                                    i + ') td:nth-child(5)').attr(
+                                                    'style', 'background-color: lightgreen'
+                                                )
+                                            }
+                                        }
                                 }
                             </script>
 

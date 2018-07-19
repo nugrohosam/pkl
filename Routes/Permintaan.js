@@ -106,7 +106,6 @@ permintaan.post('/save', async (req, res) => {
         var json_return = {status : true}
         res.status(200).json(json_return)
     } catch(err) {
-        console.log(err)
         await dbconn.query('ROLLBACK')
         var json_return = {satus : false}
         res.status(200).json(json_return)
@@ -207,8 +206,6 @@ permintaan.get('/find/:id', async (req, res) => {
             detail : []
         }
 
-        console.log(json_return)
-
         sql = 'SELECT * FROM detail_permintaan WHERE id_permintaan = \''+id+'\''            
         var { rows } = await dbconn.query(sql)
         json_return.detail = rows
@@ -262,11 +259,11 @@ permintaan.post('/update/:id', async (req, res) => {
         await dbconn.query(sql)
 
         await dbconn.query('COMMIT')
-        var json_return = {satus : true}
-        res.status(400).json(json_return)
+        var json_return = {status : true}
+        res.status(200).json(json_return)
     } catch(err) {
         await dbconn.query('ROLLBACK')
-        var json_return = {satus : false}
+        var json_return = {status : false}
         res.status(400).json(json_return)
     } finally {
         await dbconn.release
