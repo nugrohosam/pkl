@@ -146,7 +146,7 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
-                                        <table id="table-pengguna" class="table table-sm">
+                                        <table id="table_permintaan" class="table table-sm">
                                             <thead class="bg-warning">
                                                 <tr>
                                                     <th>No Surat</th>
@@ -306,495 +306,506 @@
                                 </div>
                             </div>
 
-                        <div id="detail_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title">Detail Surat</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
+                            <div id="detail_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Detail Surat</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:16%" hidden>
+                                                <input class="form-control" id="id_permintaan_detail">
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-2" style="display: inline">No
+                                                    <span style="text-align: right">:</span>
+                                                </label>
+                                                <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:16%">
+                                                    <input class="form-control" id="nomor_surat_detail">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-2" style="display: inline">Tanggal :</label>
+                                                <div class="col-sm-8 form-ubah" style="display: inline-block">
+                                                    <input class="form-control" id="tanggal_detail">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-2" style="display: inline">Divisi :</label>
+                                                <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:4%">
+                                                    <input class="form-control" id="divisi_detail">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-2" style="display: inline">Peminta :</label>
+                                                <div class="col-sm-8 form-ubah" style="display: inline-block">
+                                                    <input class="form-control" id="nama_peminta_detail">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-2" style="display: inline">Status :</label>
+                                                <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:11%">
+                                                    <select id="status_detail">
+                                                        <option value="diterima" class="btn">diterima</option>
+                                                        <option value="dikerjakan" class="btn">dikerjakan</option>
+                                                        <option value="selesai" class="btn">selesai</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <table class="table table-sm table-striped">
+                                                    <thead class="bg-warning">
+                                                        <tr>
+                                                            <th>
+                                                                Barang
+                                                            </th>
+                                                            <th>
+                                                                Huruf
+                                                            </th>
+                                                            <th>
+                                                                Jumlah
+                                                            </th>
+                                                            <th>
+                                                                keterangan
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="detail_permintaan_detail">
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="modal-body">
-                                        <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:16%" hidden>
-                                            <input class="form-control" id="id_permintaan_detail">
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="control-label col-sm-2" style="display: inline">No
-                                                <span style="text-align: right">:</span>
-                                            </label>
-                                            <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:16%">
-                                                <input class="form-control" id="nomor_surat_detail">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="control-label col-sm-2" style="display: inline">Tanggal :</label>
-                                            <div class="col-sm-8 form-ubah" style="display: inline-block">
-                                                <input class="form-control" id="tanggal_detail">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="control-label col-sm-2" style="display: inline">Divisi :</label>
-                                            <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:4%">
-                                                <input class="form-control" id="divisi_detail">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="control-label col-sm-2" style="display: inline">Peminta :</label>
-                                            <div class="col-sm-8 form-ubah" style="display: inline-block">
-                                                <input class="form-control" id="nama_peminta_detail">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="control-label col-sm-2" style="display: inline">Status :</label>
-                                            <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:11%">
-                                                <select id="status_detail">
-                                                    <option value="diterima" class="btn">diterima</option>
-                                                    <option value="dikerjakan" class="btn">dikerjakan</option>
-                                                    <option value="selesai" class="btn">selesai</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <table class="table table-sm table-striped">
-                                                <thead class="bg-warning">
-                                                    <tr>
-                                                        <th>
-                                                            Barang
-                                                        </th>
-                                                        <th>
-                                                            Huruf
-                                                        </th>
-                                                        <th>
-                                                            Jumlah
-                                                        </th>
-                                                        <th>
-                                                            keterangan
-                                                        </th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="detail_permintaan_detail">
-                                                </tbody>
-                                            </table>
+                                </div>
+                            </div>
+
+                            <div id="notif_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div id="notif_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-body">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                            <script type="text/javascript">
+                                var table;
+                                var index_detail_table = 0;
 
-                        <script type="text/javascript">
-                            var table;
-                            var index_detail_table = 0;
+                                $(document).ready(
+                                    function () {
+                                        table = $('#table_permintaan').DataTable({
+                                            'processing': true,
+                                            'serverSide': true,
+                                            'ajax': {
+                                                'url': '/permintaan/find',
+                                                'timeout': 15000
+                                            },
+                                            'columnDefs': [{
+                                                'targets': [-1],
+                                                'orderable': false,
+                                            }]
+                                        });
 
-                            $(document).ready(
-                                function () {
-                                    table = $('#table-pengguna').DataTable({
-                                        'processing': true,
-                                        'serverSide': true,
-                                        'ajax': {
-                                            'url': '/permintaan/find',
-                                            'timeout': 15000
-                                        },
-                                        'columnDefs': [{
-                                            'targets': [-1],
-                                            'orderable': false,
-                                        }]
-                                    });
+                                        $('.datepick').datepicker({
+                                            autoclose: true,
+                                            format: "yyyy-mm-dd",
+                                            todayHighlight: true,
+                                            orientation: "top auto",
+                                            todayBtn: true,
+                                            todayHighlight: true,
+                                        });
 
-                                    $('.datepick').datepicker({
-                                        autoclose: true,
-                                        format: "yyyy-mm-dd",
-                                        todayHighlight: true,
-                                        orientation: "top auto",
-                                        todayBtn: true,
-                                        todayHighlight: true,
-                                    });
-
-                                    $('input').on('change', function () {
-                                        $(this).attr('value', $(this).val())
-                                    })
-                                }
-                            );
-
-                            function tambah_baris_detail_ubah() {
-                                var string_append = '';
-                                string_append = '<tr id="tr_detail_table_ubah' + index_detail_table + '">';
-                                string_append = string_append +
-                                    '<td><textarea class="form-control" rows="1"></textarea></td>';
-                                string_append = string_append +
-                                    '<td><textarea class="form-control" rows="1"></textarea></td>';
-                                string_append = string_append +
-                                    '<td><textarea class="form-control" rows="1"></textarea></td>';
-                                string_append = string_append +
-                                    '<td><textarea class="form-control" rows="1"></textarea></td>';
-                                string_append = string_append +
-                                    '<td><button type="button" class="btn btn-danger" id="tambah_baris_detail" onClick="hapus_baris_detail_tambah(' +
-                                    index_detail_table + ')">X</button></td>';
-                                string_append = string_append + '</tr>';
-
-                                $('#detail_permintaan_ubah').append(string_append)
-
-                                index_detail_table++;
-                            }
-
-                            function tambah_baris_detail_tambah() {
-                                var string_append = '';
-                                string_append = '<tr id="tr_detail_table_tambah' + index_detail_table + '">';
-                                string_append = string_append +
-                                    '<td><textarea class="form-control" rows="1"></textarea></td>';
-                                string_append = string_append +
-                                    '<td><textarea class="form-control" rows="1"></textarea></td>';
-                                string_append = string_append +
-                                    '<td><textarea class="form-control" rows="1"></textarea></td>';
-                                string_append = string_append +
-                                    '<td><textarea class="form-control" rows="1"></textarea></td>';
-                                string_append = string_append +
-                                    '<td><button type="button" class="btn btn-danger" id="tambah_baris_detail" onClick="hapus_baris_detail_tambah(' +
-                                    index_detail_table + ')">X</button></td>';
-                                string_append = string_append + '</tr>';
-
-                                $('#detail_permintaan_tambah').append(string_append)
-
-                                index_detail_table++;
-                            }
-
-                            function hapus_baris_detail_ubah(id_tr) {;
-                                $('#tr_detail_table_ubah' + id_tr).html('');
-                                $('#tr_detail_table_ubah' + id_tr).remove();
-
-                                detail_ubah = $('#detail_permintaan_ubah')[0]
-                                if (!detail_ubah.rows[0]) {
-                                    this.tambah_baris_detail_ubah()
-                                }
-                            }
-
-                            function hapus_baris_detail_tambah(id_tr) {
-                                $('#tr_detail_table_tambah' + id_tr).html('');
-                                $('#tr_detail_table_tambah' + id_tr).remove();
-
-                                detail_tambah = $('#detail_permintaan_tambah')[0]
-                                if (detail_tambah.rows.length == 0) {
-                                    this.tambah_baris_detail_tambah()
-                                }
-                            }
-
-                            function tambah_modal() {
-                                $('#tambah_modal').modal('show');
-
-                                detail_tambah = $('#detail_permintaan_tambah')[0]
-                                if (detail_tambah.rows.length == 0) {
-                                    $('#detail_permintaan_tambah').html('')
-                                    this.tambah_baris_detail_tambah();
-                                    index_detail_table = 0;
-                                }
-                            }
-
-                            function ubah_modal(id_permintaan) {
-                                $('#ubah_modal').modal('show');
-                                $('#detail_permintaan_ubah').html('');
-
-                                $.ajax({
-                                    url: "/permintaan/find/" + id_permintaan,
-                                    header: {
-                                        "Content-type": "applocation/json"
-                                    },
-                                    type: "get",
-                                    dataType: "json",
-                                    success: function (response) {
-                                        $('#id_permintaan_ubah').val(response.id_permintaan);
-                                        $('#nomor_surat_ubah').val(response.nomor_surat);
-                                        $('#tanggal_ubah').val(response.tanggal);
-                                        $('#divisi_ubah').val(response.divisi);
-                                        $('#nama_peminta_ubah').val(response.nama_peminta);
-                                        $('#status_ubah').attr('value', response.status);
-
-                                        var i = 0;
-                                        var string_append = '';
-                                        response.detail.forEach(function (item) {
-                                            string_append = '<tr id="tr_detail_table_ubah' + i +
-                                                '">';
-                                            string_append = string_append +
-                                                '<td><textarea class="form-control" rows="1">' +
-                                                item.barang + '</textarea></td>';
-                                            string_append = string_append +
-                                                '<td><textarea class="form-control" rows="1">' +
-                                                item.huruf + '</textarea></td>';
-                                            string_append = string_append +
-                                                '<td><textarea class="form-control" rows="1">' +
-                                                item.jumlah + '</textarea></td>';
-                                            string_append = string_append +
-                                                '<td><textarea class="form-control" rows="1">' +
-                                                item.keterangan + '</textarea></td>';
-                                            string_append = string_append +
-                                                '<td><button type="button" class="btn btn-danger" id="tambah_baris_detail" onClick="hapus_baris_detail_ubah(' +
-                                                i + ')">X</button></td>';
-                                            string_append = string_append + '</tr>';
-
-                                            $('#detail_permintaan_ubah').append(string_append)
-                                            i++;
+                                        $('input').on('change', function () {
+                                            $(this).attr('value', $(this).val())
                                         })
 
-                                        index_detail_table = i;
-                                    },
-                                    error: function () {
-                                        setTimeout(function () {
-                                            $('#notif_modal').modal('hide');
-                                        }, 1000);
-                                    },
-                                    timeout: 15000
-                                });
-                            }
+                                        $('#status_ubah').on('change', function () {
+                                            var status_ubah_val = $('#status_ubah').val();
+                                            if (status_ubah_val == 'diterima') {
+                                                $('#status_ubah').attr('style', 'background-color: orange')
+                                            } else if (status_ubah_val == 'dikerjakan') {
+                                                $('#status_ubah').attr('style', 'background-color: cyan')
+                                            } else {
+                                                $('#status_ubah').attr('style', 'background-color: green')
+                                            }
+                                        })
+                                    }
+                                );
 
-                            function logout() {
-                                document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-                            }
+                                function tambah_baris_detail_ubah() {
+                                    var string_append = '';
+                                    string_append = '<tr id="tr_detail_table_ubah' + index_detail_table + '">';
+                                    string_append = string_append +
+                                        '<td><textarea class="form-control" rows="1"></textarea></td>';
+                                    string_append = string_append +
+                                        '<td><textarea class="form-control" rows="1"></textarea></td>';
+                                    string_append = string_append +
+                                        '<td><textarea class="form-control" rows="1"></textarea></td>';
+                                    string_append = string_append +
+                                        '<td><textarea class="form-control" rows="1"></textarea></td>';
+                                    string_append = string_append +
+                                        '<td><button type="button" class="btn btn-danger" id="tambah_baris_detail" onClick="hapus_baris_detail_tambah(' +
+                                        index_detail_table + ')">X</button></td>';
+                                    string_append = string_append + '</tr>';
 
-                            function tambah_proccess() {
-                                $('#tambah_modal').modal('hide');
-                                $('#notif_modal').modal('show');
-                                var detail_tambah = $('#detail_permintaan_tambah')[0];
+                                    $('#detail_permintaan_ubah').append(string_append)
 
-                                var bool1 = $(
-                                    '#detail_permintaan_tambah tr:nth-child(1) td:nth-child(1) textarea:nth-child(1)'
-                                ).val() == '';
-                                var bool2 = $(
-                                    '#detail_permintaan_tambah tr:nth-child(1) td:nth-child(2) textarea:nth-child(1)'
-                                ).val() == '';
-                                var bool3 = $(
-                                    '#detail_permintaan_tambah tr:nth-child(1) td:nth-child(3) textarea:nth-child(1)'
-                                ).val() == '';
-                                var bool4 = $(
-                                    '#detail_permintaan_tambah tr:nth-child(1) td:nth-child(4) textarea:nth-child(1)'
-                                ).val() == '';
+                                    index_detail_table++;
+                                }
 
-                                if (bool1 || bool2 || bool3 || bool4) {
-                                    $("#notif_modal div div div").html('detail harus terisi');
-                                    setTimeout(function () {
-                                        $('#notif_modal').modal('hide');
-                                        $('#tambah_modal').modal('show');
-                                    }, 1500);
-                                } else {
-                                    $("#notif_modal div div div").html('proccess tambah');
-                                    var kolom = detail_tambah.rows[0].cells.length;
-                                    var baris = detail_tambah.rows.length;
+                                function tambah_baris_detail_tambah() {
+                                    var string_append = '';
+                                    string_append = '<tr id="tr_detail_table_tambah' + index_detail_table + '">';
+                                    string_append = string_append +
+                                        '<td><textarea class="form-control" rows="1"></textarea></td>';
+                                    string_append = string_append +
+                                        '<td><textarea class="form-control" rows="1"></textarea></td>';
+                                    string_append = string_append +
+                                        '<td><textarea class="form-control" rows="1"></textarea></td>';
+                                    string_append = string_append +
+                                        '<td><textarea class="form-control" rows="1"></textarea></td>';
+                                    string_append = string_append +
+                                        '<td><button type="button" class="btn btn-danger" id="tambah_baris_detail" onClick="hapus_baris_detail_tambah(' +
+                                        index_detail_table + ')">X</button></td>';
+                                    string_append = string_append + '</tr>';
 
-                                    var data_detail_permintaan = new Array()
-                                    var i;
+                                    $('#detail_permintaan_tambah').append(string_append)
 
-                                    for (i = 0; i < baris; i++) {
-                                        var obj = new Array()
+                                    index_detail_table++;
+                                }
 
-                                        obj[0] = $('#tr_detail_table_tambah' + i +
-                                            ' td:nth-child(1) textarea:nth-child(1)').val();
-                                        obj[1] = $('#tr_detail_table_tambah' + i +
-                                            ' td:nth-child(2) textarea:nth-child(1)').val();
-                                        obj[2] = $('#tr_detail_table_tambah' + i +
-                                            ' td:nth-child(3) textarea:nth-child(1)').val();
-                                        obj[3] = $('#tr_detail_table_tambah' + i +
-                                            ' td:nth-child(4) textarea:nth-child(1)').val();
+                                function hapus_baris_detail_ubah(id_tr) {;
+                                    $('#tr_detail_table_ubah' + id_tr).html('');
+                                    $('#tr_detail_table_ubah' + id_tr).remove();
 
-                                        data_detail_permintaan[i] = obj
-                                    };
+                                    detail_ubah = $('#detail_permintaan_ubah')[0]
+                                    if (!detail_ubah.rows[0]) {
+                                        this.tambah_baris_detail_ubah()
+                                    }
+                                }
+
+                                function hapus_baris_detail_tambah(id_tr) {
+                                    $('#tr_detail_table_tambah' + id_tr).html('');
+                                    $('#tr_detail_table_tambah' + id_tr).remove();
+
+                                    detail_tambah = $('#detail_permintaan_tambah')[0]
+                                    if (detail_tambah.rows.length == 0) {
+                                        this.tambah_baris_detail_tambah()
+                                    }
+                                }
+
+                                function tambah_modal() {
+                                    $('#tambah_modal').modal('show');
+
+                                    detail_tambah = $('#detail_permintaan_tambah')[0]
+                                    if (detail_tambah.rows.length == 0) {
+                                        $('#detail_permintaan_tambah').html('')
+                                        this.tambah_baris_detail_tambah();
+                                        index_detail_table = 0;
+                                    }
+                                }
+
+                                function ubah_modal(id_permintaan) {
+                                    $('#ubah_modal').modal('show');
+                                    $('#detail_permintaan_ubah').html('');
 
                                     $.ajax({
-                                        url: '/permintaan/save',
+                                        url: "/permintaan/find/" + id_permintaan,
                                         header: {
                                             "Content-type": "applocation/json"
                                         },
-                                        type: "post",
+                                        type: "get",
                                         dataType: "json",
-                                        data: {
-                                            'nomor_surat': $('#nomor_surat_tambah').val(),
-                                            'tanggal': $('#tanggal_tambah').val(),
-                                            'divisi': $('#divisi_tambah').val(),
-                                            'nama_peminta': $('#nama_peminta_tambah').val(),
-                                            'status': $('#status_tambah').val(),
-                                            'detail': data_detail_permintaan
-                                        },
                                         success: function (response) {
-                                            if (!response.status) {
-                                                $("#notif_modal div div div").html('masuk false tambah');
+                                            $('#id_permintaan_ubah').val(response.id_permintaan);
+                                            $('#nomor_surat_ubah').val(response.nomor_surat);
+                                            $('#tanggal_ubah').val(response.tanggal);
+                                            $('#divisi_ubah').val(response.divisi);
+                                            $('#nama_peminta_ubah').val(response.nama_peminta);
+                                            $('#status_ubah').attr('value', response.status);
+
+                                            var i = 0;
+                                            var string_append = '';
+                                            response.detail.forEach(function (item) {
+                                                string_append = '<tr id="tr_detail_table_ubah' + i +
+                                                    '">';
+                                                string_append = string_append +
+                                                    '<td><textarea class="form-control" rows="1">' +
+                                                    item.barang + '</textarea></td>';
+                                                string_append = string_append +
+                                                    '<td><textarea class="form-control" rows="1">' +
+                                                    item.huruf + '</textarea></td>';
+                                                string_append = string_append +
+                                                    '<td><textarea class="form-control" rows="1">' +
+                                                    item.jumlah + '</textarea></td>';
+                                                string_append = string_append +
+                                                    '<td><textarea class="form-control" rows="1">' +
+                                                    item.keterangan + '</textarea></td>';
+                                                string_append = string_append +
+                                                    '<td><button type="button" class="btn btn-danger" id="tambah_baris_detail" onClick="hapus_baris_detail_ubah(' +
+                                                    i + ')">X</button></td>';
+                                                string_append = string_append + '</tr>';
+
+                                                $('#detail_permintaan_ubah').append(string_append)
+                                                i++;
+                                            })
+
+                                            index_detail_table = i;
+                                        },
+                                        error: function () {
+                                            setTimeout(function () {
+                                                $('#notif_modal').modal('hide');
+                                            }, 1000);
+                                        },
+                                        timeout: 15000
+                                    });
+                                }
+
+                                function logout() {
+                                    document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+                                }
+
+                                function tambah_proccess() {
+                                    $('#tambah_modal').modal('hide');
+                                    $('#notif_modal').modal('show');
+                                    var detail_tambah = $('#detail_permintaan_tambah')[0];
+
+                                    var bool1 = $(
+                                        '#detail_permintaan_tambah tr:nth-child(1) td:nth-child(1) textarea:nth-child(1)'
+                                    ).val() == '';
+                                    var bool2 = $(
+                                        '#detail_permintaan_tambah tr:nth-child(1) td:nth-child(2) textarea:nth-child(1)'
+                                    ).val() == '';
+                                    var bool3 = $(
+                                        '#detail_permintaan_tambah tr:nth-child(1) td:nth-child(3) textarea:nth-child(1)'
+                                    ).val() == '';
+                                    var bool4 = $(
+                                        '#detail_permintaan_tambah tr:nth-child(1) td:nth-child(4) textarea:nth-child(1)'
+                                    ).val() == '';
+
+                                    if (bool1 || bool2 || bool3 || bool4) {
+                                        $("#notif_modal div div div").html('detail harus terisi');
+                                        setTimeout(function () {
+                                            $('#notif_modal').modal('hide');
+                                            $('#tambah_modal').modal('show');
+                                        }, 1500);
+                                    } else {
+                                        $("#notif_modal div div div").html('proccess tambah');
+                                        var kolom = detail_tambah.rows[0].cells.length;
+                                        var baris = detail_tambah.rows.length;
+
+                                        var data_detail_permintaan = new Array()
+                                        var i;
+
+                                        for (i = 0; i < baris; i++) {
+                                            var obj = new Array()
+
+                                            obj[0] = $('#tr_detail_table_tambah' + i +
+                                                ' td:nth-child(1) textarea:nth-child(1)').val();
+                                            obj[1] = $('#tr_detail_table_tambah' + i +
+                                                ' td:nth-child(2) textarea:nth-child(1)').val();
+                                            obj[2] = $('#tr_detail_table_tambah' + i +
+                                                ' td:nth-child(3) textarea:nth-child(1)').val();
+                                            obj[3] = $('#tr_detail_table_tambah' + i +
+                                                ' td:nth-child(4) textarea:nth-child(1)').val();
+
+                                            data_detail_permintaan[i] = obj
+                                        };
+
+                                        $.ajax({
+                                            url: '/permintaan/save',
+                                            header: {
+                                                "Content-type": "applocation/json"
+                                            },
+                                            type: "post",
+                                            dataType: "json",
+                                            data: {
+                                                'nomor_surat': $('#nomor_surat_tambah').val(),
+                                                'tanggal': $('#tanggal_tambah').val(),
+                                                'divisi': $('#divisi_tambah').val(),
+                                                'nama_peminta': $('#nama_peminta_tambah').val(),
+                                                'status': $('#status_tambah').val(),
+                                                'detail': data_detail_permintaan
+                                            },
+                                            success: function (response) {
+                                                if (!response.status) {
+                                                    $("#notif_modal div div div").html('masuk false tambah');
+                                                    $("#notif_modal div div div").html('gagal tambah');
+                                                } else {
+                                                    $("#notif_modal div div div").html('sukses tambah');
+                                                }
+
+                                                setTimeout(function () {
+                                                    $('#notif_modal').modal('hide');
+                                                }, 1500);
+
+                                                reload_table();
+                                            },
+                                            error: function () {
                                                 $("#notif_modal div div div").html('gagal tambah');
-                                            } else {
-                                                $("#notif_modal div div div").html('sukses tambah');
-                                            }
-
-                                            setTimeout(function () {
-                                                $('#notif_modal').modal('hide');
-                                            }, 1500);
-
-                                            reload_table();
-                                        },
-                                        error: function () {
-                                            $("#notif_modal div div div").html('gagal tambah');
-                                            setTimeout(function () {
-                                                $('#notif_modal').modal('hide');
-                                            }, 1000);
-                                        },
-                                        timeout: 15000
-                                    })
+                                                setTimeout(function () {
+                                                    $('#notif_modal').modal('hide');
+                                                }, 1000);
+                                            },
+                                            timeout: 15000
+                                        })
+                                    }
                                 }
-                            }
 
-                            function ubah_proccess() {
-                                $('#ubah_modal').modal('hide');
-                                $('#notif_modal').modal('show');
-                                var detail_ubah = $('#detail_permintaan_ubah')[0];
+                                function ubah_proccess() {
+                                    $('#ubah_modal').modal('hide');
+                                    $('#notif_modal').modal('show');
+                                    var detail_ubah = $('#detail_permintaan_ubah')[0];
 
-                                var bool1 = $(
-                                    '#detail_permintaan_ubah tr:nth-child(1) td:nth-child(1) textarea:nth-child(1)'
-                                ).val() == '';
-                                var bool2 = $(
-                                    '#detail_permintaan_ubah tr:nth-child(1) td:nth-child(2) textarea:nth-child(1)'
-                                ).val() == '';
-                                var bool3 = $(
-                                    '#detail_permintaan_ubah tr:nth-child(1) td:nth-child(3) textarea:nth-child(1)'
-                                ).val() == '';
-                                var bool4 = $(
-                                    '#detail_permintaan_ubah tr:nth-child(1) td:nth-child(4) textarea:nth-child(1)'
-                                ).val() == '';
+                                    var bool1 = $(
+                                        '#detail_permintaan_ubah tr:nth-child(1) td:nth-child(1) textarea:nth-child(1)'
+                                    ).val() == '';
+                                    var bool2 = $(
+                                        '#detail_permintaan_ubah tr:nth-child(1) td:nth-child(2) textarea:nth-child(1)'
+                                    ).val() == '';
+                                    var bool3 = $(
+                                        '#detail_permintaan_ubah tr:nth-child(1) td:nth-child(3) textarea:nth-child(1)'
+                                    ).val() == '';
+                                    var bool4 = $(
+                                        '#detail_permintaan_ubah tr:nth-child(1) td:nth-child(4) textarea:nth-child(1)'
+                                    ).val() == '';
 
-                                if (bool1 || bool2 || bool3 || bool4) {
-                                    $("#notif_modal div div div").html('detail harus terisi');
-                                    setTimeout(function () {
-                                        $('#notif_modal').modal('hide');
-                                        $('#ubah_modal').modal('show');
-                                    }, 1500);
-                                } else {
-                                    $("#notif_modal div div div").html('proccess ubah');
-                                    var kolom = detail_ubah.rows[0].cells.length;
-                                    var baris = detail_ubah.rows.length;
+                                    if (bool1 || bool2 || bool3 || bool4) {
+                                        $("#notif_modal div div div").html('detail harus terisi');
+                                        setTimeout(function () {
+                                            $('#notif_modal').modal('hide');
+                                            $('#ubah_modal').modal('show');
+                                        }, 1500);
+                                    } else {
+                                        $("#notif_modal div div div").html('proccess ubah');
+                                        var kolom = detail_ubah.rows[0].cells.length;
+                                        var baris = detail_ubah.rows.length;
 
-                                    var data_detail_permintaan = new Array()
-                                    var i;
+                                        var data_detail_permintaan = new Array()
+                                        var i;
 
-                                    for (i = 0; i < baris; i++) {
-                                        var obj = new Array()
+                                        for (i = 0; i < baris; i++) {
+                                            var obj = new Array()
 
-                                        obj[0] = $('#tr_detail_table_ubah' + i +
-                                            ' td:nth-child(1) textarea:nth-child(1)').val();
-                                        obj[1] = $('#tr_detail_table_ubah' + i +
-                                            ' td:nth-child(2) textarea:nth-child(1)').val();
-                                        obj[2] = $('#tr_detail_table_ubah' + i +
-                                            ' td:nth-child(3) textarea:nth-child(1)').val();
-                                        obj[3] = $('#tr_detail_table_ubah' + i +
-                                            ' td:nth-child(4) textarea:nth-child(1)').val();
+                                            obj[0] = $('#tr_detail_table_ubah' + i +
+                                                ' td:nth-child(1) textarea:nth-child(1)').val();
+                                            obj[1] = $('#tr_detail_table_ubah' + i +
+                                                ' td:nth-child(2) textarea:nth-child(1)').val();
+                                            obj[2] = $('#tr_detail_table_ubah' + i +
+                                                ' td:nth-child(3) textarea:nth-child(1)').val();
+                                            obj[3] = $('#tr_detail_table_ubah' + i +
+                                                ' td:nth-child(4) textarea:nth-child(1)').val();
 
-                                        data_detail_permintaan[i] = obj
-                                    };
+                                            data_detail_permintaan[i] = obj
+                                        };
 
+                                        $.ajax({
+                                            url: '/permintaan/update/' + $('#id_permintaan_ubah').val(),
+                                            header: {
+                                                "Content-type": "applocation/json"
+                                            },
+                                            type: "post",
+                                            dataType: "json",
+                                            data: {
+                                                'nomor_surat': $('#nomor_surat_ubah').val(),
+                                                'tanggal': $('#tanggal_ubah').val(),
+                                                'divisi': $('#divisi_ubah').val(),
+                                                'nama_peminta': $('#nama_peminta_ubah').val(),
+                                                'status': $('#status_ubah').val(),
+                                                'detail': data_detail_permintaan
+                                            },
+                                            success: function (response) {
+                                                if (!response.status) {
+                                                    $("#notif_modal div div div").html('gagal ubah');
+                                                } else {
+                                                    $("#notif_modal div div div").html('sukses ubah');
+                                                }
+
+                                                setTimeout(function () {
+                                                    $('#notif_modal').modal('hide');
+                                                }, 1000);
+
+                                                reload_table();
+                                            },
+                                            error: function () {
+                                                $("#notif_modal div div div").html('gagal ubah');
+                                                setTimeout(function () {
+                                                    $('#notif_modal').modal('hide');
+                                                }, 1000);
+                                            },
+                                            timeout: 15000
+                                        })
+                                    }
+                                }
+
+                                function detail_modal(id_permintaan) {
+                                    $('#detail_modal').modal('show');
+                                    $('#detail_permintaan_detail').html('');
                                     $.ajax({
-                                        url: '/permintaan/update/' + $('#id_permintaan_ubah').val(),
+                                        url: "/permintaan/find/" + id_permintaan,
                                         header: {
                                             "Content-type": "applocation/json"
                                         },
-                                        type: "post",
+                                        type: "get",
                                         dataType: "json",
-                                        data: {
-                                            'nomor_surat': $('#nomor_surat_ubah').val(),
-                                            'tanggal': $('#tanggal_ubah').val(),
-                                            'divisi': $('#divisi_ubah').val(),
-                                            'nama_peminta': $('#nama_peminta_ubah').val(),
-                                            'status': $('#status_ubah').val(),
-                                            'detail': data_detail_permintaan
-                                        },
                                         success: function (response) {
-                                            if (!response.status) {
-                                                $("#notif_modal div div div").html('gagal ubah');
-                                            } else {
-                                                $("#notif_modal div div div").html('sukses ubah');
-                                            }
+                                            $('#id_permintaan_detail').val(response.id_permintaan);
+                                            $('#nomor_surat_detail').val(response.nomor_surat);
+                                            $('#tanggal_detail').val(response.tanggal);
+                                            $('#divisi_detail').val(response.divisi);
+                                            $('#nama_peminta_detail').val(response.nama_peminta);
+                                            $('#status_detail').val(response.status);
 
-                                            setTimeout(function () {
-                                                $('#notif_modal').modal('hide');
-                                            }, 1000);
-
+                                            response.detail.forEach(function (item) {
+                                                $('#detail_permintaan_detail').append('<tr>');
+                                                $('#detail_permintaan_detail').append('<td>' + item
+                                                    .barang + '</td>');
+                                                $('#detail_permintaan_detail').append('<td>' + item
+                                                    .huruf + '</td>');
+                                                $('#detail_permintaan_detail').append('<td>' + item
+                                                    .jumlah + '</td>');
+                                                $('#detail_permintaan_detail').append('<td>' + item
+                                                    .keterangan + '</td>');
+                                                $('#detail_permintaan_detail').append('</tr>');
+                                            })
                                             reload_table();
                                         },
                                         error: function () {
-                                            $("#notif_modal div div div").html('gagal ubah');
                                             setTimeout(function () {
                                                 $('#notif_modal').modal('hide');
                                             }, 1000);
                                         },
                                         timeout: 15000
-                                    })
+                                    });
                                 }
-                            }
 
-                            function detail_modal(id_permintaan) {
-                                $('#detail_modal').modal('show');
-                                $('#detail_permintaan_detail').html('');
-                                $.ajax({
-                                    url: "/permintaan/find/" + id_permintaan,
-                                    header: {
-                                        "Content-type": "applocation/json"
-                                    },
-                                    type: "get",
-                                    dataType: "json",
-                                    success: function (response) {
-                                        $('#id_permintaan_detail').val(response.id_permintaan);
-                                        $('#nomor_surat_detail').val(response.nomor_surat);
-                                        $('#tanggal_detail').val(response.tanggal);
-                                        $('#divisi_detail').val(response.divisi);
-                                        $('#nama_peminta_detail').val(response.nama_peminta);
-                                        $('#status_detail').val(response.status);
-
-                                        response.detail.forEach(function (item) {
-                                            $('#detail_permintaan_detail').append('<tr>');
-                                            $('#detail_permintaan_detail').append('<td>' + item
-                                                .barang + '</td>');
-                                            $('#detail_permintaan_detail').append('<td>' + item
-                                                .huruf + '</td>');
-                                            $('#detail_permintaan_detail').append('<td>' + item
-                                                .jumlah + '</td>');
-                                            $('#detail_permintaan_detail').append('<td>' + item
-                                                .keterangan + '</td>');
-                                            $('#detail_permintaan_detail').append('</tr>');
-                                        })
-                                        reload_table();
-                                    },
-                                    error: function () {
-                                        setTimeout(function () {
-                                            $('#notif_modal').modal('hide');
-                                        }, 1000);
-                                    },
-                                    timeout: 15000
-                                });
-                            }
-
-                            function reload_table() {
-                                table.ajax.reload(null, false);
-                            }
-                        </script>
+                                function reload_table() {
+                                    table.ajax.reload(null, false);
+                                }
+                            </script>
 
 
+                        </div>
                     </div>
-                </div>
             </section>
-        </div>
-
-        <footer class="main-footer">
-            <strong>Copyright &copy; 2018 - forever
-                <a href="/">masakin.co.id</a>.</strong>
-            All rights reserved.
-            <div class="float-right d-none d-sm-inline-block">
-                <b>Ver</b> 1.0.0-alpha
             </div>
-        </footer>
 
-        <aside class="control-sidebar control-sidebar-dark">
-        </aside>
-    </div>
+            <footer class="main-footer">
+                <strong>Copyright &copy; 2018 - forever
+                    <a href="/">masakin.co.id</a>.</strong>
+                All rights reserved.
+                <div class="float-right d-none d-sm-inline-block">
+                    <b>Ver</b> 1.0.0-alpha
+                </div>
+            </footer>
+
+            <aside class="control-sidebar control-sidebar-dark">
+            </aside>
+        </div>
 
 </body>
 

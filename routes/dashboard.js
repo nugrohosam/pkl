@@ -60,11 +60,49 @@ dashboard.use((req, res, next) => {
 
 dashboard.get('/', (req, res) => {
     var fileName = 'dashboard.html'
-    res.sendfile(fileName, options, (err) => {
-        if(err){
-            console.log(err)
-        }  
-    })
+            res.sendfile(fileName, options, (err) => {
+                if(err){
+                    console.log(err)
+                }  
+            })
+})
+
+dashboard.get('/data', async (req, res) => {
+    
+    var sql
+    var tahun_ini
+    var bulan_ini
+    var hari_ini
+    try{
+        await dbconn.query('BEGIN')
+        sql = 'SELECT * FROM permintaan WHERE tanggal LIKE \'%'+year+'%\'';
+        var { rows } = await dbconn.query(sql)
+        tahun_ini = rows.length
+
+        sql = 'SELECT * FROM permintaan WHERE tanggal LIKE \'%'+year+'-'+month+'%\'';
+        var { rows } = await dbconn.query(sql)
+        bulan_ini = rows.length
+
+        sql = 'SELECT * FROM permintaan WHERE tanggal LIKE \'%'+year+'-'+month+'-'+day+'\'';
+        var { rows } = await dbconn.query(sql)
+        hari_ini = rows.length
+        
+        await dbconn.query('COMMIT')
+        
+        var json_return = {
+            status : true,
+            tahun_ini : tahun_ini,
+            bulan_ini : bulan_ini,
+            hari_ini : hari_ini
+        }
+        res.status(200).json(json_return)
+    } catch(err) {
+        await dbconn.query('ROLLBACK')
+        var json_return = {status : false}
+        res.status(200).json(json_return)
+    } finally {
+        await dbconn.release
+    }
 })
 
 module.exports = dashboard;
