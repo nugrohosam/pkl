@@ -147,6 +147,9 @@ permintaan.get('/find', async (req, res) => {
         var i = 0
         rows.forEach((item) => {
             var script_html = '<i class="left fa fa-pencil" style="cursor : pointer" onClick="ubah_modal(\''+item.id_permintaan+'\')"></i><span style="cursor : pointer" onClick="ubah_modal(\''+item.id_permintaan+'\')"> Edit</span> <i class="left fa fa-eye" style="cursor : pointer" onClick="detail_modal(\''+item.id_permintaan+'\')"></i><span style="cursor : pointer" onClick="detail_modal(\''+item.id_permintaan+'\')"> Detail</span>'
+            if(item.status == 'selesai') {
+                script_html = '<i class="left fa fa-eye" style="cursor : pointer" onClick="detail_modal(\''+item.id_permintaan+'\')"></i><span style="cursor : pointer" onClick="detail_modal(\''+item.id_permintaan+'\')"> Detail</span>'
+            }
             var data_table = [item.nomor_surat, item.tanggal, item.divisi, item.nama_peminta, item.status, script_html]
             data[i] = data_table
             i++
