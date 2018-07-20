@@ -261,6 +261,7 @@
                         var rata_rata_dikerjakan_selesai = response.rata_rata_dikerjakan_selesai;
                         var selesai = response.selesai;
                         var dikerjakan = response.dikerjakan;
+                        var diterima = response.diterima;
                         var i;
                         var isi_table = '';
                         
@@ -282,15 +283,20 @@
                         }else{
                             isi_table = isi_table + '<td> belum ada </td>';
                         }
-                        
                         isi_table = isi_table + '</tr>';
+                        
+
                         isi_table = isi_table + '<tr>';
-                        isi_table = isi_table + '<td>Selesai</td>';
-                        isi_table = isi_table + '<td>' + selesai + '</td>';
+                        isi_table = isi_table + '<td>Diterima</td>';
+                        isi_table = isi_table + '<td>' + diterima + '</td>';
                         isi_table = isi_table + '</tr>';
                         isi_table = isi_table + '<tr>';
                         isi_table = isi_table + '<td>Dikerjakan</td>';
                         isi_table = isi_table + '<td>' + dikerjakan + '</td>';
+                        isi_table = isi_table + '</tr>';
+                        isi_table = isi_table + '<tr>';
+                        isi_table = isi_table + '<td>Selesai</td>';
+                        isi_table = isi_table + '<td>' + selesai + '</td>';
                         isi_table = isi_table + '</tr>';
                         
                         $('#table_pencarian').html(isi_table)

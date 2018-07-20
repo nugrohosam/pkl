@@ -142,21 +142,25 @@ permintaan.get('/find', async (req, res) => {
     try{
         await dbconn.query('BEGIN')
         
-        sql = "SELECT * FROM permintaan WHERE ( nomor_surat LIKE '%"+isi_pencarian+"%' OR tanggal LIKE '%"+isi_pencarian+"%' OR divisi LIKE '%"+isi_pencarian+"%' OR nama_peminta LIKE '%"+isi_pencarian+"%' OR status LIKE '%"+isi_pencarian+"%') ORDER BY "+order_kolom+" "+tipe_order+" LIMIT "+panjang_baris+" OFFSET "+awal_baris
+        sql = "SELECT * FROM permintaan p  INNER JOIN instalasi i ON i.id_instalasi = p.id_instalasi  WHERE ( p.nomor_surat LIKE '%"+isi_pencarian+"%' OR p.tanggal LIKE '%"+isi_pencarian+"%' OR i.nama_instalasi LIKE '%"+isi_pencarian+"%' OR p.nama_peminta LIKE '%"+isi_pencarian+"%' OR p.status LIKE '%"+isi_pencarian+"%') ORDER BY p."+order_kolom+" "+tipe_order+" LIMIT "+panjang_baris+" OFFSET "+awal_baris
         var { rows } = await dbconn.query(sql)
         var i = 0
         rows.forEach((item) => {
             var script_html = '<i class="left fa fa-pencil" style="cursor : pointer" onClick="ubah_modal(\''+item.id_permintaan+'\')"></i><span style="cursor : pointer" onClick="ubah_modal(\''+item.id_permintaan+'\')"> Edit</span> <i class="left fa fa-eye" style="cursor : pointer" onClick="detail_modal(\''+item.id_permintaan+'\')"></i><span style="cursor : pointer" onClick="detail_modal(\''+item.id_permintaan+'\')"> Detail</span>'
+            
+            if(item.status == 'selesai') {
+                script_html = '<i class="left fa fa-eye" style="cursor : pointer" onClick="detail_modal(\''+item.id_permintaan+'\')"></i><span style="cursor : pointer" onClick="detail_modal(\''+item.id_permintaan+'\')"> Detail</span>'
+            }
             var data_table = [item.nomor_surat, item.tanggal, item.divisi, item.nama_peminta, item.status, script_html]
             data[i] = data_table
             i++
         })
 
-        sql = "SELECT * FROM permintaan"
+        sql = "SELECT * FROM permintaan p INNER JOIN instalasi i ON p.id_instalasi = i.id_instalasi"
         rows = await dbconn.query(sql)
         recordsTotal = rows.rowCount
         
-        sql = "SELECT * FROM permintaan WHERE ( nomor_surat LIKE '%"+isi_pencarian+"%' OR tanggal LIKE '%"+isi_pencarian+"%' OR divisi LIKE '%"+isi_pencarian+"%' OR nama_peminta LIKE '%"+isi_pencarian+"%') ORDER BY "+order_kolom
+        sql = "SELECT * FROM permintaan p INNER JOIN instalasi i ON i.id_instalasi = p.id_instalasi WHERE ( p.nomor_surat LIKE '%"+isi_pencarian+"%' OR p.tanggal LIKE '%"+isi_pencarian+"%' OR i.nama_instalasi LIKE '%"+isi_pencarian+"%' OR p.nama_peminta LIKE '%"+isi_pencarian+"%') ORDER BY "+order_kolom
         var { rows } = await dbconn.query(sql)
         recordsFiltered = rows.length
 
@@ -174,7 +178,8 @@ permintaan.get('/find', async (req, res) => {
             draw : draw,
             recordsTotal : recordsTotal,
             recordsFiltered : recordsFiltered,
-            data : data
+            data : data,
+            messg : err
         }
         res.status(200).json(json_return)
     } finally {
@@ -250,7 +255,7 @@ permintaan.post('/update/:id', async (req, res) => {
 
         if(status == 'selesai'){
             var selesai = datetime_format
-            sql = 'UPDATE permintaan SET nomor_surat = \''+nomor_surat+'\', tanggal =  \''+tanggal+'\', divisi = \''+divisi+'\', nama_peminta = \''+nama_peminta+'\', status = \''+status+'\', selesai = \''+selesai+'\', ubah_pada = \''+ubah_pada+'\' WHERE id_permintaan = \''+id_permintaan+'\' AND diterima is not null AND dikerjakan is not null AND selesai is not null';
+            sql = 'UPDATE permintaan SET nomor_surat = \''+nomor_surat+'\', tanggal =  \''+tanggal+'\', divisi = \''+divisi+'\', nama_peminta = \''+nama_peminta+'\', status = \''+status+'\', selesai = \''+selesai+'\', ubah_pada = \''+ubah_pada+'\' WHERE id_permintaan = \''+id_permintaan+'\' AND diterima is not null AND dikerjakan is not null AND selesai is null';
         }
         await dbconn.query(sql)
 
