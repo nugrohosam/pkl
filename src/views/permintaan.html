@@ -466,6 +466,7 @@
                             </div>
 
                             <script type="text/javascript">
+
                                 var table;
                                 var index_detail_table = 0;
 
@@ -497,7 +498,7 @@
                                                     }
                                                 }
                                             },
-                                            'processing': true,
+                                            'processing': false,
                                             'serverSide': true,
                                             'ajax': {
                                                 'url': '/permintaan/find',
@@ -533,9 +534,11 @@
                                                     'background-color : lightgreen')
                                             }
                                         })
-
+                                        
+                                        setInterval(reload_table, 4000)
                                     }
                                 );
+                                   
 
                                 function tambah_baris_detail_ubah() {
                                     var string_append = '';
@@ -740,8 +743,8 @@
                                             }
                                             if ($('#detail_permintaan_tambah tr:nth-child(' + i +
                                                     ') td:nth-child(2) textarea:nth-child(1)').val() != '') {
-                                                obj[1] = $('#detail_permintaan_tambah tr:nth-child('+ i +
-                                                    ' td:nth-child(2) textarea:nth-child(1)').val();
+                                                obj[1] = $('#detail_permintaan_tambah tr:nth-child(' + i +
+                                                    ') td:nth-child(2) textarea:nth-child(1)').val();
                                             } else {
                                                 status = false
                                             }
@@ -991,6 +994,7 @@
 
                                 function reload_table() {
                                     table.ajax.reload(null, false);
+                                    table.search('');
                                 }
                             </script>
 
