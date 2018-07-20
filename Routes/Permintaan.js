@@ -243,7 +243,6 @@ permintaan.post('/update/:id', async (req, res) => {
     var panjang_detail = detail.length
     var sql
 
-    console.log(data)
     try{
         await dbconn.query('BEGIN')
 
