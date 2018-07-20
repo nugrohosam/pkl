@@ -250,7 +250,7 @@ permintaan.post('/update/:id', async (req, res) => {
 
         if(status == 'selesai'){
             var selesai = datetime_format
-            sql = 'UPDATE permintaan SET nomor_surat = \''+nomor_surat+'\', tanggal =  \''+tanggal+'\', divisi = \''+divisi+'\', nama_peminta = \''+nama_peminta+'\', status = \''+status+'\', selesai = \''+selesai+'\', ubah_pada = \''+ubah_pada+'\' WHERE id_permintaan = \''+id_permintaan+'\' AND diterima is not null AND dikerjakan is not null AND selesai is not null';
+            sql = 'UPDATE permintaan SET nomor_surat = \''+nomor_surat+'\', tanggal =  \''+tanggal+'\', divisi = \''+divisi+'\', nama_peminta = \''+nama_peminta+'\', status = \''+status+'\', selesai = \''+selesai+'\', ubah_pada = \''+ubah_pada+'\' WHERE id_permintaan = \''+id_permintaan+'\' AND diterima is not null AND dikerjakan is not null AND selesai is null';
         }
         await dbconn.query(sql)
 
