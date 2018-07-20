@@ -171,7 +171,7 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title">Ubah Surat</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" >
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
@@ -194,10 +194,11 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="control-label col-sm-2">Bagian</label>
+                                                <label class="control-label col-sm-2">Bidang</label>
                                                 <span>:</span>
                                                 <div class="col-sm-8 form-ubah">
-                                                    <select id="bagian_ubah" class="form-control">                                                     
+                                                    <select id="bidang_ubah" class="form-control">
+                                                            <option> -- Pilih Bidang -- </option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -205,7 +206,7 @@
                                                 <label class="control-label col-sm-2">Instalasi</label>
                                                 <span>:</span>
                                                 <div class="col-sm-8 form-ubah">
-                                                    <select id="instalasi_ubah" class="form-control">                                                     
+                                                    <select id="instalasi_ubah" class="form-control">
                                                     </select>
                                                 </div>
                                             </div>
@@ -308,10 +309,11 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="control-label col-sm-2">Bagian</label>
+                                                <label class="control-label col-sm-2">Bidang</label>
                                                 <span>:</span>
                                                 <div class="col-sm-8 form-ubah">
-                                                    <select id="bagian_tambah" class="form-control">                                                     
+                                                    <select id="bidang_tambah" class="form-control">
+                                                        <option> -- Pilih Bidang -- </option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -319,7 +321,7 @@
                                                 <label class="control-label col-sm-2">Instalasi</label>
                                                 <span>:</span>
                                                 <div class="col-sm-8 form-ubah">
-                                                    <select id="instalasi_tambah" class="form-control">                                                     
+                                                    <select id="instalasi_tambah" class="form-control">
                                                     </select>
                                                 </div>
                                             </div>
@@ -356,7 +358,7 @@
                                                     </tbody>
                                                 </table>
                                             </div>
-                                            
+
                                             <button type="button" class="btn btn-success" id="hapus_baris_detail_tambah" onClick="tambah_baris_detail_tambah()">+</button>
 
                                             <div class="modal-footer">
@@ -400,10 +402,10 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="control-label col-sm-2">Bagian</label>
+                                                    <label class="control-label col-sm-2">Bidang</label>
                                                     <span>:</span>
                                                     <div class="col-sm-8 form-ubah">
-                                                        <select id="bagian_detail" class="form-control">                                                     
+                                                        <select id="bidang_detail" class="form-control">
                                                         </select>
                                                     </div>
                                                 </div>
@@ -411,7 +413,7 @@
                                                     <label class="control-label col-sm-2">Instalasi</label>
                                                     <span>:</span>
                                                     <div class="col-sm-8 form-ubah">
-                                                        <select id="instalasi_detail" class="form-control">                                                     
+                                                        <select id="instalasi_detail" class="form-control">
                                                         </select>
                                                     </div>
                                                 </div>
@@ -493,7 +495,6 @@
                             </div>
 
                             <script type="text/javascript">
-
                                 var table;
                                 var index_detail_table = 0;
 
@@ -553,19 +554,71 @@
                                         $('#status_ubah').on('change', function () {
                                             var status_ubah_val = $('#status_ubah').val();
                                             if (status_ubah_val == 'diterima') {
-                                                $('#status_ubah').attr('style', 'background-color : smokewhite');
+                                                $('#status_ubah').attr('style',
+                                                    'background-color : smokewhite');
                                             } else if (status_ubah_val == 'dikerjakan') {
-                                                $('#status_ubah').attr('style', 'background-color : cadetblue')
+                                                $('#status_ubah').attr('style',
+                                                    'background-color : cadetblue')
                                             } else {
                                                 $('#status_ubah').attr('style',
                                                     'background-color : lightgreen')
                                             }
                                         })
+
+                                        $('#bidang_tambah').on('select', function () {
+                                            var isi_instalasi = '';
+                                            var id_instalasi = $('#bidang_tambah').val();
+                                            $.ajax({
+                                                url: '/permintaan/find_instalasi/'+id_instalasi,
+                                                header: {
+                                                    "Content-type": "applocation/json"
+                                                },
+                                                dataType: 'json',
+                                                success: function (response) {
+                                                    response.instalasi.forEach(function (item) {
+                                                        var nama_instalasi = item.nama_instalasi;
+                                                        var id_instalasi = item.id_instalasi;
+                                                        isi_instalasi = isi_instalasi + '<option var='+id_instalasi+'>'+nama_instalasi+'</option>'
+                                                    })
+
+                                                    $('#instalasi_tambah').html(isi_instalasi)
+                                                },
+                                                error: function(err){
+                                                    console.log('error di bidang '+err)
+                                                },
+                                                timeout: 15000
+                                            })
+                                        })
                                         
+                                        $('#bidang_ubah').on('change', function () {
+                                            var isi_instalasi = '<option > -- Istalasi -- </option>';
+                                            var id_badan = $('#bidang_ubah').val();
+                                            console.log(id_badan)
+                                            $.ajax({
+                                                url: '/permintaan/find_instalasi/'+id_badan,
+                                                header: {
+                                                    "Content-type": "applocation/json"
+                                                },
+                                                dataType: 'json',
+                                                success: function (response) {
+                                                    response.instalasi.forEach(function (item) {
+                                                        var nama_instalasi = item.nama_instalasi;
+                                                        var id_instalasi = item.id_instalasi;
+                                                        isi_instalasi = isi_instalasi + '<option var='+id_instalasi+'>'+nama_instalasi+'</option>'
+                                                    })
+
+                                                    $('#instalasi_ubah').html(isi_instalasi)
+                                                },
+                                                error: function(err){
+                                                    console.log('error di bidang '+err)
+                                                },
+                                                timeout: 15000
+                                            })
+                                        })
                                         setInterval(reload_table, 4000)
                                     }
                                 );
-                                   
+
 
                                 function tambah_baris_detail_ubah() {
                                     var string_append = '';
@@ -674,9 +727,11 @@
 
                                             $('#detail_status_ubah').html(isi_table_detail_status)
                                             if (response.status_permintaan == 'diterima') {
-                                                $('#status_ubah').attr('style', 'background-color : smokewhite');
+                                                $('#status_ubah').attr('style',
+                                                    'background-color : smokewhite');
                                             } else if (response.status_permintaan == 'dikerjakan') {
-                                                $('#status_ubah').attr('style', 'background-color : cadetblue')
+                                                $('#status_ubah').attr('style',
+                                                    'background-color : cadetblue')
                                             } else {
                                                 $('#status_ubah').attr('style',
                                                     'background-color : lightgreen')
@@ -719,6 +774,28 @@
                                         },
                                         timeout: 15000
                                     });
+                                    
+                                    var isi_bidang = '<option > -- Bindang -- </>';
+                                    $.ajax({
+                                        url : '/permintaan/find_bidang',
+                                        header: {
+                                            "Content-type": "applocation/json"
+                                        },
+                                        dataType: "json",
+                                        success : function(response){
+                                            response.bidang.forEach(function(item) {
+                                                var nama_bidang = item.nama_bidang;
+                                                var id_bidang = item.id_bidang;
+                                                isi_bidang = isi_bidang + '<option value="'+id_bidang+'" >'+nama_bidang+'</option>';
+                                            })
+
+                                            $('#bidang_ubah').html(isi_bidang)
+                                        },
+                                        error : function(err){
+
+                                        },
+                                        timeout : 15000
+                                    })
                                 }
 
                                 function logout() {
@@ -790,7 +867,7 @@
                                                 status = false
                                             }
 
-                                            data_detail_permintaan[i-1] = obj
+                                            data_detail_permintaan[i - 1] = obj
 
                                         };
 
@@ -906,7 +983,7 @@
                                                 status = false
                                             }
 
-                                            data_detail_permintaan[i-1] = obj
+                                            data_detail_permintaan[i - 1] = obj
 
                                         };
 
@@ -992,7 +1069,7 @@
                                                     .keterangan + '</td>');
                                                 $('#detail_permintaan_detail').append('</tr>');
                                             })
-                                            
+
 
                                             var isi_table_detail_status = '<tr>';
                                             isi_table_detail_status = isi_table_detail_status + '<td>' +

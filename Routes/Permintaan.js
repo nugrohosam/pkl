@@ -142,7 +142,7 @@ permintaan.get('/find', async (req, res) => {
     try{
         await dbconn.query('BEGIN')
         
-        sql = "SELECT p.nomor_surat, p.tanggal, i.nama_instalasi, p.nama_peminta, p.status  FROM permintaan p INNER JOIN instalasi i ON i.id_instalasi = p.id_instalasi  WHERE ( p.nomor_surat LIKE '%"+isi_pencarian+"%' OR p.tanggal LIKE '%"+isi_pencarian+"%' OR i.nama_instalasi LIKE '%"+isi_pencarian+"%' OR p.nama_peminta LIKE '%"+isi_pencarian+"%' OR p.status LIKE '%"+isi_pencarian+"%') ORDER BY "+order_kolom+" "+tipe_order+" LIMIT "+panjang_baris+" OFFSET "+awal_baris
+        sql = "SELECT p.id_permintaan, p.nomor_surat, p.tanggal, i.nama_instalasi, p.nama_peminta, p.status  FROM permintaan p INNER JOIN instalasi i ON i.id_instalasi = p.id_instalasi  WHERE ( p.nomor_surat LIKE '%"+isi_pencarian+"%' OR p.tanggal LIKE '%"+isi_pencarian+"%' OR i.nama_instalasi LIKE '%"+isi_pencarian+"%' OR p.nama_peminta LIKE '%"+isi_pencarian+"%' OR p.status LIKE '%"+isi_pencarian+"%') ORDER BY "+order_kolom+" "+tipe_order+" LIMIT "+panjang_baris+" OFFSET "+awal_baris
         var { rows } = await dbconn.query(sql)
         var i = 0
         rows.forEach((item) => {
@@ -178,8 +178,7 @@ permintaan.get('/find', async (req, res) => {
             draw : draw,
             recordsTotal : recordsTotal,
             recordsFiltered : recordsFiltered,
-            data : data,
-            messg : err
+            data : data
         }
         res.status(200).json(json_return)
     } finally {
@@ -195,14 +194,15 @@ permintaan.get('/find/:id', async (req, res) => {
     try{
         await dbconn.query('BEGIN')
 
-        sql = 'SELECT * FROM permintaan WHERE id_permintaan = \''+id+'\''
+        sql = 'SELECT p.id_permintaan, p,nomor_surat, p.tanggal, b.nama_bidang, i.nama_instalasi, p.nama_peminta, p.status, p.diterima, p.dikerjakan, p.selesai FROM permintaan p INNER JOIN instalasi i ON i.id_instalasi = p.id_instalasi INNER JOIN bidang b ON b.id_bidang = i.id_bidang WHERE p.id_permintaan = \''+id+'\''
         var { rows } = await dbconn.query(sql)
         var json_return = {
             status : true,
             id_permintaan : rows[0].id_permintaan,
             nomor_surat : rows[0].nomor_surat,
             tanggal : rows[0].tanggal,
-            divisi : rows[0].divisi,
+            nama_instansi : rows[0].nama_instansi,
+            nama_bidang : rows[0].nama_bidang,
             nama_peminta : rows[0].nama_peminta,
             status_permintaan : rows[0].status,
             diterima : rows[0].diterima,
@@ -283,6 +283,62 @@ permintaan.post('/update/:id', async (req, res) => {
     } finally {
         await dbconn.release
     }
+})
+
+permintaan.get('/find_instalasi/:id', async (req, res) => {
+    
+    var id = req.params.id
+    try{
+        await dbconn.query('BEGIN')
+
+        var sql = 'SELECT * FROM instalasi i INNER JOIN bidang b ON i.id_bidang = b.id_bidang WHERE i.id_bidang = \''+id+'\''
+        var { rows } = await dbconn.query(sql)
+        
+        var json_return = {
+            status : true,
+            instalasi : rows
+        }
+
+        await dbconn.query('COMMIT')
+        res.status(200).json(json_return)
+    } catch(err){
+        await dbconn.query('ROLLBACK')
+        var json_return = {
+            status : false
+        }
+        res.status(200).json(json_return)
+    } finally {
+        await dbconn.release
+    }
+    
+})
+
+permintaan.get('/find_bidang', async (req, res) => {
+    
+    try{
+        await dbconn.query('BEGIN')
+
+        var sql = 'SELECT * FROM bidang'
+        var { rows } = await dbconn.query(sql)
+        
+        var json_return = {
+            status : true,
+            bidang : rows
+        }
+
+        await dbconn.query('COMMIT')
+        res.status(200).json(json_return)
+    } catch(err){
+        await dbconn.query('ROLLBACK')
+        var json_return = {
+            status : false,
+            mssg : err
+        }
+        res.status(200).json(json_return)
+    } finally {
+        await dbconn.release
+    }
+    
 })
 
 module.exports = permintaan;
