@@ -207,7 +207,7 @@
                                                 <span>:</span>
                                                 <div class="col-sm-8 form-ubah">
                                                     <select id="bidang_ubah" class="form-control">
-                                                            <option> -- Pilih Bidang -- </option>
+                                                        <option> -- Pilih Bidang -- </option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -578,7 +578,8 @@
                                             var isi_instalasi = '';
                                             var id_instalasi = $('#bidang_tambah').val();
                                             $.ajax({
-                                                url: '/permintaan/find_instalasi_with_id_bidang/'+id_instalasi,
+                                                url: '/permintaan/find_instalasi_with_id_bidang/' +
+                                                    id_instalasi,
                                                 header: {
                                                     "Content-type": "applocation/json"
                                                 },
@@ -587,24 +588,28 @@
                                                     response.instalasi.forEach(function (item) {
                                                         var nama_instalasi = item.nama_instalasi;
                                                         var id_instalasi = item.id_instalasi;
-                                                        isi_instalasi = isi_instalasi + '<option var='+id_instalasi+'>'+nama_instalasi+'</option>'
+                                                        isi_instalasi = isi_instalasi +
+                                                            '<option var=' +
+                                                            id_instalasi + '>' +
+                                                            nama_instalasi +
+                                                            '</option>'
                                                     })
 
                                                     $('#instalasi_tambah').html(isi_instalasi)
                                                 },
-                                                error: function(err){
-                                                    console.log('error di bidang '+err)
+                                                error: function (err) {
+                                                    console.log('error di bidang ' + err)
                                                 },
                                                 timeout: 15000
                                             })
                                         })
-                                        
+
                                         $('#bidang_ubah').on('change', function () {
                                             var isi_instalasi = '<option > -- Istalasi -- </option>';
-                                            var id_badan = $('#bidang_ubah').val();
-                                            console.log(id_badan)
+                                            var id_bidang = $('#bidang_ubah').val();
                                             $.ajax({
-                                                url: '/permintaan/find_instalasi_with_id_bidang/'+id_badan,
+                                                url: '/permintaan/find_instalasi_with_id_bidang/' +
+                                                    id_bidang,
                                                 header: {
                                                     "Content-type": "applocation/json"
                                                 },
@@ -613,13 +618,17 @@
                                                     response.instalasi.forEach(function (item) {
                                                         var nama_instalasi = item.nama_instalasi;
                                                         var id_instalasi = item.id_instalasi;
-                                                        isi_instalasi = isi_instalasi + '<option var='+id_instalasi+'>'+nama_instalasi+'</option>'
+                                                        isi_instalasi = isi_instalasi +
+                                                            '<option var=' +
+                                                            id_instalasi + '>' +
+                                                            nama_instalasi +
+                                                            '</option>'
                                                     })
 
                                                     $('#instalasi_ubah').html(isi_instalasi)
                                                 },
-                                                error: function(err){
-                                                    console.log('error di bidang '+err)
+                                                error: function (err) {
+                                                    console.log('error di bidang ' + err)
                                                 },
                                                 timeout: 15000
                                             })
@@ -705,26 +714,33 @@
                                 function ubah_modal(id_permintaan) {
 
                                     var id_bidang = '';
+<<<<<<< HEAD
                                     var isi_bidang = '<option > -- Bidang -- </>';
+=======
+                                    var id_instalasi = '';
+                                    
+                                    var isi_bidang = '<option > -- Bindang -- </option>';
+>>>>>>> 07bbe81ffe938c6c6ff343929138bf250a7af4d9
                                     $.ajax({
-                                        url : '/permintaan/find_bidang',
+                                        url: '/permintaan/find_bidang',
                                         header: {
                                             "Content-type": "applocation/json"
                                         },
                                         dataType: "json",
-                                        success : function(response){
-                                            response.bidang.forEach(function(item) {
+                                        success: function (response) {
+                                            response.bidang.forEach(function (item) {
                                                 var nama_bidang = item.nama_bidang;
                                                 var id_bidang = item.id_bidang;
-                                                isi_bidang = isi_bidang + '<option value="'+id_bidang+'" >'+nama_bidang+'</option>';
+                                                isi_bidang = isi_bidang + '<option value="' +
+                                                    id_bidang + '" >' + nama_bidang + '</option>';
                                             })
 
                                             $('#bidang_ubah').html(isi_bidang)
                                         },
-                                        error : function(err){
+                                        error: function (err) {
 
                                         },
-                                        timeout : 15000
+                                        timeout: 15000
                                     })
 
                                     $('#ubah_modal').modal('show');
@@ -741,11 +757,13 @@
                                             $('#id_permintaan_ubah').val(response.id_permintaan);
                                             $('#nomor_surat_ubah').val(response.nomor_surat);
                                             $('#tanggal_ubah').val(response.tanggal);
-                                            $('#id_bidang').val(response.id_bidang);
+                                            $('#bidang_ubah').val(response.id_bidang);
                                             $('#nama_peminta_ubah').val(response.nama_peminta);
                                             $('#status_ubah').val(response.status_permintaan);
 
-                                            var id_bidang = response.id_bidang
+                                            id_instalasi = response.id_instalasi;
+                                            id_bidang = response.id_bidang
+
                                             var isi_table_detail_status = '<tr>';
                                             isi_table_detail_status = isi_table_detail_status + '<td>' +
                                                 (response.diterima != null ? response.diterima.replace('T',
@@ -800,6 +818,34 @@
                                             })
 
                                             index_detail_table = i;
+
+                                            var isi_instalsi = '<option > -- Instalasi -- </option>';
+                                            $.ajax({
+                                                url: '/permintaan/find_instalasi_with_id_bidang/' +
+                                                    id_bidang,
+                                                header: {
+                                                    "Content-type": "applocation/json"
+                                                },
+                                                dataType: "json",
+                                                success: function (response) {
+                                                    response.instalasi.forEach(function (item) {
+                                                        var nama_instalasi = item.nama_instalasi;
+                                                        var id_instalasi = item.id_instalasi;
+                                                        isi_instalsi = isi_instalsi +
+                                                            '<option value="' +
+                                                            id_instalasi + '" >' +
+                                                            nama_instalasi +
+                                                            '</option>';
+                                                    })
+
+                                                    $('#instalasi_ubah').html(isi_instalsi)
+                                                    $('#instalasi_ubah').val(id_instalasi)
+                                                },
+                                                error: function (err) {
+                                                    console.log('error di instalasi')
+                                                },
+                                                timeout: 15000
+                                            });
                                         },
                                         error: function () {
                                             setTimeout(function () {
@@ -809,7 +855,6 @@
                                         timeout: 15000
                                     });
 
-                                    
                                 }
 
                                 function logout() {
