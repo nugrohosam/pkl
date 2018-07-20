@@ -578,7 +578,7 @@
                                             var isi_instalasi = '';
                                             var id_instalasi = $('#bidang_tambah').val();
                                             $.ajax({
-                                                url: '/permintaan/find_instalasi/'+id_instalasi,
+                                                url: '/permintaan/find_instalasi_with_id_bidang/'+id_instalasi,
                                                 header: {
                                                     "Content-type": "applocation/json"
                                                 },
@@ -604,7 +604,7 @@
                                             var id_badan = $('#bidang_ubah').val();
                                             console.log(id_badan)
                                             $.ajax({
-                                                url: '/permintaan/find_instalasi/'+id_badan,
+                                                url: '/permintaan/find_instalasi_with_id_bidang/'+id_badan,
                                                 header: {
                                                     "Content-type": "applocation/json"
                                                 },
@@ -703,6 +703,30 @@
                                 }
 
                                 function ubah_modal(id_permintaan) {
+
+                                    var id_bidang = '';
+                                    var isi_bidang = '<option > -- Bindang -- </>';
+                                    $.ajax({
+                                        url : '/permintaan/find_bidang',
+                                        header: {
+                                            "Content-type": "applocation/json"
+                                        },
+                                        dataType: "json",
+                                        success : function(response){
+                                            response.bidang.forEach(function(item) {
+                                                var nama_bidang = item.nama_bidang;
+                                                var id_bidang = item.id_bidang;
+                                                isi_bidang = isi_bidang + '<option value="'+id_bidang+'" >'+nama_bidang+'</option>';
+                                            })
+
+                                            $('#bidang_ubah').html(isi_bidang)
+                                        },
+                                        error : function(err){
+
+                                        },
+                                        timeout : 15000
+                                    })
+
                                     $('#ubah_modal').modal('show');
                                     $('#detail_permintaan_ubah').html('');
 
@@ -717,10 +741,11 @@
                                             $('#id_permintaan_ubah').val(response.id_permintaan);
                                             $('#nomor_surat_ubah').val(response.nomor_surat);
                                             $('#tanggal_ubah').val(response.tanggal);
-                                            $('#divisi_ubah').val(response.divisi);
+                                            $('#id_bidang').val(response.id_bidang);
                                             $('#nama_peminta_ubah').val(response.nama_peminta);
                                             $('#status_ubah').val(response.status_permintaan);
 
+                                            var id_bidang = response.id_bidang
                                             var isi_table_detail_status = '<tr>';
                                             isi_table_detail_status = isi_table_detail_status + '<td>' +
                                                 (response.diterima != null ? response.diterima.replace('T',
@@ -783,28 +808,8 @@
                                         },
                                         timeout: 15000
                                     });
+
                                     
-                                    var isi_bidang = '<option > -- Bindang -- </>';
-                                    $.ajax({
-                                        url : '/permintaan/find_bidang',
-                                        header: {
-                                            "Content-type": "applocation/json"
-                                        },
-                                        dataType: "json",
-                                        success : function(response){
-                                            response.bidang.forEach(function(item) {
-                                                var nama_bidang = item.nama_bidang;
-                                                var id_bidang = item.id_bidang;
-                                                isi_bidang = isi_bidang + '<option value="'+id_bidang+'" >'+nama_bidang+'</option>';
-                                            })
-
-                                            $('#bidang_ubah').html(isi_bidang)
-                                        },
-                                        error : function(err){
-
-                                        },
-                                        timeout : 15000
-                                    })
                                 }
 
                                 function logout() {
@@ -1007,7 +1012,7 @@
                                                 data: {
                                                     'nomor_surat': $('#nomor_surat_ubah').val(),
                                                     'tanggal': $('#tanggal_ubah').val(),
-                                                    'divisi': $('#divisi_ubah').val(),
+                                                    'id_instalasi': $('#instalasi_ubah').val(),
                                                     'nama_peminta': $('#nama_peminta_ubah').val(),
                                                     'status': $('#status_ubah').val(),
                                                     'detail': data_detail_permintaan

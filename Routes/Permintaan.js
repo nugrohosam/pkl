@@ -194,15 +194,15 @@ permintaan.get('/find/:id', async (req, res) => {
     try{
         await dbconn.query('BEGIN')
 
-        sql = 'SELECT p.id_permintaan, p,nomor_surat, p.tanggal, b.nama_bidang, i.nama_instalasi, p.nama_peminta, p.status, p.diterima, p.dikerjakan, p.selesai FROM permintaan p INNER JOIN instalasi i ON i.id_instalasi = p.id_instalasi INNER JOIN bidang b ON b.id_bidang = i.id_bidang WHERE p.id_permintaan = \''+id+'\''
+        sql = 'SELECT p.id_permintaan, p,nomor_surat, p.tanggal, b.id_bidang, i.id_instalasi, p.nama_peminta, p.status, p.diterima, p.dikerjakan, p.selesai FROM permintaan p INNER JOIN instalasi i ON i.id_instalasi = p.id_instalasi INNER JOIN bidang b ON b.id_bidang = i.id_bidang WHERE p.id_permintaan = \''+id+'\''
         var { rows } = await dbconn.query(sql)
         var json_return = {
             status : true,
             id_permintaan : rows[0].id_permintaan,
             nomor_surat : rows[0].nomor_surat,
             tanggal : rows[0].tanggal,
-            nama_instansi : rows[0].nama_instansi,
-            nama_bidang : rows[0].nama_bidang,
+            id_instalasi : rows[0].id_instalasi,
+            id_bidang : rows[0].id_bidang,
             nama_peminta : rows[0].nama_peminta,
             status_permintaan : rows[0].status,
             diterima : rows[0].diterima,
@@ -234,7 +234,7 @@ permintaan.post('/update/:id', async (req, res) => {
     var data = req.body
     var nomor_surat = data.nomor_surat
     var tanggal = data.tanggal
-    var divisi = data.divisi
+    var id_instalasi = data.id_instalasi
     var nama_peminta = data.nama_peminta
     var status = data.status
     var ubah_pada = datetime_format
@@ -246,16 +246,16 @@ permintaan.post('/update/:id', async (req, res) => {
     try{
         await dbconn.query('BEGIN')
 
-        sql = 'UPDATE permintaan SET nomor_surat = \''+nomor_surat+'\', tanggal =  \''+tanggal+'\', divisi = \''+divisi+'\', nama_peminta = \''+nama_peminta+'\', status = \''+status+'\', ubah_pada = \''+ubah_pada+'\' WHERE id_permintaan = \''+id_permintaan+'\' AND dikerjakan is null AND diterima is not null';
+        sql = 'UPDATE permintaan SET nomor_surat = \''+nomor_surat+'\', tanggal =  \''+tanggal+'\', id_instalasi = \''+id_instalasi+'\', nama_peminta = \''+nama_peminta+'\', status = \''+status+'\', ubah_pada = \''+ubah_pada+'\' WHERE id_permintaan = \''+id_permintaan+'\' AND dikerjakan is null AND diterima is not null';
 
         if(status == 'dikerjakan'){
             var dikerjakan = datetime_format
-            sql = 'UPDATE permintaan SET nomor_surat = \''+nomor_surat+'\', tanggal =  \''+tanggal+'\', divisi = \''+divisi+'\', nama_peminta = \''+nama_peminta+'\', status = \''+status+'\', dikerjakan = \''+dikerjakan+'\', ubah_pada = \''+ubah_pada+'\' WHERE id_permintaan = \''+id_permintaan+'\' AND diterima is not null AND selesai is null';
+            sql = 'UPDATE permintaan SET nomor_surat = \''+nomor_surat+'\', tanggal =  \''+tanggal+'\', id_instalasi = \''+id_instalasi+'\', nama_peminta = \''+nama_peminta+'\', status = \''+status+'\', dikerjakan = \''+dikerjakan+'\', ubah_pada = \''+ubah_pada+'\' WHERE id_permintaan = \''+id_permintaan+'\' AND diterima is not null AND selesai is null';
         }
 
         if(status == 'selesai'){
             var selesai = datetime_format
-            sql = 'UPDATE permintaan SET nomor_surat = \''+nomor_surat+'\', tanggal =  \''+tanggal+'\', divisi = \''+divisi+'\', nama_peminta = \''+nama_peminta+'\', status = \''+status+'\', selesai = \''+selesai+'\', ubah_pada = \''+ubah_pada+'\' WHERE id_permintaan = \''+id_permintaan+'\' AND diterima is not null AND dikerjakan is not null AND selesai is null';
+            sql = 'UPDATE permintaan SET nomor_surat = \''+nomor_surat+'\', tanggal =  \''+tanggal+'\', id_instalasi = \''+id_instalasi+'\', nama_peminta = \''+nama_peminta+'\', status = \''+status+'\', selesai = \''+selesai+'\', ubah_pada = \''+ubah_pada+'\' WHERE id_permintaan = \''+id_permintaan+'\' AND diterima is not null AND dikerjakan is not null AND selesai is null';
         }
         await dbconn.query(sql)
 
@@ -285,7 +285,7 @@ permintaan.post('/update/:id', async (req, res) => {
     }
 })
 
-permintaan.get('/find_instalasi/:id', async (req, res) => {
+permintaan.get('/find_instalasi_with_id_bidang/:id', async (req, res) => {
     
     var id = req.params.id
     try{
