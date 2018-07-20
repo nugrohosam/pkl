@@ -338,7 +338,6 @@ permintaan.get('/find_bidang', async (req, res) => {
     } finally {
         await dbconn.release
     }
-    
 })
 
 module.exports = permintaan;
