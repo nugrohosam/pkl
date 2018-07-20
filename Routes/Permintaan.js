@@ -125,7 +125,7 @@ permintaan.get('/find', async (req, res) => {
     var tipe_order = order['0'].dir
     var draw = req.query.draw
     
-    var kolom = ['nomor_surat', 'tanggal', 'divisi', 'nama_peminta', 'status']
+    var kolom = ['p.nomor_surat', 'p.tanggal', 'i.nama_instalasi', 'p.nama_peminta', 'p.status']
 
     if(order_kolom == '0'){
         order_kolom = 'id_permintaan'
@@ -142,7 +142,7 @@ permintaan.get('/find', async (req, res) => {
     try{
         await dbconn.query('BEGIN')
         
-        sql = "SELECT * FROM permintaan p  INNER JOIN instalasi i ON i.id_instalasi = p.id_instalasi  WHERE ( p.nomor_surat LIKE '%"+isi_pencarian+"%' OR p.tanggal LIKE '%"+isi_pencarian+"%' OR i.nama_instalasi LIKE '%"+isi_pencarian+"%' OR p.nama_peminta LIKE '%"+isi_pencarian+"%' OR p.status LIKE '%"+isi_pencarian+"%') ORDER BY p."+order_kolom+" "+tipe_order+" LIMIT "+panjang_baris+" OFFSET "+awal_baris
+        sql = "SELECT p.nomor_surat, p.tanggal, i.nama_instalasi, p.nama_peminta, p.status  FROM permintaan p INNER JOIN instalasi i ON i.id_instalasi = p.id_instalasi  WHERE ( p.nomor_surat LIKE '%"+isi_pencarian+"%' OR p.tanggal LIKE '%"+isi_pencarian+"%' OR i.nama_instalasi LIKE '%"+isi_pencarian+"%' OR p.nama_peminta LIKE '%"+isi_pencarian+"%' OR p.status LIKE '%"+isi_pencarian+"%') ORDER BY "+order_kolom+" "+tipe_order+" LIMIT "+panjang_baris+" OFFSET "+awal_baris
         var { rows } = await dbconn.query(sql)
         var i = 0
         rows.forEach((item) => {
@@ -151,7 +151,7 @@ permintaan.get('/find', async (req, res) => {
             if(item.status == 'selesai') {
                 script_html = '<i class="left fa fa-eye" style="cursor : pointer" onClick="detail_modal(\''+item.id_permintaan+'\')"></i><span style="cursor : pointer" onClick="detail_modal(\''+item.id_permintaan+'\')"> Detail</span>'
             }
-            var data_table = [item.nomor_surat, item.tanggal, item.divisi, item.nama_peminta, item.status, script_html]
+            var data_table = [item.nomor_surat, item.tanggal, item.nama_instalasi, item.nama_peminta, item.status, script_html]
             data[i] = data_table
             i++
         })
