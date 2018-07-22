@@ -126,7 +126,7 @@ instalasi.get('/find', async (req, res) => {
     try{
         await dbconn.query('BEGIN')
         
-        sql = "SELECT i.nama_instalasi, b.nama_bidang FROM instalasi i INNER JOIN bidang b ON i.id_bidang = b.id_bidang  WHERE ( i.nama_instalasi LIKE '%"+isi_pencarian+"%' OR b.nama_bidang LIKE '%"+isi_pencarian+"%' ) ORDER BY "+order_kolom+" "+tipe_order+" LIMIT "+panjang_baris+" OFFSET "+awal_baris
+        sql = "SELECT i.id_instalasi, i.nama_instalasi, b.nama_bidang FROM instalasi i INNER JOIN bidang b ON i.id_bidang = b.id_bidang  WHERE ( i.nama_instalasi LIKE '%"+isi_pencarian+"%' OR b.nama_bidang LIKE '%"+isi_pencarian+"%' ) ORDER BY "+order_kolom+" "+tipe_order+" LIMIT "+panjang_baris+" OFFSET "+awal_baris
         var { rows } = await dbconn.query(sql)
         var i = 0
         rows.forEach((item) => {
@@ -135,12 +135,12 @@ instalasi.get('/find', async (req, res) => {
             if(item.status == 'selesai') {
                 script_html = '<i class="left fa fa-eye" style="cursor : pointer" onClick="detail_modal(\''+item.id_instalasi+'\')"></i><span style="cursor : pointer" onClick="detail_modal(\''+item.id_instalasi+'\')"> Detail</span>'
             }
-            var data_table = [item.nomor_surat, item.tanggal, item.nama_instalasi, item.nama_peminta, item.status, script_html]
+            var data_table = [item.nama_instalasi, item.nama_bidang, script_html]
             data[i] = data_table
             i++
         })
 
-        sql = "SELECT * FROM instalasi i INNER JOIN bidang b ON i.id_bidang = b.id_bidang"
+        sql = "SELECT * FROM instalasi i"
         rows = await dbconn.query(sql)
         recordsTotal = rows.rowCount
         
@@ -178,7 +178,7 @@ instalasi.get('/find/:id', async (req, res) => {
     try{
         await dbconn.query('BEGIN')
 
-        sql = 'SELECT i.id_instansi, i.nama_instansi, b.nama_bidang FROM instalasi i INNER JOIN bidang b ON i.id_bidang = b.id_bidang WHERE i.id_instalasi = \''+id+'\''
+        sql = 'SELECT i.id_instansi, i.nama_instansi, b.id_bidang FROM instalasi i INNER JOIN bidang b ON i.id_bidang = b.id_bidang WHERE i.id_instalasi = \''+id+'\''
         var { rows } = await dbconn.query(sql)
         var json_return = {
             status : true,
@@ -228,4 +228,25 @@ instalasi.post('/update/:id', async (req, res) => {
     }
 })
 
+instalasi.get('/find_bidang', async (req, res) => {
+    
+    try{
+        await dbconn.query('BEGIN')
+
+        var { rows } = await dbconn.query(' SELECT id_bidang, nama_bidang FROM bidang')
+        var json_return = {
+            status : false, 
+            bidang : rows
+        }
+
+        await dbconn.query('COMMIT')
+        res.status(200).json(json_return)
+    } catch(err){
+        await dbconn.query('ROLLBACK')
+        var json_return = { status : false}
+        res.status(200).json(json_return)
+    } finally {
+        await dbconn.release
+    }
+})
 module.exports = instalasi;

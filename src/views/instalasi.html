@@ -95,6 +95,15 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="/pengguna" class="nav-link">
+                                <i class="nav-icon fa fa-sticky-note-o"></i>
+                                <p>
+                                    Pengguna
+                                    <i class="right fa fa-angle-left"></i>
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="login" class="nav-link" onClick="logout()">
                                 <i class="nav-icon fa fa-sign-out"></i>
                                 <p>
@@ -128,32 +137,16 @@
                                         <table id="table-pengguna" class="table table-sm table-striped">
                                             <thead class="bg-warning">
                                                 <tr>
-                                                    <th>No</th>
+                                                    <th>Instansi</th>
                                                     <th>Bidang</th>
-                                                    <th>Instalasi</th>
+                                                    <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>
-                                                        1
-                                                    </td>
-                                                    <td>
-                                                        Non Medik
-                                                    </td>
-                                                    <td>
-                                                        ITIKOM
-                                                    </td>                                                
-                                                    <td>
-                                                        <i class="left fa fa-pencil" style="cursor : pointer" onClick="ubah_modal()"></i>
-                                                        <span style="cursor : pointer" onClick="ubah_modal()"> Edit</span>
-                                                    </td>
-                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
-                                <!-- /.card-body -->
                             </div>
 
                             <div id="ubah_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
@@ -167,39 +160,22 @@
                                         </div>
                                         <div class="modal-body">
                                             <div class="form-group" hidden>
-                                                <label class="control-label col-sm-2">Id Pengguna :</label>
                                                 <div class="col-sm-10">
-                                                    <input class="form-control" id="id_pengguna_ubah">
+                                                    <input class="form-control" id="id_instalasi_ubah">
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="control-label col-sm-2">Tipe :</label>
+                                                <label class="control-label col-sm-2">Nama Instalasi :</label>
                                                 <div class="col-sm-10">
-                                                    <input class="form-control" id="tipe_ubah">
+                                                    <input class="form-control" id="nama_instalasi_ubah">
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="control-label col-sm-2">Nama :</label>
-                                                <div class="col-sm-10">
-                                                    <input class="form-control" id="nama_ubah">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-sm-2">Jenis Kelamin :</label>
-                                                <div class="col-sm-10">
-                                                    <input class="form-control" id="jenis_kelamin_ubah">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-sm-2">Tanggal Lahir :</label>
-                                                <div class="col-sm-10">
-                                                    <input class="form-control" id="tanggal_lahir_ubah">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-sm-2">Email :</label>
-                                                <div class="col-sm-10">
-                                                    <input class="form-control" id="email_ubah">
+                                                <label class="control-label col-sm-2">Bidang</label>
+                                                <span>:</span>
+                                                <div class="col-sm-8 form-ubah">
+                                                    <select id="bidang_ubah" class="form-control">
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
@@ -221,39 +197,17 @@
                                         </div>
                                         <div class="modal-body">
                                             <div class="form-group">
-                                                <label class="control-label col-sm-2">No</label>
+                                                <label class="control-label col-sm-2">Nama Instalasi :</label>
                                                 <div class="col-sm-10">
-                                                    <input class="form-control" id="no_tambah">
+                                                    <input class="form-control" id="nama_instalasi_tambah">
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="control-label col-sm-2">Nama Barang :</label>
-                                                <div class="col-sm-10">
-                                                    <input class="form-control" id="nama_barang_tambah">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-sm-2">Banyaknya :</label>
-                                                <div class="col-sm-10">
-                                                    <input class="form-control" id="banyaknya_tambah">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-sm-2">Dengan Huruf :</label>
-                                                <div class="col-sm-10">
-                                                    <input class="form-control" id="dengan_huruf_tambah">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-sm-2">Keterangan :</label>
-                                                <div class="col-sm-10">
-                                                    <input class="form-control" id="keterangan_tambah">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-sm-2">Status</label>
-                                                <div class="col-sm-10">
-                                                    <input class="form-control" id="status_tambah">
+                                                <label class="control-label col-sm-2">Bidang</label>
+                                                <span>:</span>
+                                                <div class="col-sm-8 form-ubah">
+                                                    <select id="bidang_tambah" class="form-control">
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
@@ -275,63 +229,17 @@
                                         </div>
                                         <div class="modal-body">
                                             <div class="form-group">
-                                                <label class="col-sm-2 col-form-label col-form-label-sm">Id Pengguna</label>
+                                                <label class="control-label col-sm-2">Nama Instalasi :</label>
                                                 <div class="col-sm-10">
-                                                    <input class="form-control form-control-sm" id="id_pengguna_detail">
+                                                    <input class="form-control" id="nama_instalasi_detail">
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-sm-2 col-form-label col-form-label-sm">Tipe</label>
-                                                <div class="col-sm-10">
-                                                    <input class="form-control form-control-sm" id="tipe_detail">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-2 col-form-label col-form-label-sm">Nama</label>
-                                                <div class="col-sm-10">
-                                                    <input class="form-control form-control-sm" id="nama_detail">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-2 col-form-label col-form-label-sm">Jenis Kelamin</label>
-                                                <div class="col-sm-10">
-                                                    <input class="form-control form-control-sm" id="jenis_kelamin_detail">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-2 col-form-label col-form-label-sm">Tanggal Lahir</label>
-                                                <div class="col-sm-10">
-                                                    <input class="form-control form-control-sm" id="tanggal_lahir_detail">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-2 col-form-label col-form-label-sm">Email</label>
-                                                <div class="col-sm-10">
-                                                    <input class="form-control form-control-sm" id="email_detail">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-2 col-form-label col-form-label-sm">Nomor Telepon</label>
-                                                <div class="col-sm-10">
-                                                    <input class="form-control form-control-sm" id="nomor_telepon_detail">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-2 col-form-label col-form-label-sm">Buat Pada</label>
-                                                <div class="col-sm-10">
-                                                    <input class="form-control form-control-sm" id="buat_pada_detail">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-2 col-form-label col-form-label-sm">Ubah Pada</label>
-                                                <div class="col-sm-10">
-                                                    <input class="form-control form-control-sm" id="ubah_pada_detail">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-2 col-form-label col-form-label-sm">Hapus Pada</label>
-                                                <div class="col-sm-10">
-                                                    <input class="form-control form-control-sm" id="hapus_pada_detail">
+                                                <label class="control-label col-sm-2">Bidang</label>
+                                                <span>:</span>
+                                                <div class="col-sm-8 form-ubah">
+                                                    <select id="bidang_detail" class="form-control">
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
@@ -354,6 +262,11 @@
                                 $(document).ready(
                                     function () {
                                         table = $('#table-pengguna').DataTable({
+                                            'processing': false,
+                                            'serverSide': true,
+                                            'ajax' : {
+                                                'url' : '/instalasi/find'
+                                            },
                                             'columnDefs': [{
                                                 'targets': [-1],
                                                 'orderable': false,
@@ -365,6 +278,43 @@
 
                                 function ubah_modal(id_pengguna) {
                                     $('#ubah_modal').modal('show');
+                                    
+                                    $.ajax({
+                                        url : '/instalasi/find_bidang',
+                                        header : {
+                                            "Content-type" : "applocation/application/x-www-form-urlencoded"
+                                        },
+                                        dataType : 'json',
+                                        success : function(response){
+                                            var isi_bidang = ''
+                                                response.bidang.forEach(function(item){
+                                                isi_bidang = isi_bidang + '<option value="'+item.id_bidang+'">'+item.nama_bidang+'</option>'
+                                            });
+
+                                            $('#bidang_ubah').html(isi_bidang)
+
+                                            $.ajax({
+                                                url : '/instalasi/find/'+id_instalasi,
+                                                header : {
+                                                    "Content-type" : "applocation/application/x-www-form-urlencoded"
+                                                },
+                                                dataType : 'json',
+                                                success : function(response){
+                                                    $('#id_instalasi_ubah').val(response.id_instalasi);
+                                                    $('#nama_instalasi_ubah').val(response.nama_instalasi);
+                                                    $('#bidang_ubah').val(response.id_bidang);
+                                                },
+                                                error : function(){
+
+                                                },
+                                                timeout: 15000
+                                            })
+                                        },
+                                        error : function(){
+
+                                        },
+                                        timeout : 15000
+                                    })
                                 }
 
                                 function tambah_modal(id_pengguna) {
@@ -375,115 +325,75 @@
                                     document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
                                 }
 
-                                /*
-                                function ubah_process(id_pengguna){
-                                $.ajax({
-                                url : "<?php echo base_url()?>index.php/pengguna/ubah_dengan_id",
-                                header : {
-                                "Content-type" : "applocation/application/x-www-form-urlencoded"
-                                },
-                                type : "put",
-                                dataType : "json",
-                                data : {
-                                "id_pengguna" : id_pengguna,
-                                "tipe" : $('#tipe_ubah').val(),
-                                "nama" : $('#nama_ubah').val(),
-                                "jenis_kelamin" : $('#jenis_kelamin_ubah').val(),
-                                "tanggal_lahir" : $('#tanggal_lahir_ubah').val(),
-                                "email" : $('#email_ubah').val()
-                                },
-                                success : function(response){
-                                $('#ubah_modal').modal('hide');
-                                $('#notif_modal').modal('show');
-                                if(!response.status){
-                                $("#notif_modal div div div").html('gagal ubah');
-                                }else{
-                                $("#notif_modal div div div").html('sukses ubah');
-                                }
-                                setTimeout(function(){
-                                $('#notif_modal').modal('hide');
-                                }, 1000);
+                                function ubah_proccess(id_instalasi){        
+                                    $('#ubah_modal').modal('hide');
+                                    $('#notif_modal').modal('show');
 
-                                reload_table();
-                                },
-                                error : function(){
-                                $("#notif_modal div div div").html('sukses hapus');
-                                setTimeout(function(){
-                                $('#notif_modal').modal('hide');
-                                }, 1000);
+                                    $.ajax({
+                                        url : '/instalasi/update/'+id_instalasi,
+                                        header : {
+                                            "Content-type" : "applocation/application/x-www-form-urlencoded"
+                                        },
+                                        type : 'post',
+                                        dataType : 'json',
+                                        data : {
+                                            'nama_instalasi' : $('#nama_instalasi_ubah').val(),
+                                            'id_bidang' : $('#id_bidang_ubah').val()
+                                        },
+                                        success : function(response){
+                                            if (!response.status) {
+                                                $("#notif_modal div div div").html('gagal ubah');
+                                            } else {
+                                                $("#notif_modal div div div").html('sukses ubah');
+                                            }
+                                            
+                                            setTimeout(function () {
+                                                $('#notif_modal').modal('hide');
+                                            }, 1000);
+                                        },
+                                        error : function(){
+                                            $("#notif_modal div div div").html('gagal ubah');
+                                            setTimeout(function () {
+                                                $('#notif_modal').modal('hide');
+                                            }, 1000);
+                                        }
+                                    })
                                 }
-                                });
-                                }
+                                
+                                function tambah_proccess(){        
+                                    $('#tambah_modal').modal('hide');
+                                    $('#notif_modal').modal('show');
 
-                                function detail_modal(id_pengguna){
-                                $('#detail_modal').modal('show');
-                                $.ajax({
-                                url : "<?php echo base_url()?>index.php/pengguna/ambil_semua_dengan_id",
-                                header : {
-                                "Content-type" : "applocation/application/x-www-form-urlencoded"
-                                },
-                                type : "get",
-                                dataType : "json",
-                                data : {
-                                "id_pengguna" : id_pengguna  
-                                },
-                                success : function(response){
-                                $('#id_pengguna_detail').val(response.id_pengguna);
-                                $('#tipe_detail').val(response.tipe);
-                                $('#nama_detail').val(response.nama);
-                                $('#jenis_kelamin_detail').val(response.jenis_kelamin);
-                                $('#tanggal_lahir_detail').val(response.tanggal_lahir);
-                                $('#email_detail').val(response.email);
-                                $('#path_gambar_detail').val(response.email);
-                                $('#buat_pada_detail').val(response.buat_pada);
-                                $('#ubah_pada_detail').val(response.ubah_pada);
-                                $('#hapus_pada_detail').val(response.hapus_pada);
-
-                                reload_table();
-                                },
-                                error : function(){
-                                setTimeout(function(){
-                                $('#notif_modal').modal('hide');
-                                }, 1000);
+                                    $.ajax({
+                                        url : '/instalasi/save/',
+                                        header : {
+                                            "Content-type" : "applocation/application/x-www-form-urlencoded"
+                                        },
+                                        type : 'post',
+                                        dataType : 'json',
+                                        data : {
+                                            'nama_instalasi' : $('#nama_instalasi_ubah').val(),
+                                            'id_bidang' : $('#id_bidang_ubah').val()
+                                        },
+                                        success : function(response){
+                                            if (!response.status) {
+                                                $("#notif_modal div div div").html('gagal tambah');
+                                            } else {
+                                                $("#notif_modal div div div").html('sukses tambah');
+                                            }
+                                            
+                                            setTimeout(function () {
+                                                $('#notif_modal').modal('hide');
+                                            }, 1000);
+                                        },
+                                        error : function(){
+                                            $("#notif_modal div div div").html('gagal tambah');
+                                            setTimeout(function () {
+                                                $('#notif_modal').modal('hide');
+                                            }, 1000);
+                                        }
+                                    })
                                 }
-                                });
-                                }
-
-                                function hapus_process(id_pengguna){
-                                $.ajax({
-                                url : "<?php echo base_url()?>index.php/pengguna/hapus_dengan_id/"+id_pengguna,
-                                header : {
-                                "Content-type" : "applocation/application/x-www-form-urlencoded"
-                                },
-                                type : "delete",
-                                dataType : "json",
-                                data : {
-                                'id_pengguna' : id_pengguna  
-                                },
-                                success : function(response){
-                                $('#hapus_modal').modal('hide');
-                                $('#notif_modal').modal('show');
-                                if(!response.status){
-                                $("#notif_modal div div div").html('gagal hapus');
-                                }else{
-                                $("#notif_modal div div div").html('sukses hapus');
-                                }
-                                setTimeout(function(){
-                                $('#notif_modal').modal('hide');
-                                }, 1000);
-
-                                reload_table();
-                                },
-                                error : function(){
-                                $("#notif_modal div div div").html('sukses hapus');
-                                setTimeout(function(){
-                                $('#notif_modal').modal('hide');
-                                }, 1000);
-                                }
-                                });
-                                }
-                                */
-
 
                                 function reload_table() {
                                     table.ajax.reload(null, false);

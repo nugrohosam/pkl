@@ -75,23 +75,20 @@ pengguna.post('/save', async (req, res) => {
     var datetime_format = year+'-'+month+'-'+day+' '+hour+':'+minute+':'+second;
 
     var data = req.body
-    var nama = data.username
+    var username = data.username
     var kategori = data.kategori
     var password = md5(data.password)
 
     var buat_pada = datetime_format
     var ubah_pada = datetime_format
-    var diterima = datetime_format
 
-    var detail = data.detail
-    var panjang_detail = detail.length
     var sql
 
     try{
         await dbconn.query('BEGIN')
 
-        sql = 'INSERT INTO pengguna (id_pengguna, ketegori, username, password ) VALUES (\''+id_pengguna+'\', \''+katergori+'\', \''+username+'\', \''+password+'\')';
-        await dbconn.query(sql)
+        sql = 'INSERT INTO pengguna (id_pengguna, kategori, username, password, buat_pada, ubah_pada ) VALUES (\''+id_pengguna+'\', \''+kategori+'\', \''+username+'\', \''+password+'\', \''+buat_pada+'\', \''+ubah_pada+'\' )';
+        var result = await dbconn.query(sql)
         
         await dbconn.query('COMMIT')
         var json_return = {status : true}
@@ -129,11 +126,12 @@ pengguna.get('/find', async (req, res) => {
     var data = new Array()
     var recordsFiltered = 0
     var recordsTotal = 0
+    var data = new Array()
 
     try{
         await dbconn.query('BEGIN')
         
-        sql = "SELECT p.id_pengguna, p.kategori, p.username, p.password FROM pengguna p WHERE ( p.username LIKE '%"+isi_pencarian+"%' OR p.kategori LIKE '%"+isi_pencarian+"%' OR i.nama_instalasi LIKE '%"+isi_pencarian+"%' OR p.nama_peminta LIKE '%"+isi_pencarian+"%' ) ORDER BY "+order_kolom+" "+tipe_order+" LIMIT "+panjang_baris+" OFFSET "+awal_baris
+        sql = "SELECT p.id_pengguna, p.kategori, p.username, p.password FROM pengguna p WHERE ( p.username LIKE '%"+isi_pencarian+"%' OR p.kategori LIKE '%"+isi_pencarian+"%' ) ORDER BY "+order_kolom+" "+tipe_order+" LIMIT "+panjang_baris+" OFFSET "+awal_baris
         var { rows } = await dbconn.query(sql)
         var i = 0
         rows.forEach((item) => {
@@ -142,7 +140,7 @@ pengguna.get('/find', async (req, res) => {
             if(item.status == 'selesai') {
                 script_html = '<i class="left fa fa-eye" style="cursor : pointer" onClick="detail_modal(\''+item.id_pengguna+'\')"></i><span style="cursor : pointer" onClick="detail_modal(\''+item.id_pengguna+'\')"> Detail</span>'
             }
-            var data_table = [item.nomor_surat, item.tanggal, item.nama_instalasi, item.nama_peminta, item.status, script_html]
+            var data_table = [item.username, item.kategori, script_html]
             data[i] = data_table
             i++
         })
@@ -185,7 +183,7 @@ pengguna.get('/find/:id', async (req, res) => {
     try{
         await dbconn.query('BEGIN')
 
-        sql = 'SELECT p.id_pengguna, p,kategori, p.username, b.password WHERE p.id_pengguna = \''+id+'\''
+        sql = 'SELECT p.id_pengguna, p,kategori, p.username, p.password FROM pengguna p WHERE p.id_pengguna = \''+id+'\''
         var { rows } = await dbconn.query(sql)
         var json_return = {
             status : true,
