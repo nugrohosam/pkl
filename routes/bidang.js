@@ -1,12 +1,12 @@
 var express = require('express')
-var instalasi = express.Router()
+var bidang = express.Router()
 var cors = require('cors')
 var dbconn = require('../database/database')
 var jwt = require('jsonwebtoken')
 var token;
 
 var token = jwt.sign({ data: {logged_in : false}}, 'secret_token', { expiresIn: '1d' })
-instalasi.use(cors())
+bidang.use(cors())
 var appData = {}
 var options = {
     root: './src/views/'
@@ -20,7 +20,7 @@ var hour = "" + now.getHours(); if (hour.length == 1) { hour = "0" + hour; }
 var minute = "" + now.getMinutes(); if (minute.length == 1) { minute = "0" + minute; }
 var second = "" + now.getSeconds(); if (second.length == 1) { second = "0" + second; }
 
-instalasi.use((req, res, next) => {
+bidang.use((req, res, next) => {
     if(!req.cookies.token){
         var fileName = 'login.html'
             res.sendfile(fileName, options, (err) => {
@@ -58,8 +58,8 @@ instalasi.use((req, res, next) => {
     }
 })
 
-instalasi.get('/', (req, res) => {
-    var fileName = 'instalasi.html'
+bidang.get('/', (req, res) => {
+    var fileName = 'bidang.html'
     res.sendfile(fileName, options, (err) => {
         if(err){
             console.log(err)
@@ -67,15 +67,14 @@ instalasi.get('/', (req, res) => {
     })
 })
 
-instalasi.post('/save', async (req, res) => {
+bidang.post('/save', async (req, res) => {
     
     var datetime = Date.now()
-    var id_instalasi = 'inst'+datetime
+    var id_bidang = 'bida'+datetime
     var datetime_format = year+'-'+month+'-'+day+' '+hour+':'+minute+':'+second;
 
     var data = req.body
-    var nama_instalasi = data.nama_instalasi
-    var id_bidang = data.id_bidang
+    var nama_bidang = data.nama_bidang
     var ubah_pada = datetime_format
 
     var sql
@@ -83,7 +82,7 @@ instalasi.post('/save', async (req, res) => {
     try{
         await dbconn.query('BEGIN')
 
-        sql = 'INSERT INTO instalasi (id_instalasi, id_bidang, nama_instalasi ) VALUES (\''+id_instalasi+'\', \''+id_bidang+'\', \''+nama_instalasi+'\', \''+buat_pada+'\', \''+ubah_pada+'\')';
+        sql = 'INSERT INTO bidang (id_bidang, nama_bidang ) VALUES (\''+id_bidang+'\', \''+nama_bidang+'\', \''+buat_pada+'\', \''+ubah_pada+'\')';
         await dbconn.query(sql)
         
         await dbconn.query('COMMIT')
@@ -98,7 +97,7 @@ instalasi.post('/save', async (req, res) => {
     }
 })
 
-instalasi.get('/find', async (req, res) => {
+bidang.get('/find', async (req, res) => {
 
     var panjang_baris = req.query.length
     var awal_baris = req.query.start
@@ -109,10 +108,10 @@ instalasi.get('/find', async (req, res) => {
     var tipe_order = order['0'].dir
     var draw = req.query.draw
     
-    var kolom = ['i.nama_istalasi', 'b.nama_bidang']
+    var kolom = ['b.id_bidang', 'b.nama_bidang']
 
     if(order_kolom == '0'){
-        order_kolom = 'id_instalasi'
+        order_kolom = 'id_bidang'
         tipe_order = 'desc'
     }else{
         order_kolom = kolom[order_kolom]
@@ -126,25 +125,25 @@ instalasi.get('/find', async (req, res) => {
     try{
         await dbconn.query('BEGIN')
         
-        sql = "SELECT i.nama_instalasi, b.nama_bidang FROM instalasi i INNER JOIN bidang b ON i.id_bidang = b.id_bidang  WHERE ( i.nama_instalasi LIKE '%"+isi_pencarian+"%' OR b.nama_bidang LIKE '%"+isi_pencarian+"%' ) ORDER BY "+order_kolom+" "+tipe_order+" LIMIT "+panjang_baris+" OFFSET "+awal_baris
+        sql = "SELECT b.id_bidang, b.nama_bidang FROM bidang b WHERE ( b.nama_bidang LIKE '%"+isi_pencarian+"%' ) ORDER BY "+order_kolom+" "+tipe_order+" LIMIT "+panjang_baris+" OFFSET "+awal_baris
         var { rows } = await dbconn.query(sql)
         var i = 0
         rows.forEach((item) => {
-            var script_html = '<i class="left fa fa-pencil" style="cursor : pointer" onClick="ubah_modal(\''+item.id_instalasi+'\')"></i><span style="cursor : pointer" onClick="ubah_modal(\''+item.id_instalasi+'\')"> Edit</span> <i class="left fa fa-eye" style="cursor : pointer" onClick="detail_modal(\''+item.id_instalasi+'\')"></i><span style="cursor : pointer" onClick="detail_modal(\''+item.id_instalasi+'\')"> Detail</span>'
+            var script_html = '<i class="left fa fa-pencil" style="cursor : pointer" onClick="ubah_modal(\''+item.id_bidang+'\')"></i><span style="cursor : pointer" onClick="ubah_modal(\''+item.id_bidang+'\')"> Edit</span> <i class="left fa fa-eye" style="cursor : pointer" onClick="detail_modal(\''+item.id_bidang+'\')"></i><span style="cursor : pointer" onClick="detail_modal(\''+item.id_bidang+'\')"> Detail</span>'
             
             if(item.status == 'selesai') {
-                script_html = '<i class="left fa fa-eye" style="cursor : pointer" onClick="detail_modal(\''+item.id_instalasi+'\')"></i><span style="cursor : pointer" onClick="detail_modal(\''+item.id_instalasi+'\')"> Detail</span>'
+                script_html = '<i class="left fa fa-eye" style="cursor : pointer" onClick="detail_modal(\''+item.id_bidang+'\')"></i><span style="cursor : pointer" onClick="detail_modal(\''+item.id_bidang+'\')"> Detail</span>'
             }
-            var data_table = [item.nomor_surat, item.tanggal, item.nama_instalasi, item.nama_peminta, item.status, script_html]
+            var data_table = [item.nomor_surat, item.tanggal, item.nama_bidang, item.nama_peminta, item.status, script_html]
             data[i] = data_table
             i++
         })
 
-        sql = "SELECT * FROM instalasi i INNER JOIN bidang b ON i.id_bidang = b.id_bidang"
+        sql = "SELECT * FROM bidang i"
         rows = await dbconn.query(sql)
         recordsTotal = rows.rowCount
         
-        sql = "SELECT * FROM instalasi i INNER JOIN bidang b ON i.id_bidang = b.id_bidang WHERE ( i.nama_instalasi LIKE '%"+isi_pencarian+"%' OR b.nama_bidang LIKE '%"+isi_pencarian+"%' ) ORDER BY "+order_kolom
+        sql = "SELECT * FROM bidang b WHERE ( b.nama_bidang LIKE '%"+isi_pencarian+"%' ) ORDER BY "+order_kolom+" "+tipe_order
         var { rows } = await dbconn.query(sql)
         recordsFiltered = rows.length
 
@@ -170,7 +169,7 @@ instalasi.get('/find', async (req, res) => {
     }
 })
 
-instalasi.get('/find/:id', async (req, res) => {
+bidang.get('/find/:id', async (req, res) => {
 
     var id = req.params.id
     var sql
@@ -178,11 +177,11 @@ instalasi.get('/find/:id', async (req, res) => {
     try{
         await dbconn.query('BEGIN')
 
-        sql = 'SELECT i.id_instansi, i.nama_instansi, b.nama_bidang FROM instalasi i INNER JOIN bidang b ON i.id_bidang = b.id_bidang WHERE i.id_instalasi = \''+id+'\''
+        sql = 'SELECT b.id_bidang, b.nama_bidang FROM bidang b WHERE b.id_bidang = \''+id+'\''
         var { rows } = await dbconn.query(sql)
         var json_return = {
             status : true,
-            id_instalasi : rows[0].id_instalasi,
+            id_bidang : rows[0].id_bidang,
             nama_instansi : rows[0].nama_instansi,
             nama_bidang : rows[0].nama_bidang
         }
@@ -198,13 +197,13 @@ instalasi.get('/find/:id', async (req, res) => {
     }
 })
 
-instalasi.post('/update/:id', async (req, res) => {
+bidang.post('/update/:id', async (req, res) => {
 
-    var id_instalasi = req.params.id
+    var id_bidang = req.params.id
     var datetime_format = year+'-'+month+'-'+day+' '+hour+':'+minute+':'+second;
 
     var data = req.body
-    var nama_instansi = data.nama_instansi
+    var nama_bidang = data.nama_bidang
     var id_bidang = data.id_bidang
     var ubah_pada = datetime_format
 
@@ -213,7 +212,7 @@ instalasi.post('/update/:id', async (req, res) => {
     try{
         await dbconn.query('BEGIN')
 
-        sql = 'UPDATE instalasi SET nama_instalasi = \''+nama_instalasi+'\', id_bidang =  \''+id_bidang+'\' WHERE id_instalasi = \''+id_instalasi+'\' ';
+        sql = 'UPDATE bidang SET nama_bidang = \''+nama_bidang+'\' WHERE id_bidang = \''+id_bidang+'\' ';
         await dbconn.query(sql)
 
         await dbconn.query('COMMIT')
@@ -228,4 +227,4 @@ instalasi.post('/update/:id', async (req, res) => {
     }
 })
 
-module.exports = instalasi;
+module.exports = bidang;
