@@ -246,7 +246,7 @@ perintah_kerja.post('/update/:id', async (req, res) => {
     }
 })
 
-periintah_kerja.get('/find_permintaan/:nomor_surat', async (req, res) => {
+perintah_kerja.get('/find_permintaan/:nomor_surat', async (req, res) => {
 
     var nomor_surat = req.params.nomor_surat
     var sql
