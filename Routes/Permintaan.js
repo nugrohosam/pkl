@@ -76,7 +76,7 @@ permintaan.post('/save', async (req, res) => {
     var data = req.body
     var nomor_surat = data.nomor_surat
     var tanggal = data.tanggal
-    var divisi = data.divisi
+    var id_instalasi = data.id_instalasi
     var nama_peminta = data.nama_peminta
     var buat_pada = datetime_format
     var ubah_pada = datetime_format
@@ -89,7 +89,7 @@ permintaan.post('/save', async (req, res) => {
     try{
         await dbconn.query('BEGIN')
 
-        sql = 'INSERT INTO permintaan (id_permintaan, nomor_surat, tanggal, divisi, nama_peminta, status, diterima, buat_pada, ubah_pada) VALUES (\''+id_permintaan+'\', \''+nomor_surat+'\', \''+tanggal+'\', \''+divisi+'\', \''+nama_peminta+'\', \'diterima\', \''+diterima+'\', \''+buat_pada+'\', \''+ubah_pada+'\')';
+        sql = 'INSERT INTO permintaan (id_permintaan, id_instalasi, nomor_surat, tanggal, nama_peminta, status, diterima, buat_pada, ubah_pada) VALUES (\''+id_permintaan+'\', \''+id_instalasi+'\', \''+nomor_surat+'\', \''+tanggal+'\', \''+nama_peminta+'\', \'diterima\', \''+diterima+'\', \''+buat_pada+'\', \''+ubah_pada+'\')';
         await dbconn.query(sql)
 
         sql = 'INSERT INTO detail_permintaan VALUES ' 
@@ -107,6 +107,7 @@ permintaan.post('/save', async (req, res) => {
         res.status(200).json(json_return)
     } catch(err) {
         await dbconn.query('ROLLBACK')
+        console.log(err)
         var json_return = {satus : false}
         res.status(200).json(json_return)
     } finally {
