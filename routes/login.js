@@ -1,7 +1,9 @@
 var express = require('express')
 var login = express.Router()
 var cors = require('cors')
+var dbconn = require('../database/database')
 var jwt = require('jsonwebtoken')
+var md5 = require('md5')
 
 var token = jwt.sign({logged_in  : false}, 'secret_token')
 var appData = {}
@@ -57,17 +59,36 @@ login.use((req, res, next) => {
     }
 })
 
-login.post('/proccess', (req, res) => {
+login.post('/proccess', async (req, res) => {
     
-    var email = req.body.username
-    var password = req.body.password
+    var username = req.body.username
+    var password = md5(req.body.password)
     
-    if(email == 'admin' && password == 'admin'){
-        var token_code = jwt.sign({logged_in  : true}, 'secret_token', { expiresIn : '1d'})
-        res.status(200).json({ status : true, token : token_code })
-    } else {
-        res.status(200).json({ status : false })
-    }
+        try{
+            await dbconn.query('BEGIN')
+            var { rows } = await dbconn.query('SELECT * FROM pengguna WHERE username = \''+username+'\' AND password = \''+password+'\'')
+            if(rows.length == 1){
+                var token_code = jwt.sign({logged_in  : true, kategori : rows[0].kategori}, 'secret_token', { expiresIn : '1d'})  
+                if(token_code != ''){
+                    var json_return = {status : true, token : token_code}
+                    res.status(200).json(json_return)  
+                }else{
+                    var json_return = {status : false}
+                    res.status(200).json(json_return)
+                }    
+            }else{
+                var json_return = {status : false}
+                res.status(200).json(json_return)
+            }
+
+            await dbconn.query('COMMIT')
+        } catch(err){
+            await dbconn.query('ROLLBACK')
+            var json_return = {status : false}
+            res.status(200).json(json_return)
+        } finally {
+            await dbconn.release
+        }
 })
 
 module.exports = login;
