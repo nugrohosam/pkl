@@ -143,6 +143,7 @@ dashboard.get('/find/:instalasi/:tahun', async (req, res) => {
     var selesai
     var dikerjakan
     var diterima
+
     try {
         await dbconn.query('BEGIN')
 
@@ -193,8 +194,8 @@ dashboard.get('/find/:instalasi/:tahun', async (req, res) => {
 
         var json_return = {
             status: true,
-            rata_rata_diterima_dikerjakan: ceil(rata_rata_diterima_dikerjakan),
-            rata_rata_dikerjakan_selesai: ceil(rata_rata_dikerjakan_selesai),
+            rata_rata_diterima_dikerjakan: Math.ceil(rata_rata_diterima_dikerjakan),
+            rata_rata_dikerjakan_selesai: Math.ceil(rata_rata_dikerjakan_selesai),
             diterima: diterima,
             selesai: selesai,
             dikerjakan: dikerjakan
@@ -266,14 +267,15 @@ dashboard.get('/find/:instalasi/:tahun/:bulan', async (req, res) => {
         var {
             rows
         } = await dbconn.query(sql)
-        dikerjakan = rows.length
+        diterima = rows.length
 
         await dbconn.query('COMMIT')
 
         var json_return = {
             status: true,
-            rata_rata_diterima_dikerjakan: ceil(rata_rata_diterima_dikerjakan),
-            rata_rata_dikerjakan_selesai: ceil(rata_rata_dikerjakan_selesai),
+            rata_rata_diterima_dikerjakan: Math.ceil(rata_rata_diterima_dikerjakan),
+            rata_rata_dikerjakan_selesai: Math.ceil(rata_rata_dikerjakan_selesai),
+            diterima : diterima,
             selesai: selesai,
             dikerjakan: dikerjakan
         }
@@ -302,6 +304,7 @@ dashboard.get('/find/:instalasi/:tahun/:bulan/:tanggal', async (req, res) => {
     var selesai
     var dikerjakan
     var diterima
+
     try {
         await dbconn.query('BEGIN')
 
@@ -335,7 +338,6 @@ dashboard.get('/find/:instalasi/:tahun/:bulan/:tanggal', async (req, res) => {
         } = await dbconn.query(sql)
         selesai = rows.length
 
-
         sql = 'SELECT * FROM permintaan WHERE id_instalasi = \'' + id_instalasi + '\' AND tanggal LIKE \'' + tahun + '-' + bulan + '-' + tanggal + '\' AND dikerjakan is not null'
         var {
             rows
@@ -352,8 +354,8 @@ dashboard.get('/find/:instalasi/:tahun/:bulan/:tanggal', async (req, res) => {
 
         var json_return = {
             status: true,
-            rata_rata_diterima_dikerjakan: ceil(rata_rata_diterima_dikerjakan),
-            rata_rata_dikerjakan_selesai: ceil(rata_rata_dikerjakan_selesai),
+            rata_rata_diterima_dikerjakan: Math.ceil(rata_rata_diterima_dikerjakan),
+            rata_rata_dikerjakan_selesai: Math.ceil(rata_rata_dikerjakan_selesai),
             diterima: diterima,
             selesai: selesai,
             dikerjakan: dikerjakan
