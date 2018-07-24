@@ -104,7 +104,7 @@
                         </li>
                         <li class="nav-item">
                             <a href="/pengguna" class="nav-link">
-                                <i class="nav-icon fa fa-sticky-note-o"></i>
+                                <i class="nav-icon fa fa-user-o"></i>
                                 <p>
                                     Pengguna
                                     <i class="right fa fa-angle-left"></i>
@@ -137,14 +137,13 @@
                             </div>
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="card-title">Instalasi</h3>
+                                    <h3 class="card-title">bidang</h3>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
                                         <table id="table-pengguna" class="table table-sm table-striped">
                                             <thead class="bg-warning">
                                                 <tr>
-                                                    <th>Instalasi</th>
                                                     <th>Bidang</th>
                                                     <th>Action</th>
                                                 </tr>
@@ -168,21 +167,13 @@
                                         <div class="modal-body">
                                             <div class="form-group" hidden>
                                                 <div class="col-sm-10">
-                                                    <input class="form-control" id="id_instalasi_ubah">
+                                                    <input class="form-control" id="id_bidang_ubah">
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="control-label col-sm-2">Nama Instalasi :</label>
+                                                <label class="control-label col-sm-2">Nama Bidang :</label>
                                                 <div class="col-sm-10">
-                                                    <input class="form-control" id="nama_instalasi_ubah">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-sm-2">Bidang</label>
-                                                <span>:</span>
-                                                <div class="col-sm-8 form-ubah">
-                                                    <select id="bidang_ubah" class="form-control">
-                                                    </select>
+                                                    <input class="form-control" id="nama_bidang_ubah">
                                                 </div>
                                             </div>
                                         </div>
@@ -204,17 +195,9 @@
                                         </div>
                                         <div class="modal-body">
                                             <div class="form-group">
-                                                <label class="control-label col-sm-2">Nama Instalasi :</label>
+                                                <label class="control-label col-sm-2">Nama Bidang :</label>
                                                 <div class="col-sm-10">
-                                                    <input class="form-control" id="nama_instalasi_tambah">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-sm-2">Bidang</label>
-                                                <span>:</span>
-                                                <div class="col-sm-8 form-ubah">
-                                                    <select id="bidang_tambah" class="form-control">
-                                                    </select>
+                                                    <input class="form-control" id="nama_bidang_tambah">
                                                 </div>
                                             </div>
                                         </div>
@@ -236,17 +219,9 @@
                                         </div>
                                         <div class="modal-body">
                                             <div class="form-group">
-                                                <label class="control-label col-sm-2">Nama Instalasi :</label>
+                                                <label class="control-label col-sm-2">Nama Bidang :</label>
                                                 <div class="col-sm-10">
-                                                    <input class="form-control" id="nama_instalasi_detail">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-sm-2">Bidang</label>
-                                                <span>:</span>
-                                                <div class="col-sm-8 form-ubah">
-                                                    <select id="bidang_detail" class="form-control">
-                                                    </select>
+                                                    <input class="form-control" id="nama_bidang_detail">
                                                 </div>
                                             </div>
                                         </div>
@@ -271,8 +246,8 @@
                                         table = $('#table-pengguna').DataTable({
                                             'processing': false,
                                             'serverSide': true,
-                                            'ajax': {
-                                                'url': '/instalasi/find'
+                                            'ajax' : {
+                                                'url' : '/bidang/find'
                                             },
                                             'columnDefs': [{
                                                 'targets': [-1],
@@ -285,43 +260,20 @@
                                 );
 
 
-                                function ubah_modal(id_instalasi) {
+                                function ubah_modal(id_bidang) {
                                     $('#ubah_modal').modal('show');
 
                                     $.ajax({
-                                        url: '/instalasi/find_bidang',
-                                        header: {
-                                            "Content-type": "applocation/application/x-www-form-urlencoded"
+                                        url : '/bidang/find/'+id_bidang,
+                                        header : {
+                                            "Content-type" : "applocation/application/x-www-form-urlencoded"
                                         },
-                                        dataType: 'json',
-                                        success: function (response) {
-                                            var isi_bidang = ''
-                                            response.bidang.forEach(function (item) {
-                                                isi_bidang = isi_bidang + '<option value="' + item.id_bidang +
-                                                    '">' + item.nama_bidang + '</option>'
-                                            });
-
-                                            $('#bidang_ubah').html(isi_bidang)
-
+                                        dataType : 'json',
+                                        success : function(response){
+                                            $('#id_bidang_ubah').val(response.id_bidang);
+                                            $('#nama_bidang_ubah').val(response.nama_bidang);
                                         },
-                                        error: function () {
-
-                                        },
-                                        timeout: 15000
-                                    })
-
-                                    $.ajax({
-                                        url: '/instalasi/find/' + id_instalasi,
-                                        header: {
-                                            "Content-type": "applocation/application/x-www-form-urlencoded"
-                                        },
-                                        dataType: 'json',
-                                        success: function (response) {
-                                            $('#id_instalasi_ubah').val(response.id_instalasi);
-                                            $('#nama_instalasi_ubah').val(response.nama_instalasi);
-                                            $('#bidang_ubah').val(response.id_bidang);
-                                        },
-                                        error: function () {
+                                        error : function(){
 
                                         },
                                         timeout: 15000
@@ -330,152 +282,104 @@
 
                                 function tambah_modal() {
                                     $('#tambah_modal').modal('show');
-
-                                    $.ajax({
-                                        url: '/instalasi/find_bidang',
-                                        header: {
-                                            "Content-type": "applocation/application/x-www-form-urlencoded"
-                                        },
-                                        dataType: 'json',
-                                        success: function (response) {
-                                            var isi_bidang = ''
-                                            response.bidang.forEach(function (item) {
-                                                isi_bidang = isi_bidang + '<option value="' + item.id_bidang +
-                                                    '">' + item.nama_bidang + '</option>'
-                                            });
-
-                                            $('#bidang_tambah').html(isi_bidang)
-
-                                            reload_table()
-                                        },
-                                        error: function () {
-
-                                        },
-                                        timeout: 15000
-                                    })
                                 }
 
                                 function logout() {
                                     document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
                                 }
 
-                                function ubah_proccess() {
+                                function ubah_proccess(){        
                                     $('#ubah_modal').modal('hide');
                                     $('#notif_modal').modal('show');
 
                                     $.ajax({
-                                        url: '/instalasi/update/' + $('#id_instalasi_ubah').val(),
-                                        header: {
-                                            "Content-type": "applocation/application/x-www-form-urlencoded"
+                                        url : '/bidang/update/'+$('#id_bidang_ubah').val(),
+                                        header : {
+                                            "Content-type" : "applocation/application/x-www-form-urlencoded"
                                         },
-                                        type: 'post',
-                                        dataType: 'json',
-                                        data: {
-                                            'nama_instalasi': $('#nama_instalasi_ubah').val(),
-                                            'id_bidang': $('#bidang_ubah').val()
+                                        type : 'post',
+                                        dataType : 'json',
+                                        data : {
+                                            'nama_bidang' : $('#nama_bidang_ubah').val()
                                         },
-                                        success: function (response) {
+                                        success : function(response){
                                             if (!response.status) {
                                                 $("#notif_modal div div div").html('gagal ubah');
                                             } else {
                                                 $("#notif_modal div div div").html('sukses ubah');
                                             }
-
+                                            
                                             setTimeout(function () {
                                                 $('#notif_modal').modal('hide');
                                             }, 1000);
 
                                             reload_table()
                                         },
-                                        error: function () {
+                                        error : function(){
                                             $("#notif_modal div div div").html('gagal ubah');
                                             setTimeout(function () {
                                                 $('#notif_modal').modal('hide');
                                             }, 1000);
                                         },
-                                        timeout: 15000
+                                        timeout : 15000
                                     })
                                 }
-
-                                function tambah_proccess() {
+                                
+                                function tambah_proccess(){        
                                     $('#tambah_modal').modal('hide');
                                     $('#notif_modal').modal('show');
 
                                     $.ajax({
-                                        url: '/instalasi/save',
-                                        header: {
-                                            "Content-type": "applocation/application/x-www-form-urlencoded"
+                                        url : '/bidang/save',
+                                        header : {
+                                            "Content-type" : "applocation/application/x-www-form-urlencoded"
                                         },
-                                        type: 'post',
-                                        dataType: 'json',
-                                        data: {
-                                            'nama_instalasi': $('#nama_instalasi_tambah').val(),
-                                            'id_bidang': $('#bidang_tambah').val()
+                                        type : 'post',
+                                        dataType : 'json',
+                                        data : {
+                                            'nama_bidang' : $('#nama_bidang_tambah').val()
                                         },
-                                        success: function (response) {
+                                        success : function(response){
                                             if (!response.status) {
                                                 $("#notif_modal div div div").html('gagal tambah');
                                             } else {
                                                 $("#notif_modal div div div").html('sukses tambah');
                                             }
-
+                                            
                                             setTimeout(function () {
                                                 $('#notif_modal').modal('hide');
                                             }, 1000);
 
                                             reload_table()
                                         },
-                                        error: function () {
+                                        error : function(){
                                             $("#notif_modal div div div").html('gagal tambah');
                                             setTimeout(function () {
                                                 $('#notif_modal').modal('hide');
                                             }, 1000);
                                         },
-                                        timeout: 15000
+                                        timeout : 15000
                                     })
                                 }
 
-                                function detail_modal(id_instalasi) {
+                                function detail_modal(id_bidang){
                                     $('#detail_modal').modal('show');
-
+                                    
                                     $.ajax({
-                                        url: '/instalasi/find_bidang',
-                                        header: {
-                                            "Content-type": "applocation/application/x-www-form-urlencoded"
+                                        url : '/bidang/find/'+id_bidang,
+                                        header : {
+                                            "Content-type" : "applocation/application/x-www-form-urlencoded"
                                         },
-                                        dataType: 'json',
-                                        success: function (response) {
-                                            var isi_bidang = ''
-                                            response.bidang.forEach(function (item) {
-                                                isi_bidang = isi_bidang + '<option value="' + item.id_bidang +
-                                                    '">' + item.nama_bidang + '</option>'
-                                            });
-
-                                            $('#bidang_detail').html(isi_bidang)
+                                        dataType : 'json',
+                                        success : function(respose){
+                                            $('#nama_bidang_detail').val(respose.nama_bidang);
+                                        },
+                                        error : function(){
 
                                         },
-                                        error: function () {
-
-                                        },
-                                        timeout: 15000
+                                        timeout : 15000
                                     })
-
-                                    $.ajax({
-                                        url: '/instalasi/find/' + id_instalasi,
-                                        header: {
-                                            "Content-type": "applocation/application/x-www-form-urlencoded"
-                                        },
-                                        dataType: 'json',
-                                        success: function (respose) {
-                                            $('#nama_instalasi_detail').val(respose.nama_instalasi);
-                                            $('#bidang_detail').val(respose.id_bidang);
-                                        },
-                                        error: function () {
-
-                                        },
-                                        timeout: 15000
-                                    })
-                                }
+                                }    
 
                                 function reload_table() {
                                     table.ajax.reload(null, false);

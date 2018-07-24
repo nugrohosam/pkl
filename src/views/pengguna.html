@@ -98,10 +98,10 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
                         <li class="nav-item">
-                            <a href="/pengguna" class="nav-link">
+                            <a href="/permintaan" class="nav-link">
                                 <i class="nav-icon fa fa-sticky-note-o"></i>
                                 <p>
-                                    Surat pengguna
+                                    Surat Permintaan
                                     <i class="right fa fa-angle-left"></i>
                                 </p>
                             </a>
@@ -125,6 +125,15 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="/bidang" class="nav-link">
+                                <i class="nav-icon fa fa-sticky-note-o"></i>
+                                <p>
+                                    Bidang
+                                    <i class="right fa fa-angle-left"></i>
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="/pengguna" class="nav-link">
                                 <i class="nav-icon fa fa-sticky-note-o"></i>
                                 <p>
@@ -142,7 +151,6 @@
                                 </p>
                             </a>
                         </li>
-
                     </ul>
                 </nav>
             </div>
@@ -352,7 +360,7 @@
                                             'orderable': false,
                                         }]
                                     });
-
+                                    
                                     setInterval(reload_table, 4000)
                                 }
                             );
@@ -364,7 +372,7 @@
                             function ubah_modal(id_pengguna) {
 
                                 $.ajax({
-                                    url: '/pengguna/find/'+id_pengguna,
+                                    url: '/pengguna/find/' + id_pengguna,
                                     header: {
                                         "Content-type": "applocation/json"
                                     },
@@ -372,13 +380,14 @@
                                     success: function (response) {
                                         $('#id_pengguna_ubah').val(response.id_pengguna);
                                         $('#username_ubah').val(response.username);
+                                        $('#kategori_ubah').val(response.kategori);
                                     },
                                     error: function (err) {
                                         $('#notif_modal').modal('show');
                                         $('#notif_modal div div div').html('connection error');
                                         setTimeout(function () {
                                             $('#notif_modal').modal('hide');
-                                        }, 1000);                             
+                                        }, 1000);
                                     },
                                     timeout: 15000
                                 })
@@ -392,19 +401,19 @@
                             function tambah_proccess() {
                                 $('#tambah_modal').modal('hide');
                                 $('#notif_modal').modal('show');
-                                
+
                                 var status = true;
 
                                 var bool1 = $('#username_tambah').val() == '';
                                 var bool2 = $('#kategori_tambah').val() == '';
                                 var bool3 = $('#password_tambah').val() == '';
                                 var bool4 = $('#confirm_password_tambah').val() != $('#password_tambah').val();
-                                
-                                if(bool1 || bool2 || bool3) {
+
+                                if (bool1 || bool2 || bool3) {
                                     status = false
                                 }
 
-                                if(bool4){
+                                if (bool4) {
                                     status = false
                                 }
 
@@ -450,34 +459,33 @@
                                         $('#tambah_modal').modal('hide');
                                     }, 1500);
                                 }
-                                
+
                             }
 
                             function ubah_proccess() {
                                 $('#ubah_modal').modal('hide');
                                 $('#notif_modal').modal('show');
-                                
+
                                 var bool1 = $('#username_ubah').val() == '';
                                 var bool2 = $('#kategori_ubah').val() == '';
-                                var bool3 = $('#password_ubah').val() == '';
                                 var bool4 = $('#confirm_password_ubah').val() != $('#password_ubah').val();
-                                
+
                                 var status = true;
 
-                                if(bool1 || bool2 || bool3 ){
+                                if (bool1 || bool2 ) {
                                     status = false;
                                     $("#notif_modal div div div").html('field harus terisi semua');
                                     setTimeout(function () {
-                                        $('#notif_modal').modal('hide');        
+                                        $('#notif_modal').modal('hide');
                                         $('#ubah_modal').modal('show');
                                     }, 1000);
                                 }
 
-                                if(bool4){
+                                if (bool4) {
                                     status = false
                                     $("#notif_modal div div div").html('password tidak cocok');
                                     setTimeout(function () {
-                                        $('#notif_modal').modal('hide');        
+                                        $('#notif_modal').modal('hide');
                                         $('#ubah_modal').modal('show');
                                     }, 1000);
                                 }
@@ -524,7 +532,7 @@
                                         $('#ubah_modal').modal('hide');
                                     }, 1500);
                                 }
-                                
+
                             }
 
                             function detail_modal(id_pengguna) {
@@ -533,7 +541,7 @@
                                 var id_instalasi = '';
 
                                 $.ajax({
-                                    url: '/pengguna/find/'+id_pengguna,
+                                    url: '/pengguna/find/' + id_pengguna,
                                     header: {
                                         "Content-type": "applocation/json"
                                     },

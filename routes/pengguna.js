@@ -46,7 +46,7 @@ pengguna.use((req, res, next) => {
                 }  
             })
         }
-        if(decoded.logged_in){
+        if(decoded.logged_in && decoded.kategori == 'admin'){
             next()
         }else{
             var fileName = 'login.html'
@@ -189,8 +189,7 @@ pengguna.get('/find/:id', async (req, res) => {
             status : true,
             id_pengguna : rows[0].id_pengguna,
             kategori : rows[0].kategori,
-            username : rows[0].username,
-            password : rows[0].password
+            username : rows[0].username
         }
 
         await dbconn.query('COMMIT')
@@ -212,15 +211,19 @@ pengguna.post('/update/:id', async (req, res) => {
     var data = req.body
     var kategori = data.kategori
     var username = data.username
-    var password = data.password
+    var password = md5(data.password)
     var ubah_pada = datetime_format
     
     var sql
 
     try{
         await dbconn.query('BEGIN')
-
-        sql = 'UPDATE pengguna SET kategori = \''+kategori+'\', username =  \''+username+'\', password = \''+password+'\' WHERE id_pengguna = \''+id_pengguna+'\''
+        
+        if(data.password == ''){
+            sql = 'UPDATE pengguna SET kategori = \''+kategori+'\', username =  \''+username+'\', ubah_pada = \''+ubah_pada+'\' WHERE id_pengguna = \''+id_pengguna+'\''
+        }else{
+            sql = 'UPDATE pengguna SET kategori = \''+kategori+'\', username =  \''+username+'\', password = \''+password+'\', ubah_pada = \''+ubah_pada+'\' WHERE id_pengguna = \''+id_pengguna+'\''
+        }
         await dbconn.query(sql)
 
         await dbconn.query('COMMIT')

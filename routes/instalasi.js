@@ -45,7 +45,7 @@ instalasi.use((req, res, next) => {
                 }  
             })
         }
-        if(decoded.logged_in){
+        if(decoded.logged_in && decoded.kategori == 'admin'){
             next()
         }else{
             var fileName = 'login.html'
@@ -76,6 +76,7 @@ instalasi.post('/save', async (req, res) => {
     var data = req.body
     var nama_instalasi = data.nama_instalasi
     var id_bidang = data.id_bidang
+    var buat_pada = datetime_format
     var ubah_pada = datetime_format
 
     var sql
@@ -83,7 +84,7 @@ instalasi.post('/save', async (req, res) => {
     try{
         await dbconn.query('BEGIN')
 
-        sql = 'INSERT INTO instalasi (id_instalasi, id_bidang, nama_instalasi ) VALUES (\''+id_instalasi+'\', \''+id_bidang+'\', \''+nama_instalasi+'\', \''+buat_pada+'\', \''+ubah_pada+'\')';
+        sql = 'INSERT INTO instalasi (id_instalasi, id_bidang, nama_instalasi, buat_pada, ubah_pada ) VALUES (\''+id_instalasi+'\', \''+id_bidang+'\', \''+nama_instalasi+'\', \''+buat_pada+'\', \''+ubah_pada+'\')';
         await dbconn.query(sql)
         
         await dbconn.query('COMMIT')
@@ -109,10 +110,10 @@ instalasi.get('/find', async (req, res) => {
     var tipe_order = order['0'].dir
     var draw = req.query.draw
     
-    var kolom = ['i.nama_istalasi', 'b.nama_bidang']
+    var kolom = ['i.nama_instalasi', 'b.nama_bidang']
 
     if(order_kolom == '0'){
-        order_kolom = 'id_instalasi'
+        order_kolom = 'i.id_instalasi'
         tipe_order = 'desc'
     }else{
         order_kolom = kolom[order_kolom]
@@ -178,13 +179,14 @@ instalasi.get('/find/:id', async (req, res) => {
     try{
         await dbconn.query('BEGIN')
 
-        sql = 'SELECT i.id_instansi, i.nama_instansi, b.id_bidang FROM instalasi i INNER JOIN bidang b ON i.id_bidang = b.id_bidang WHERE i.id_instalasi = \''+id+'\''
+        sql = 'SELECT i.id_instalasi, i.nama_instalasi, b.id_bidang FROM instalasi i INNER JOIN bidang b ON i.id_bidang = b.id_bidang WHERE i.id_instalasi = \''+id+'\''
         var { rows } = await dbconn.query(sql)
         var json_return = {
             status : true,
             id_instalasi : rows[0].id_instalasi,
-            nama_instansi : rows[0].nama_instansi,
-            nama_bidang : rows[0].nama_bidang
+            nama_instalasi : rows[0].nama_instalasi,
+            nama_bidang : rows[0].nama_bidang,
+            id_bidang : rows[0].id_bidang
         }
 
         await dbconn.query('COMMIT')
@@ -204,7 +206,7 @@ instalasi.post('/update/:id', async (req, res) => {
     var datetime_format = year+'-'+month+'-'+day+' '+hour+':'+minute+':'+second;
 
     var data = req.body
-    var nama_instansi = data.nama_instansi
+    var nama_instalasi = data.nama_instalasi
     var id_bidang = data.id_bidang
     var ubah_pada = datetime_format
 
@@ -213,7 +215,7 @@ instalasi.post('/update/:id', async (req, res) => {
     try{
         await dbconn.query('BEGIN')
 
-        sql = 'UPDATE instalasi SET nama_instalasi = \''+nama_instalasi+'\', id_bidang =  \''+id_bidang+'\' WHERE id_instalasi = \''+id_instalasi+'\' ';
+        sql = 'UPDATE instalasi SET nama_instalasi = \''+nama_instalasi+'\', id_bidang =  \''+id_bidang+'\', ubah_pada = \''+ubah_pada+'\' WHERE id_instalasi = \''+id_instalasi+'\' ';
         await dbconn.query(sql)
 
         await dbconn.query('COMMIT')

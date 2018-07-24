@@ -95,6 +95,15 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="/bidang" class="nav-link">
+                                <i class="nav-icon fa fa-sticky-note-o"></i>
+                                <p>
+                                    Bidang
+                                    <i class="right fa fa-angle-left"></i>
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="/pengguna" class="nav-link">
                                 <i class="nav-icon fa fa-sticky-note-o"></i>
                                 <p>
@@ -104,7 +113,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/logout" class="nav-link">
+                            <a href="login" class="nav-link" onClick="logout()">
                                 <i class="nav-icon fa fa-sign-out"></i>
                                 <p>
                                     Logout
@@ -112,7 +121,6 @@
                                 </p>
                             </a>
                         </li>
-
                     </ul>
                 </nav>
             </div>
@@ -157,9 +165,7 @@
                             </div>
                         </div>
                         <div class="col-lg-4 form-group">
-                            <select id="divisi" class="form-control">
-                                <option value="" class="btn">-- Divisi --</option>
-                                <option value="ITIKOM" class="btn">ITIKOM</option>
+                            <select id="instalasi" class="form-control">
                             </select>
                         </div>
                         <div class="col-lg-2 form-group">
@@ -236,37 +242,42 @@
                     },
                     timeout: 15000
                 })
-
-
-                $('.datepick').datepicker({
-                    autoclose: true,
-                    format: "yyyy-mm-dd",
-                    todayHighlight: true,
-                    orientation: "top auto",
-                    todayBtn: true,
-                    todayHighlight: true,
-                });
+                
+                $.ajax({
+                    url : '/dashboard/find_instalasi',
+                    haeder : {
+                        "Content-type": "applocation/json"
+                    },
+                    dataType : 'json',
+                    success : function(response) {
+                        var isi_instalasi = ''
+                        response.instalasi.forEach(function(item){
+                            isi_instalasi = isi_instalasi + '<option value="'+item.id_instalasi+'">'+item.nama_instalasi+'</option>'
+                        });
+                        $('#instalasi').html(isi_instalasi)
+                    }
+                })
 
             });
 
             function search_proccess() {
-                var divisi_val = $('#divisi').val();
+                var id_instalasi_val = $('#instalasi').val();
                 var tahun_val = $('#tahun').val();
                 var bulan_val = $('#bulan').val();
                 var tanggal_val = $('#tanggal').val();
-                
-                var url = '/dashboard/find/' + divisi_val + '/' + tahun_val 
 
-                if(bulan_val != ''){  
-                    url = '/dashboard/find/' + divisi_val + '/' + tahun_val + '/' + bulan_val;
+                var url = '/dashboard/find/' + id_instalasi_val + '/' + tahun_val
+
+                if (bulan_val != '') {
+                    url = '/dashboard/find/' + id_instalasi_val + '/' + tahun_val + '/' + bulan_val;
                 }
-                if(tanggal_val != '' ){
-                    url = '/dashboard/find/' + divisi_val + '/' + tahun_val + '/' + bulan_val + '/' + tanggal_val;
+                if (tanggal_val != '') {
+                    url = '/dashboard/find/' + id_instalasi_val + '/' + tahun_val + '/' + bulan_val + '/' + tanggal_val;
                 }
 
                 $('#notif_modal').modal('show')
                 $("#notif_modal div div div").html('proses mencari');
-                
+
                 $.ajax({
                     url: url,
                     header: {
@@ -282,27 +293,27 @@
                         var diterima = response.diterima;
                         var i;
                         var isi_table = '';
-                        
+
                         isi_table = isi_table + '<tr>';
                         isi_table = isi_table + '<td>Response diterima - dikerjakan</td>';
-    
-                        if(rata_rata_diterima_dikerjakan != null){
+
+                        if (rata_rata_diterima_dikerjakan != null) {
                             isi_table = isi_table + '<td>' + rata_rata_diterima_dikerjakan + ' menit</td>';
-                        }else{
+                        } else {
                             isi_table = isi_table + '<td> belum ada </td>';
                         }
-    
+
                         isi_table = isi_table + '</tr>';
                         isi_table = isi_table + '<tr>';
                         isi_table = isi_table + '<td>Response dikerjakan - selesai</td>';
-                        
-                        if(rata_rata_dikerjakan_selesai != null){
+
+                        if (rata_rata_dikerjakan_selesai != null) {
                             isi_table = isi_table + '<td>' + rata_rata_dikerjakan_selesai + ' menit</td>';
-                        }else{
+                        } else {
                             isi_table = isi_table + '<td> belum ada </td>';
                         }
                         isi_table = isi_table + '</tr>';
-                        
+
 
                         isi_table = isi_table + '<tr>';
                         isi_table = isi_table + '<td>Diterima</td>';
@@ -316,7 +327,7 @@
                         isi_table = isi_table + '<td>Selesai</td>';
                         isi_table = isi_table + '<td>' + selesai + '</td>';
                         isi_table = isi_table + '</tr>';
-                        
+
                         $('#table_pencarian').html(isi_table)
                         $("#notif_modal div div div").html('sukses mencari');
                         setTimeout(function () {
@@ -329,7 +340,7 @@
                             $('#notif_modal').modal('hide');
                         }, 1500);
                     },
-                    timeout : 15000
+                    timeout: 15000
                 })
             }
         </script>

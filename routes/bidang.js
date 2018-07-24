@@ -45,7 +45,7 @@ bidang.use((req, res, next) => {
                 }  
             })
         }
-        if(decoded.logged_in){
+        if(decoded.logged_in && decoded.kategori == 'admin'){
             next()
         }else{
             var fileName = 'login.html'
@@ -75,6 +75,7 @@ bidang.post('/save', async (req, res) => {
 
     var data = req.body
     var nama_bidang = data.nama_bidang
+    var buat_pada = datetime_format
     var ubah_pada = datetime_format
 
     var sql
@@ -82,7 +83,7 @@ bidang.post('/save', async (req, res) => {
     try{
         await dbconn.query('BEGIN')
 
-        sql = 'INSERT INTO bidang (id_bidang, nama_bidang ) VALUES (\''+id_bidang+'\', \''+nama_bidang+'\', \''+buat_pada+'\', \''+ubah_pada+'\')';
+        sql = 'INSERT INTO bidang (id_bidang, nama_bidang, buat_pada, ubah_pada ) VALUES (\''+id_bidang+'\', \''+nama_bidang+'\', \''+buat_pada+'\', \''+ubah_pada+'\')';
         await dbconn.query(sql)
         
         await dbconn.query('COMMIT')
@@ -134,7 +135,7 @@ bidang.get('/find', async (req, res) => {
             if(item.status == 'selesai') {
                 script_html = '<i class="left fa fa-eye" style="cursor : pointer" onClick="detail_modal(\''+item.id_bidang+'\')"></i><span style="cursor : pointer" onClick="detail_modal(\''+item.id_bidang+'\')"> Detail</span>'
             }
-            var data_table = [item.nomor_surat, item.tanggal, item.nama_bidang, item.nama_peminta, item.status, script_html]
+            var data_table = [item.nama_bidang, script_html]
             data[i] = data_table
             i++
         })
@@ -182,7 +183,6 @@ bidang.get('/find/:id', async (req, res) => {
         var json_return = {
             status : true,
             id_bidang : rows[0].id_bidang,
-            nama_instansi : rows[0].nama_instansi,
             nama_bidang : rows[0].nama_bidang
         }
 
@@ -204,7 +204,6 @@ bidang.post('/update/:id', async (req, res) => {
 
     var data = req.body
     var nama_bidang = data.nama_bidang
-    var id_bidang = data.id_bidang
     var ubah_pada = datetime_format
 
     var sql
@@ -212,7 +211,7 @@ bidang.post('/update/:id', async (req, res) => {
     try{
         await dbconn.query('BEGIN')
 
-        sql = 'UPDATE bidang SET nama_bidang = \''+nama_bidang+'\' WHERE id_bidang = \''+id_bidang+'\' ';
+        sql = 'UPDATE bidang SET nama_bidang = \''+nama_bidang+'\', ubah_pada = \''+ubah_pada+'\' WHERE id_bidang = \''+id_bidang+'\' ';
         await dbconn.query(sql)
 
         await dbconn.query('COMMIT')

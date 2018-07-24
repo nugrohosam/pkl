@@ -78,7 +78,7 @@ login.post('/proccess', async (req, res) => {
                 }    
             }else{
                 var json_return = {status : false}
-                res.status(400).json(json_return)
+                res.status(200).json(json_return)
             }
 
             await dbconn.query('COMMIT')
