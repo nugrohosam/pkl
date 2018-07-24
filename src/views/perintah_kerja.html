@@ -234,14 +234,14 @@
                                                 </label>
                                                 <span>:</span>
                                                 <div class="col-sm-8 form-ubah">
-                                                    <input class="form-control" id="nomor_SP_ubah">
+                                                    <input class="form-control" id="nomor_sp_ubah">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label col-sm-2">No SPK</label>
                                                 <span>:</span>
                                                 <div class="col-sm-8 form-ubah">
-                                                    <input class="form-control" id="nomor_SPK_ubah">
+                                                    <input class="form-control" id="nomor_spk_ubah">
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -291,7 +291,7 @@
                                                 </label>
                                                 <span>:</span>
                                                 <div class="col-sm-8 form-ubah">
-                                                    <input class="form-control" id="no_SP_tambah">
+                                                    <input class="form-control" id="nomor_sp_tambah">
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -299,7 +299,7 @@
                                                 </label>
                                                 <span>:</span>
                                                 <div class="col-sm-8 form-ubah">
-                                                    <input class="form-control" id="no_SPK_tambah">
+                                                    <input class="form-control" id="nomor_spk_tambah">
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -433,6 +433,12 @@
                                 $(document).ready(
                                     function () {
                                         table = $('#table-pengguna').DataTable({
+                                            'processing': false,
+                                            'serverSide': true,
+                                            'ajax' : {
+                                                'url' : '/perintah_kerja/find',
+                                                'timeout': 15000
+                                            },
                                             'columnDefs': [{
                                                 'targets': [-1],
                                                 'orderable': false,
@@ -452,6 +458,86 @@
                                 function detail_modal(id_pengguna){
                                     $('#detail_modal').modal('show');
                                 }    
+                                
+                                function tambah_proccess(){
+                                    $('#tambah_modal').modal('hide');
+                                    $('#notif_modal').modal('show');
+                                    
+                                    var status = true;
+
+                                    var bool1 = $('#nomor_sp_tambah').val() == '';
+                                    var bool2 = $('#nomor_spk_tambah').val() == '';
+                                    var bool3 = $('#lokasi_tambah').val() == '';
+                                    
+
+                                    if(bool1 || bool2 || bool3){
+                                        status = false;
+                                    }
+
+                                    if(status){
+                                        var id_permintaan = '';
+                                        $.ajax({
+                                            url : '/perintah_kerja/find_permintaan/'+$('#nomor_sp_tambah').val(),
+                                            header: {
+                                                "Content-type": "applocation/json"
+                                            },
+                                            dataType: 'json',
+                                            success : function(response) {
+                                                if(!response.status){
+                                                    $('#notif_modal div div div').html('nomor sp tidak ditemukan');
+                                                    setTimeout(function(){
+                                                        $('#notif_modal').modal('hide');
+                                                    }, 1500)  
+                                                    status = false;         
+                                                }else{
+                                                    id_permintaan = response.id_permintaan
+                                                }
+                                            },
+                                            error : function(){
+                                                $('#notif_modal div div div').html('error pada server');
+                                                setTimeout(function(){
+                                                    $('#notif_modal').modal('hide');
+                                                }, 1500) 
+                                            },
+                                            timeout : 15000
+                                        })
+                                        
+                                        if(status){
+                                            $.ajax({
+                                                url : '/perintah_kerja/save',
+                                                header: {
+                                                    "Content-type": "applocation/json"
+                                                },
+                                                type : 'post',
+                                                dataType: 'json',
+                                                data : {
+                                                    'id_permintaan' : id_permintaan,
+                                                    'nomor_spk' : $('#nomor_spk_tambah').val(),
+                                                    'lokasi' : $('#lokasi_tambah').val()
+                                                },
+                                                success : function(response){
+                                                    if(response.status){
+                                                        $('#notif_modal div div div').html('sukses tambah')
+                                                    }else{
+                                                        $('#notif_modal div div div').html('gagal tambah')
+                                                    }
+
+                                                    setTimeout(function(){
+                                                        $('#notif_modal').modal('hide')
+                                                    }, 1500)
+                                                },
+                                                error : function(){
+                                                    $('#notif_modal div div div').html('gagal tambah')
+                                                    setTimeout(function(){
+                                                        $('#notif_modal').modal('hide')
+                                                    }, 1500)
+                                                },
+                                                timeout : 15000
+                                            })
+                                        }
+                                    }
+                                    
+                                }
 
                                 function logout() {
                                     document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';

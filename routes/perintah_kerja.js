@@ -68,12 +68,15 @@ perintah_kerja.post('/save', async (req, res) => {
     
     var data = req.body
     var id_permintaan = data.id_permintaan
+    var nomor_surat = data.nomor_surat
     var lokasi = data.lokasi
+    var buat_pada = datetime_format
+    var ubah_pada = datetime_format
     
     try{
         await dbconn.query('BEGIN')
 
-        await dbconn.query('INSERT INTO perintah_kerja ( id_perintah_kerja, id_permintaan, lokasi ) VALUES ( \''+id_perintah_kerja+'\', \''+id_permintaan+'\', \''+lokasi+'\')')
+        await dbconn.query('INSERT INTO perintah_kerja ( id_perintah_kerja, id_permintaan, lokasi, buat_pada, ubah_pada ) VALUES ( \''+id_perintah_kerja+'\', \''+id_permintaan+'\', \''+nomor_surat+'\', \''+lokasi+'\', \''+buat_pada+'\', \''+ubah_pada+'\')')
         await dbconn.query('COMMIT')
         var json_return = {
             status : false
@@ -91,7 +94,7 @@ perintah_kerja.post('/save', async (req, res) => {
     
 })
 
-perintah_kerja.get('/find/:id', async (req, res) => {
+perintah_kerja.get('/find', async (req, res) => {
     
     var panjang_baris = req.query.length
     var awal_baris = req.query.start
@@ -174,7 +177,6 @@ perintah_kerja.get('/find/:id', async (req, res) => {
     var loakasi
     var tanggal_kembali
     var keterangan
-    var data = new Array()
 
     try {
         await dbconn.query('BEGIN')
