@@ -216,7 +216,7 @@ perintah_kerja.get('/find/:id', async (req, res) => {
     }
 })
 
-perintah_kerja.pos('/update/:id', async (req, res) => {
+perintah_kerja.post('/update/:id', async (req, res) => {
 
     var id_perintah_kerja = req.params.id
     
