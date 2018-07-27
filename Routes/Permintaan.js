@@ -106,6 +106,7 @@ permintaan.post('/save', async (req, res) => {
         var json_return = {status : true}
         res.status(200).json(json_return)
     } catch(err) {
+        console.log(err)
         await dbconn.query('ROLLBACK')
         console.log(err)
         var json_return = {satus : false}
@@ -142,7 +143,7 @@ permintaan.get('/find', async (req, res) => {
 
     try{
         await dbconn.query('BEGIN')
-        
+
         sql = "SELECT p.id_permintaan, p.nomor_surat, p.tanggal, i.nama_instalasi, p.nama_peminta, p.status  FROM permintaan p INNER JOIN instalasi i ON i.id_instalasi = p.id_instalasi  WHERE ( p.nomor_surat LIKE '%"+isi_pencarian+"%' OR p.tanggal LIKE '%"+isi_pencarian+"%' OR i.nama_instalasi LIKE '%"+isi_pencarian+"%' OR p.nama_peminta LIKE '%"+isi_pencarian+"%' OR p.status LIKE '%"+isi_pencarian+"%') ORDER BY "+order_kolom+" "+tipe_order+" LIMIT "+panjang_baris+" OFFSET "+awal_baris
         var { rows } = await dbconn.query(sql)
         var i = 0
@@ -165,7 +166,7 @@ permintaan.get('/find', async (req, res) => {
         var { rows } = await dbconn.query(sql)
         recordsFiltered = rows.length
 
-        await client.query('COMMIT')
+        await dbconn.query('COMMIT')
         var json_return = {
             draw : draw,
             recordsTotal : recordsTotal,
@@ -181,7 +182,7 @@ permintaan.get('/find', async (req, res) => {
             recordsFiltered : recordsFiltered,
             data : data
         }
-        res.status(200).json(json_return)
+        res.status(400).json(json_return)
     } finally {
         await dbconn.release
     }

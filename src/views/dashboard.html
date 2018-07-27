@@ -105,7 +105,7 @@
                         </li>
                         <li class="nav-item">
                             <a href="/pengguna" class="nav-link">
-                                <i class="nav-icon fa fa-sticky-note-o"></i>
+                                <i class="nav-icon fa fa-user-o"></i>
                                 <p>
                                     Pengguna
                                     <i class="right fa fa-angle-left"></i>
@@ -342,6 +342,10 @@
                     },
                     timeout: 15000
                 })
+            }
+
+            function logout() {
+                document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
             }
         </script>
 

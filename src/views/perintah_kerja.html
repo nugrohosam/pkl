@@ -66,6 +66,7 @@
         }
 
         div.form-ubah>input.form-control,
+        div.form-ubah>textarea.form-control,
         div.form-ubah>select.form-control {
             display: inline;
             flex-direction: row-reverse;
@@ -135,7 +136,7 @@
                         </li>
                         <li class="nav-item">
                             <a href="/pengguna" class="nav-link">
-                                <i class="nav-icon fa fa-sticky-note-o"></i>
+                                <i class="nav-icon fa fa-user-o"></i>
                                 <p>
                                     Pengguna
                                     <i class="right fa fa-angle-left"></i>
@@ -227,8 +228,13 @@
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        
+
                                         <div class="modal-body">
+                                            <div class="form-group">
+                                                <div class="col-sm-8 form-ubah" hidden>
+                                                    <input class="form-control" id="id_perintah_kerja_ubah">
+                                                </div>
+                                            </div>
                                             <div class="form-group">
                                                 <label class="control-label col-sm-2">No SP
                                                 </label>
@@ -255,22 +261,22 @@
                                                 <label class="control-label col-sm-2">Tanggal Kembali</label>
                                                 <span>:</span>
                                                 <div class="col-sm-8 form-ubah">
-                                                    <input class="form-control" id="tanggal_kembali_ubah">
+                                                    <input class="form-control datepick" id="tanggal_kembali_ubah">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="control-label col-sm-2">Keterangan</label>
                                                 <span>:</span>
                                                 <div class="col-sm-8 form-ubah">
-                                                    <input class="form-control" id="keterangan_ubah">
+                                                    <textarea class="form-control" rows="4" id="keterangan_ubah"></textarea>
                                                 </div>
-                                            </div>    
+                                            </div>
                                         </div>
                                         <div>
                                         </div>
-                                        
+
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-primary" id="button_save_ubah">Save changes</button>
+                                            <button type="button" class="btn btn-primary" id="button_save_ubah" onClick="ubah_proccess()">Save</button>
                                         </div>
                                     </div>
                                 </div>
@@ -312,7 +318,7 @@
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-primary" id="button_save_ubah">Save changes</button>
+                                            <button type="button" class="btn btn-primary" id="button_save_ubah" onClick="tambah_proccess()">Save</button>
                                         </div>
                                     </div>
                                 </div>
@@ -340,28 +346,28 @@
                                                     </label>
                                                     <span>:</span>
                                                     <div class="col-sm-8 form-ubah">
-                                                        <input class="form-control" id="nomor_SP_detail">
+                                                        <input class="form-control" id="nomor_sp_detail">
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="control-label col-sm-2">No SPK</label>
                                                     <span>:</span>
                                                     <div class="col-sm-8 form-ubah">
-                                                        <input class="form-control" id="nomor_SPK_detail">
+                                                        <input class="form-control" id="nomor_spk_detail">
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="control-label col-sm-2">Tanggal SP</label>
                                                     <span>:</span>
                                                     <div class="col-sm-8 form-ubah">
-                                                        <input class="form-control" id="tanggal_SP_detail">
+                                                        <input class="form-control" id="tanggal_sp_detail">
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="control-label col-sm-2">Instalasi</label>
                                                     <span>:</span>
                                                     <div class="col-sm-8 form-ubah">
-                                                        <input class="form-control" id="instlasi_detail">
+                                                        <input class="form-control" id="instalasi_detail">
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -375,48 +381,43 @@
                                                     <label class="control-label col-sm-2">Tanggal Kembali</label>
                                                     <span>:</span>
                                                     <div class="col-sm-8 form-ubah">
-                                                        <input class="form-control" id="tanggal_kembali_detail">
+                                                        <input class="form-control datepick" id="tanggal_kembali_detail">
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="control-label col-sm-2">Keterangan</label>
                                                     <span>:</span>
                                                     <div class="col-sm-8 form-ubah">
-                                                        <input class="form-control" id="keterangan_detail">
+                                                        <textarea class="form-control" rows="4" id="keterangan_detail"></textarea>
                                                     </div>
-                                                </div> 
-                                            </div>
-                                            <div>
-                                                <table class="table table-sm table-striped">
-                                                    <thead class="bg-warning">
-                                                        <tr>
-                                                            <th>
-                                                                Permintaan
-                                                            </th>
-                                                            <th>
-                                                                Huruf
-                                                            </th>
-                                                            <th>
-                                                                Jumlah
-                                                            </th>
-                                                            <th>
-                                                                keterangan
-                                                            </th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody id="detail_SPK_detail">
-                                                    </tbody>
-                                                </table>
+                                                </div>
+                                                <div>
+                                                    <table class="table table-sm table-striped">
+                                                        <thead class="bg-warning">
+                                                            <tr>
+                                                                <th>
+                                                                    Permintaan
+                                                                </th>
+                                                                <th>
+                                                                    Huruf
+                                                                </th>
+                                                                <th>
+                                                                    Jumlah
+                                                                </th>
+                                                                <th>
+                                                                    keterangan
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="permintaan_detail">
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
-
-                            
-
-                            
 
                             <div id="notif_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered" role="document">
@@ -435,8 +436,8 @@
                                         table = $('#table-pengguna').DataTable({
                                             'processing': false,
                                             'serverSide': true,
-                                            'ajax' : {
-                                                'url' : '/perintah_kerja/find',
+                                            'ajax': {
+                                                'url': '/perintah_kerja/find',
                                                 'timeout': 15000
                                             },
                                             'columnDefs': [{
@@ -444,214 +445,264 @@
                                                 'orderable': false,
                                             }]
                                         });
+
+                                        $('.datepick').datepicker({
+                                            autoclose: true,
+                                            format: "yyyy-mm-dd",
+                                            todayHighlight: true,
+                                            orientation: "top auto",
+                                            todayBtn: true,
+                                            todayHighlight: true,
+                                        });
                                     }
                                 );
 
 
-                                function ubah_modal(id_pengguna) {
+                                function ubah_modal(id_perintah_kerja) {
                                     $('#ubah_modal').modal('show');
+
+                                    $.ajax({
+                                        url : '/perintah_kerja/find/'+id_perintah_kerja,
+                                        header: {
+                                            "Content-type": "applocation/json"
+                                        },
+                                        dataType : 'json',
+                                        success : function(response){
+                                            if(response.status){
+                                                $('#id_perintah_kerja_ubah').val(response.id_perintah_kerja);
+                                                $('#nomor_spk_ubah').val(response.nomor_spk);
+                                                $('#nomor_sp_ubah').val(response.nomor_sp);
+                                                $('#lokasi_ubah').val(response.lokasi);
+                                                $('#tanggal_kembali_ubah').val(response.tanggal_kembali);
+                                                $('#keterangan_ubah').val(response.keterangan);
+                                            }else{
+                                                $('#notif_modal').modal('show');
+                                                $('#notif_modal div div div').html('cannot find');
+                                                setTimeout(function () {
+                                                    $('#notif_modal').modal('hide');
+                                                }, 1000);
+                                            }
+                                        },
+                                        error : function(){
+                                            $('#notif_modal').modal('show');
+                                            $('#notif_modal div div div').html('connection error');
+                                            setTimeout(function () {
+                                                $('#notif_modal').modal('hide');
+                                            }, 1000);
+                                        },
+                                        timeout : 15000
+                                    })
                                 }
 
                                 function tambah_modal(id_pengguna) {
                                     $('#tambah_modal').modal('show');
                                 }
-                                function detail_modal(id_pengguna){
+
+                                function detail_modal(id_perintah_kerja) {
                                     $('#detail_modal').modal('show');
-                                }    
-                                
-                                function tambah_proccess(){
+
+                                    $.ajax({
+                                        url : '/perintah_kerja/find/'+id_perintah_kerja,
+                                        header: {
+                                            "Content-type": "applocation/json"
+                                        },
+                                        dataType : 'json',
+                                        success : function(response){
+                                            if(response.status){
+                                                $('#nomor_spk_detail').val(response.nomor_spk);
+                                                $('#nomor_sp_detail').val(response.nomor_sp);
+                                                $('#lokasi_detail').val(response.lokasi);
+                                                $('#tanggal_sp_detail').val(response.tanggal);
+                                                $('#instalasi_detail').val(response.nama_instalasi);
+                                                $('#tanggal_kembali_detail').val(response.tanggal_kembali);
+                                                $('#keterangan_detail').val(response.keterangan);
+                                                
+                                                var isi_permintaan = '';
+                                                response.permintaan.forEach(function(item){
+                                                    isi_permintaan = isi_permintaan + '<tr>';
+                                                    isi_permintaan = isi_permintaan + '<td>'+item.permintaan+'<td>';
+                                                    isi_permintaan = isi_permintaan + '<td>'+item.huruf+'<td>';
+                                                    isi_permintaan = isi_permintaan + '<td>'+item.jumlah+'<td>';
+                                                    isi_permintaan = isi_permintaan + '<td>'+item.keterangan+'<td>';
+                                                    isi_permintaan = isi_permintaan + '</tr>';
+                                                })
+
+                                                $('#permintaan_detail').html(isi_permintaan);
+                                                
+                                            }else{
+                                                $('#notif_modal').modal('show');
+                                                $('#notif_modal div div div').html('cannot find');
+                                                setTimeout(function () {
+                                                    $('#notif_modal').modal('hide');
+                                                }, 1000);
+                                            }
+                                        },
+                                        error : function(){
+                                            $('#notif_modal').modal('show');
+                                            $('#notif_modal div div div').html('connection error');
+                                            setTimeout(function () {
+                                                $('#notif_modal').modal('hide');
+                                            }, 1000);
+                                        },
+                                        timeout : 15000
+                                    })
+                                }
+
+                                function tambah_proccess() {
                                     $('#tambah_modal').modal('hide');
                                     $('#notif_modal').modal('show');
-                                    
+
                                     var status = true;
 
                                     var bool1 = $('#nomor_sp_tambah').val() == '';
                                     var bool2 = $('#nomor_spk_tambah').val() == '';
                                     var bool3 = $('#lokasi_tambah').val() == '';
-                                    
 
-                                    if(bool1 || bool2 || bool3){
+
+                                    if (bool1 || bool2 || bool3) {
                                         status = false;
                                     }
 
-                                    if(status){
+                                    if (status) {
                                         var id_permintaan = '';
                                         $.ajax({
-                                            url : '/perintah_kerja/find_permintaan/'+$('#nomor_sp_tambah').val(),
+                                            url: '/perintah_kerja/find_permintaan/' + $('#nomor_sp_tambah').val(),
                                             header: {
                                                 "Content-type": "applocation/json"
                                             },
                                             dataType: 'json',
-                                            success : function(response) {
-                                                if(!response.status){
-                                                    $('#notif_modal div div div').html('nomor sp tidak ditemukan');
-                                                    setTimeout(function(){
+                                            success: function (response) {
+                                                if (!response.status) {
+                                                    $('#notif_modal div div div').html(
+                                                        'nomor sp tidak ditemukan');
+                                                    setTimeout(function () {
                                                         $('#notif_modal').modal('hide');
-                                                    }, 1500)  
-                                                    status = false;         
-                                                }else{
+                                                    }, 1500)
+                                                    status = false;
+                                                } else {
                                                     id_permintaan = response.id_permintaan
+
+                                                    $.ajax({
+                                                        url: '/perintah_kerja/save',
+                                                        header: {
+                                                            "Content-type": "applocation/json"
+                                                        },
+                                                        type: 'post',
+                                                        dataType: 'json',
+                                                        data: {
+                                                            'id_permintaan': id_permintaan,
+                                                            'nomor_surat': $('#nomor_spk_tambah').val(),
+                                                            'lokasi': $('#lokasi_tambah').val()
+                                                        },
+                                                        success: function (response) {
+                                                            if (response.status) {
+                                                                $('#notif_modal div div div').html(
+                                                                    'sukses tambah')
+                                                            } else {
+                                                                $('#notif_modal div div div').html(
+                                                                    'gagal tambah')
+                                                            }
+
+                                                            setTimeout(function () {
+                                                                $('#notif_modal').modal(
+                                                                    'hide')
+                                                            }, 1500)
+
+                                                            reload_table()
+                                                        },
+                                                        error: function () {
+                                                            $('#notif_modal div div div').html(
+                                                                'gagal tambah')
+                                                            setTimeout(function () {
+                                                                $('#notif_modal').modal(
+                                                                    'hide')
+                                                            }, 1500)
+                                                        },
+                                                        timeout: 15000
+                                                    })
+                                                }
+                                            },
+                                            error: function () {
+                                                $('#notif_modal div div div').html('error pada server');
+                                                setTimeout(function () {
+                                                    $('#notif_modal').modal('hide');
+                                                }, 1500)
+                                            },
+                                            timeout: 15000
+                                        })
+
+
+                                    }
+
+                                }
+
+                                function ubah_proccess() {
+                                    var id_permintaan;
+
+                                    $.ajax({
+                                        url: '/perintah_kerja/find_permintaan/' + $('#nomor_sp_ubah').val(),
+                                            header: {
+                                                "Content-type": "applocation/json"
+                                            },
+                                            dataType: 'json',
+                                            success: function (response) {
+                                                if (!response.status) {
+                                                    $('#notif_modal div div div').html(
+                                                        'nomor sp tidak ditemukan');
+                                                    setTimeout(function () {
+                                                        $('#notif_modal').modal('hide');
+                                                    }, 1500)
+                                                    status = false;
+                                                } else{
+                                                    id_permintaan = response.id_permintaan;
+
+                                                    $.ajax({
+                                                        url: "/perintah_kerja/update/"+$('#id_perintah_kerja_ubah').val(),
+                                                        header: {
+                                                            "Content-type": "applocation/application/x-www-form-urlencoded"
+                                                        },
+                                                        type: "post",
+                                                        dataType: "json",
+                                                        data: {
+                                                            'id_permintaan' : id_permintaan,
+                                                            'nomor_surat' : $('#nomor_spk_ubah').val(),
+                                                            'lokasi' : $('#lokasi_ubah').val(),
+                                                            'tanggal_kembali' : $('#tanggal_kembali_ubah').val(),
+                                                            'keterangan' : $('#keterangan_ubah').val(),
+                                                        },
+                                                        success: function (response) {
+                                                            $('#ubah_modal').modal('hide');
+                                                            $('#notif_modal').modal('show');
+                                                            if (!response.status) {
+                                                                $("#notif_modal div div div").html('gagal ubah');
+                                                            } else {
+                                                                $("#notif_modal div div div").html('sukses ubah');
+                                                            }
+                                                            setTimeout(function () {
+                                                                $('#notif_modal').modal('hide');
+                                                            }, 1000);
+
+                                                            reload_table();
+                                                        },
+                                                        error: function () {
+                                                            $("#notif_modal div div div").html('sukses hapus');
+                                                            setTimeout(function () {
+                                                                $('#notif_modal').modal('hide');
+                                                            }, 1000);
+                                                        }
+                                                    });
                                                 }
                                             },
                                             error : function(){
-                                                $('#notif_modal div div div').html('error pada server');
-                                                setTimeout(function(){
-                                                    $('#notif_modal').modal('hide');
-                                                }, 1500) 
+
                                             },
                                             timeout : 15000
-                                        })
-                                        
-                                        if(status){
-                                            $.ajax({
-                                                url : '/perintah_kerja/save',
-                                                header: {
-                                                    "Content-type": "applocation/json"
-                                                },
-                                                type : 'post',
-                                                dataType: 'json',
-                                                data : {
-                                                    'id_permintaan' : id_permintaan,
-                                                    'nomor_spk' : $('#nomor_spk_tambah').val(),
-                                                    'lokasi' : $('#lokasi_tambah').val()
-                                                },
-                                                success : function(response){
-                                                    if(response.status){
-                                                        $('#notif_modal div div div').html('sukses tambah')
-                                                    }else{
-                                                        $('#notif_modal div div div').html('gagal tambah')
-                                                    }
-
-                                                    setTimeout(function(){
-                                                        $('#notif_modal').modal('hide')
-                                                    }, 1500)
-                                                },
-                                                error : function(){
-                                                    $('#notif_modal div div div').html('gagal tambah')
-                                                    setTimeout(function(){
-                                                        $('#notif_modal').modal('hide')
-                                                    }, 1500)
-                                                },
-                                                timeout : 15000
-                                            })
-                                        }
-                                    }
-                                    
+                                    });
                                 }
 
                                 function logout() {
                                     document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
                                 }
-
-                                /*
-                                function ubah_process(id_pengguna){
-                                $.ajax({
-                                url : "<?php echo base_url()?>index.php/pengguna/ubah_dengan_id",
-                                header : {
-                                "Content-type" : "applocation/application/x-www-form-urlencoded"
-                                },
-                                type : "put",
-                                dataType : "json",
-                                data : {
-                                "id_pengguna" : id_pengguna,
-                                "tipe" : $('#tipe_ubah').val(),
-                                "nama" : $('#nama_ubah').val(),
-                                "jenis_kelamin" : $('#jenis_kelamin_ubah').val(),
-                                "tanggal_lahir" : $('#tanggal_lahir_ubah').val(),
-                                "email" : $('#email_ubah').val()
-                                },
-                                success : function(response){
-                                $('#ubah_modal').modal('hide');
-                                $('#notif_modal').modal('show');
-                                if(!response.status){
-                                $("#notif_modal div div div").html('gagal ubah');
-                                }else{
-                                $("#notif_modal div div div").html('sukses ubah');
-                                }
-                                setTimeout(function(){
-                                $('#notif_modal').modal('hide');
-                                }, 1000);
-
-                                reload_table();
-                                },
-                                error : function(){
-                                $("#notif_modal div div div").html('sukses hapus');
-                                setTimeout(function(){
-                                $('#notif_modal').modal('hide');
-                                }, 1000);
-                                }
-                                });
-                                }
-
-                                function detail_modal(id_pengguna){
-                                $('#detail_modal').modal('show');
-                                $.ajax({
-                                url : "<?php echo base_url()?>index.php/pengguna/ambil_semua_dengan_id",
-                                header : {
-                                "Content-type" : "applocation/application/x-www-form-urlencoded"
-                                },
-                                type : "get",
-                                dataType : "json",
-                                data : {
-                                "id_pengguna" : id_pengguna  
-                                },
-                                success : function(response){
-                                $('#id_pengguna_detail').val(response.id_pengguna);
-                                $('#tipe_detail').val(response.tipe);
-                                $('#nama_detail').val(response.nama);
-                                $('#jenis_kelamin_detail').val(response.jenis_kelamin);
-                                $('#tanggal_lahir_detail').val(response.tanggal_lahir);
-                                $('#email_detail').val(response.email);
-                                $('#path_gambar_detail').val(response.email);
-                                $('#buat_pada_detail').val(response.buat_pada);
-                                $('#ubah_pada_detail').val(response.ubah_pada);
-                                $('#hapus_pada_detail').val(response.hapus_pada);
-
-                                reload_table();
-                                },
-                                error : function(){
-                                setTimeout(function(){
-                                $('#notif_modal').modal('hide');
-                                }, 1000);
-                                }
-                                });
-                                }
-
-                                function hapus_process(id_pengguna){
-                                $.ajax({
-                                url : "<?php echo base_url()?>index.php/pengguna/hapus_dengan_id/"+id_pengguna,
-                                header : {
-                                "Content-type" : "applocation/application/x-www-form-urlencoded"
-                                },
-                                type : "delete",
-                                dataType : "json",
-                                data : {
-                                'id_pengguna' : id_pengguna  
-                                },
-                                success : function(response){
-                                $('#hapus_modal').modal('hide');
-                                $('#notif_modal').modal('show');
-                                if(!response.status){
-                                $("#notif_modal div div div").html('gagal hapus');
-                                }else{
-                                $("#notif_modal div div div").html('sukses hapus');
-                                }
-                                setTimeout(function(){
-                                $('#notif_modal').modal('hide');
-                                }, 1000);
-
-                                reload_table();
-                                },
-                                error : function(){
-                                $("#notif_modal div div div").html('sukses hapus');
-                                setTimeout(function(){
-                                $('#notif_modal').modal('hide');
-                                }, 1000);
-                                }
-                                });
-                                }
-                                */
-
 
                                 function reload_table() {
                                     table.ajax.reload(null, false);

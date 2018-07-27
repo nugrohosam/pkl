@@ -13,6 +13,14 @@ var options = {
 }
 
 
+var now = new Date();
+var year = "" + now.getFullYear();
+var month = "" + (now.getMonth() + 1); if (month.length == 1) { month = "0" + month; }
+var day = "" + now.getDate(); if (day.length == 1) { day = "0" + day; }
+var hour = "" + now.getHours(); if (hour.length == 1) { hour = "0" + hour; }
+var minute = "" + now.getMinutes(); if (minute.length == 1) { minute = "0" + minute; }
+var second = "" + now.getSeconds(); if (second.length == 1) { second = "0" + second; }
+
 perintah_kerja.use((req, res, next) => {
     if(!req.cookies.token){
         var fileName = 'login.html'
@@ -39,9 +47,18 @@ perintah_kerja.use((req, res, next) => {
             })
         }
 
-        if(decoded.logged_in && decoded.kategori == 'user ipl'){
+        if(decoded.logged_in && (decoded.kategori == 'user ipl' || decoded.kategori == 'admin')){
             next()
-        }else{
+        }
+        else if(decoded.logged_in){
+            var fileName = 'forbidden400.html'
+            res.sendfile(fileName, options, (err) => {
+                if(err){
+                    console.log(err)
+                }  
+            })
+        }
+        else{
             var fileName = 'login.html'
             res.sendfile(fileName, options, (err) => {
                 if(err){
@@ -65,6 +82,7 @@ perintah_kerja.post('/save', async (req, res) => {
     
     var datetime = Date.now()
     var id_perintah_kerja = 'peri'+datetime
+    var datetime_format = year+'-'+month+'-'+day+' '+hour+':'+minute+':'+second;
     
     var data = req.body
     var id_permintaan = data.id_permintaan
@@ -76,10 +94,10 @@ perintah_kerja.post('/save', async (req, res) => {
     try{
         await dbconn.query('BEGIN')
 
-        await dbconn.query('INSERT INTO perintah_kerja ( id_perintah_kerja, id_permintaan, lokasi, buat_pada, ubah_pada ) VALUES ( \''+id_perintah_kerja+'\', \''+id_permintaan+'\', \''+nomor_surat+'\', \''+lokasi+'\', \''+buat_pada+'\', \''+ubah_pada+'\')')
+        await dbconn.query('INSERT INTO perintah_kerja ( id_perintah_kerja, id_permintaan, nomor_surat, lokasi, buat_pada, ubah_pada ) VALUES ( \''+id_perintah_kerja+'\', \''+id_permintaan+'\', \''+nomor_surat+'\', \''+lokasi+'\', \''+buat_pada+'\', \''+ubah_pada+'\')')
         await dbconn.query('COMMIT')
         var json_return = {
-            status : false
+            status : true
         }
         res.status(200).json(json_return)
     } catch(err) {
@@ -126,16 +144,16 @@ perintah_kerja.get('/find', async (req, res) => {
         var { rows } = await dbconn.query(sql)
         var i = 0
         rows.forEach((item) => {
-            var script_html = '<i class="left fa fa-pencil" style="cursor : pointer" onClick="ubah_modal(\''+item.id_permintaan+'\')"></i><span style="cursor : pointer" onClick="ubah_modal(\''+item.id_permintaan+'\')"> Edit</span> <i class="left fa fa-eye" style="cursor : pointer" onClick="detail_modal(\''+item.id_permintaan+'\')"></i><span style="cursor : pointer" onClick="detail_modal(\''+item.id_permintaan+'\')"> Detail</span>'
+            var script_html = '<i class="left fa fa-pencil" style="cursor : pointer" onClick="ubah_modal(\''+item.id_perintah_kerja+'\')"></i><span style="cursor : pointer" onClick="ubah_modal(\''+item.id_perintah_kerja+'\')"> Edit</span> <i class="left fa fa-eye" style="cursor : pointer" onClick="detail_modal(\''+item.id_perintah_kerja+'\')"></i><span style="cursor : pointer" onClick="detail_modal(\''+item.id_perintah_kerja+'\')"> Detail</span>'
             
             if(item.status == 'selesai') {
-                script_html = '<i class="left fa fa-eye" style="cursor : pointer" onClick="detail_modal(\''+item.id_permintaan+'\')"></i><span style="cursor : pointer" onClick="detail_modal(\''+item.id_permintaan+'\')"> Detail</span>'
+                script_html = '<i class="left fa fa-eye" style="cursor : pointer" onClick="detail_modal(\''+item.id_perintah_kerja+'\')"></i><span style="cursor : pointer" onClick="detail_modal(\''+item.id_perintah_kerja+'\')"> Detail</span>'
             }
             var data_table = [item.nomor_sp, item.nomor_spk, item.tanggal, item.nama_instalasi, item.lokasi, item.tanggal_kembali, script_html]
             data[i] = data_table
             i++
         })
-
+        
         sql = "SELECT * FROM perintah_kerja pk"
         rows = await dbconn.query(sql)
         recordsTotal = rows.rowCount
@@ -144,7 +162,7 @@ perintah_kerja.get('/find', async (req, res) => {
         var { rows } = await dbconn.query(sql)
         recordsFiltered = rows.length
 
-        await client.query('COMMIT')
+        await dbconn.query('COMMIT')
         var json_return = {
             draw : draw,
             recordsTotal : recordsTotal,
@@ -170,6 +188,7 @@ perintah_kerja.get('/find/:id', async (req, res) => {
 
     var id_perintah_kerja = req.params.id
     
+    var id_perintah_kerja
     var nomor_sp
     var nomor_spk
     var tanggal 
@@ -182,11 +201,12 @@ perintah_kerja.get('/find/:id', async (req, res) => {
         await dbconn.query('BEGIN')
 
         var { rows } = await dbconn.query('SELECT pk.id_perintah_kerja, p.id_permintaan, p.nomor_surat as nomor_sp, pk.nomor_surat as nomor_spk, p.tanggal, i.nama_instalasi, pk.lokasi, pk.tanggal_kembali, pk.keterangan FROM perintah_kerja pk INNER JOIN permintaan p ON p.id_permintaan = pk.id_permintaan INNER JOIN instalasi i ON i.id_instalasi = p.id_instalasi WHERE pk.id_perintah_kerja = \''+id_perintah_kerja+'\'')
+        id_perimntah_kerja = rows[0].id_perintah_kerja
         nomor_sp = rows[0].nomor_sp
         nomor_spk = rows[0].nomor_spk
         tanggal = rows[0].tanggal
         nama_instalasi = rows[0].nama_instalasi
-        lokasi = rows[0].loakasi
+        lokasi = rows[0].lokasi
         tanggal_kembali = rows[0].tanggal_kembali
         keterangan = rows[0].keterangan
 
@@ -195,11 +215,12 @@ perintah_kerja.get('/find/:id', async (req, res) => {
 
         var json_return = {
             status : true,
+            id_perintah_kerja : id_perintah_kerja,
             nomor_sp : nomor_sp,
             nomor_spk : nomor_spk,
             tanggal : tanggal,
             nama_instalasi : nama_instalasi,
-            lokasi : loakasi, 
+            lokasi : lokasi, 
             tanggal_kembali : tanggal_kembali,
             keterangan : keterangan,
             permintaan : rows
@@ -221,17 +242,20 @@ perintah_kerja.get('/find/:id', async (req, res) => {
 perintah_kerja.post('/update/:id', async (req, res) => {
 
     var id_perintah_kerja = req.params.id
+    var datetime_format = year+'-'+month+'-'+day+' '+hour+':'+minute+':'+second;
     
     var data = req.body
     var id_permintaan = data.id_permintaan
+    var nomor_surat = data.nomor_surat
     var lokasi = data.lokasi
     var tanggal_kembali = data.tanggal_kembali
     var keterangan = data.keterangan
+    var ubah_pada = datetime_format
 
     try {
         await dbconn.query('BEGIN')
 
-        await dbconn.query('UPDATE perintah_kerja SET id_permintaan = \''+id_permintaan+'\', lokasi = \''+lokasi+'\', tanggal_kembali = \''+tanggal_kembali+'\', keterangan = \''+keterangan+'\' WHERE id_perintah_kerja = \''+id_perintah_kerja+'\'')
+        await dbconn.query('UPDATE perintah_kerja SET id_permintaan = \''+id_permintaan+'\', nomor_surat = \''+nomor_surat+'\', lokasi = \''+lokasi+'\', tanggal_kembali = \''+tanggal_kembali+'\', keterangan = \''+keterangan+'\', ubah_pada = \''+ubah_pada+'\' WHERE id_perintah_kerja = \''+id_perintah_kerja+'\'')
         
         await dbconn.query('COMMIT')
         var json_return = {

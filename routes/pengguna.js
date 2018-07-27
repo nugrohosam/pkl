@@ -48,7 +48,16 @@ pengguna.use((req, res, next) => {
         }
         if(decoded.logged_in && decoded.kategori == 'admin'){
             next()
-        }else{
+        }
+        else if(decoded.logged_in){
+            var fileName = 'forbidden400.html'
+            res.sendfile(fileName, options, (err) => {
+                if(err){
+                    console.log(err)
+                }  
+            })
+        }
+        else{
             var fileName = 'login.html'
             res.sendfile(fileName, options, (err) => {
                 if(err){
