@@ -68,46 +68,46 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <li class="nav-item">
                             <a href="/permintaan" class="nav-link">
-                                <i class="nav-icon fa fa-sticky-note-o"></i>
+                                <i class="nav-icon fa fa-apple"></i>
                                 <p>
                                     Surat Permintaan
-                                    <i class="right fa fa-angle-left"></i>
+                                    <i class="right fa fa-angle-right"></i>
                                 </p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="/perintah_kerja" class="nav-link">
-                                <i class="nav-icon fa fa-sticky-note-o"></i>
+                                <i class="nav-icon fa fa-apple"></i>
                                 <p>
                                     Surat Perintah Kerja
-                                    <i class="right fa fa-angle-left"></i>
+                                    <i class="right fa fa-angle-right"></i>
                                 </p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="/instalasi" class="nav-link">
-                                <i class="nav-icon fa fa-sticky-note-o"></i>
+                                <i class="nav-icon fa fa-apple"></i>
                                 <p>
                                     Instalasi
-                                    <i class="right fa fa-angle-left"></i>
+                                    <i class="right fa fa-angle-right"></i>
                                 </p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="/bidang" class="nav-link">
-                                <i class="nav-icon fa fa-sticky-note-o"></i>
+                                <i class="nav-icon fa fa-apple"></i>
                                 <p>
                                     Bidang
-                                    <i class="right fa fa-angle-left"></i>
+                                    <i class="right fa fa-angle-right"></i>
                                 </p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="/pengguna" class="nav-link">
-                                <i class="nav-icon fa fa-user-o"></i>
+                                <i class="nav-icon fa fa-apple"></i>
                                 <p>
                                     Pengguna
-                                    <i class="right fa fa-angle-left"></i>
+                                    <i class="right fa fa-angle-right"></i>
                                 </p>
                             </a>
                         </li>
@@ -246,8 +246,8 @@
                                         table = $('#table-pengguna').DataTable({
                                             'processing': false,
                                             'serverSide': true,
-                                            'ajax' : {
-                                                'url' : '/bidang/find'
+                                            'ajax': {
+                                                'url': '/bidang/find'
                                             },
                                             'columnDefs': [{
                                                 'targets': [-1],
@@ -264,16 +264,16 @@
                                     $('#ubah_modal').modal('show');
 
                                     $.ajax({
-                                        url : '/bidang/find/'+id_bidang,
-                                        header : {
-                                            "Content-type" : "applocation/application/x-www-form-urlencoded"
+                                        url: '/bidang/find/' + id_bidang,
+                                        header: {
+                                            "Content-type": "applocation/application/x-www-form-urlencoded"
                                         },
-                                        dataType : 'json',
-                                        success : function(response){
+                                        dataType: 'json',
+                                        success: function (response) {
                                             $('#id_bidang_ubah').val(response.id_bidang);
                                             $('#nama_bidang_ubah').val(response.nama_bidang);
                                         },
-                                        error : function(){
+                                        error: function () {
 
                                         },
                                         timeout: 15000
@@ -288,98 +288,98 @@
                                     document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
                                 }
 
-                                function ubah_proccess(){        
+                                function ubah_proccess() {
                                     $('#ubah_modal').modal('hide');
                                     $('#notif_modal').modal('show');
 
                                     $.ajax({
-                                        url : '/bidang/update/'+$('#id_bidang_ubah').val(),
-                                        header : {
-                                            "Content-type" : "applocation/application/x-www-form-urlencoded"
+                                        url: '/bidang/update/' + $('#id_bidang_ubah').val(),
+                                        header: {
+                                            "Content-type": "applocation/application/x-www-form-urlencoded"
                                         },
-                                        type : 'post',
-                                        dataType : 'json',
-                                        data : {
-                                            'nama_bidang' : $('#nama_bidang_ubah').val()
+                                        type: 'post',
+                                        dataType: 'json',
+                                        data: {
+                                            'nama_bidang': $('#nama_bidang_ubah').val()
                                         },
-                                        success : function(response){
+                                        success: function (response) {
                                             if (!response.status) {
                                                 $("#notif_modal div div div").html('gagal ubah');
                                             } else {
                                                 $("#notif_modal div div div").html('sukses ubah');
                                             }
-                                            
+
                                             setTimeout(function () {
                                                 $('#notif_modal').modal('hide');
                                             }, 1000);
 
                                             reload_table()
                                         },
-                                        error : function(){
+                                        error: function () {
                                             $("#notif_modal div div div").html('gagal ubah');
                                             setTimeout(function () {
                                                 $('#notif_modal').modal('hide');
                                             }, 1000);
                                         },
-                                        timeout : 15000
+                                        timeout: 15000
                                     })
                                 }
-                                
-                                function tambah_proccess(){        
+
+                                function tambah_proccess() {
                                     $('#tambah_modal').modal('hide');
                                     $('#notif_modal').modal('show');
 
                                     $.ajax({
-                                        url : '/bidang/save',
-                                        header : {
-                                            "Content-type" : "applocation/application/x-www-form-urlencoded"
+                                        url: '/bidang/save',
+                                        header: {
+                                            "Content-type": "applocation/application/x-www-form-urlencoded"
                                         },
-                                        type : 'post',
-                                        dataType : 'json',
-                                        data : {
-                                            'nama_bidang' : $('#nama_bidang_tambah').val()
+                                        type: 'post',
+                                        dataType: 'json',
+                                        data: {
+                                            'nama_bidang': $('#nama_bidang_tambah').val()
                                         },
-                                        success : function(response){
+                                        success: function (response) {
                                             if (!response.status) {
                                                 $("#notif_modal div div div").html('gagal tambah');
                                             } else {
                                                 $("#notif_modal div div div").html('sukses tambah');
                                             }
-                                            
+
                                             setTimeout(function () {
                                                 $('#notif_modal').modal('hide');
                                             }, 1000);
 
                                             reload_table()
                                         },
-                                        error : function(){
+                                        error: function () {
                                             $("#notif_modal div div div").html('gagal tambah');
                                             setTimeout(function () {
                                                 $('#notif_modal').modal('hide');
                                             }, 1000);
                                         },
-                                        timeout : 15000
+                                        timeout: 15000
                                     })
                                 }
 
-                                function detail_modal(id_bidang){
+                                function detail_modal(id_bidang) {
                                     $('#detail_modal').modal('show');
-                                    
+
                                     $.ajax({
-                                        url : '/bidang/find/'+id_bidang,
-                                        header : {
-                                            "Content-type" : "applocation/application/x-www-form-urlencoded"
+                                        url: '/bidang/find/' + id_bidang,
+                                        header: {
+                                            "Content-type": "applocation/application/x-www-form-urlencoded"
                                         },
-                                        dataType : 'json',
-                                        success : function(respose){
+                                        dataType: 'json',
+                                        success: function (respose) {
                                             $('#nama_bidang_detail').val(respose.nama_bidang);
                                         },
-                                        error : function(){
+                                        error: function () {
 
                                         },
-                                        timeout : 15000
+                                        timeout: 15000
                                     })
-                                }    
+                                }
 
                                 function reload_table() {
                                     table.ajax.reload(null, false);

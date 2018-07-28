@@ -100,46 +100,46 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <li class="nav-item">
                             <a href="/permintaan" class="nav-link">
-                                <i class="nav-icon fa fa-sticky-note-o"></i>
+                                <i class="nav-icon fa fa-apple"></i>
                                 <p>
                                     Surat Permintaan
-                                    <i class="right fa fa-angle-left"></i>
+                                    <i class="right fa fa-angle-right"></i>
                                 </p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="/perintah_kerja" class="nav-link">
-                                <i class="nav-icon fa fa-sticky-note-o"></i>
+                                <i class="nav-icon fa fa-apple"></i>
                                 <p>
                                     Surat Perintah Kerja
-                                    <i class="right fa fa-angle-left"></i>
+                                    <i class="right fa fa-angle-right"></i>
                                 </p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="/instalasi" class="nav-link">
-                                <i class="nav-icon fa fa-sticky-note-o"></i>
+                                <i class="nav-icon fa fa-apple"></i>
                                 <p>
                                     Instalasi
-                                    <i class="right fa fa-angle-left"></i>
+                                    <i class="right fa fa-angle-right"></i>
                                 </p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="/bidang" class="nav-link">
-                                <i class="nav-icon fa fa-sticky-note-o"></i>
+                                <i class="nav-icon fa fa-apple"></i>
                                 <p>
                                     Bidang
-                                    <i class="right fa fa-angle-left"></i>
+                                    <i class="right fa fa-angle-right"></i>
                                 </p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="/pengguna" class="nav-link">
-                                <i class="nav-icon fa fa-user-o"></i>
+                                <i class="nav-icon fa fa-apple"></i>
                                 <p>
                                     Pengguna
-                                    <i class="right fa fa-angle-left"></i>
+                                    <i class="right fa fa-angle-right"></i>
                                 </p>
                             </a>
                         </li>
@@ -462,20 +462,20 @@
                                     $('#ubah_modal').modal('show');
 
                                     $.ajax({
-                                        url : '/perintah_kerja/find/'+id_perintah_kerja,
+                                        url: '/perintah_kerja/find/' + id_perintah_kerja,
                                         header: {
                                             "Content-type": "applocation/json"
                                         },
-                                        dataType : 'json',
-                                        success : function(response){
-                                            if(response.status){
+                                        dataType: 'json',
+                                        success: function (response) {
+                                            if (response.status) {
                                                 $('#id_perintah_kerja_ubah').val(response.id_perintah_kerja);
                                                 $('#nomor_spk_ubah').val(response.nomor_spk);
                                                 $('#nomor_sp_ubah').val(response.nomor_sp);
                                                 $('#lokasi_ubah').val(response.lokasi);
                                                 $('#tanggal_kembali_ubah').val(response.tanggal_kembali);
                                                 $('#keterangan_ubah').val(response.keterangan);
-                                            }else{
+                                            } else {
                                                 $('#notif_modal').modal('show');
                                                 $('#notif_modal div div div').html('cannot find');
                                                 setTimeout(function () {
@@ -483,14 +483,14 @@
                                                 }, 1000);
                                             }
                                         },
-                                        error : function(){
+                                        error: function () {
                                             $('#notif_modal').modal('show');
                                             $('#notif_modal div div div').html('connection error');
                                             setTimeout(function () {
                                                 $('#notif_modal').modal('hide');
                                             }, 1000);
                                         },
-                                        timeout : 15000
+                                        timeout: 15000
                                     })
                                 }
 
@@ -502,13 +502,13 @@
                                     $('#detail_modal').modal('show');
 
                                     $.ajax({
-                                        url : '/perintah_kerja/find/'+id_perintah_kerja,
+                                        url: '/perintah_kerja/find/' + id_perintah_kerja,
                                         header: {
                                             "Content-type": "applocation/json"
                                         },
-                                        dataType : 'json',
-                                        success : function(response){
-                                            if(response.status){
+                                        dataType: 'json',
+                                        success: function (response) {
+                                            if (response.status) {
                                                 $('#nomor_spk_detail').val(response.nomor_spk);
                                                 $('#nomor_sp_detail').val(response.nomor_sp);
                                                 $('#lokasi_detail').val(response.lokasi);
@@ -516,20 +516,24 @@
                                                 $('#instalasi_detail').val(response.nama_instalasi);
                                                 $('#tanggal_kembali_detail').val(response.tanggal_kembali);
                                                 $('#keterangan_detail').val(response.keterangan);
-                                                
+
                                                 var isi_permintaan = '';
-                                                response.permintaan.forEach(function(item){
+                                                response.permintaan.forEach(function (item) {
                                                     isi_permintaan = isi_permintaan + '<tr>';
-                                                    isi_permintaan = isi_permintaan + '<td>'+item.permintaan+'<td>';
-                                                    isi_permintaan = isi_permintaan + '<td>'+item.huruf+'<td>';
-                                                    isi_permintaan = isi_permintaan + '<td>'+item.jumlah+'<td>';
-                                                    isi_permintaan = isi_permintaan + '<td>'+item.keterangan+'<td>';
+                                                    isi_permintaan = isi_permintaan + '<td>' + item
+                                                        .permintaan + '<td>';
+                                                    isi_permintaan = isi_permintaan + '<td>' + item
+                                                        .huruf + '<td>';
+                                                    isi_permintaan = isi_permintaan + '<td>' + item
+                                                        .jumlah + '<td>';
+                                                    isi_permintaan = isi_permintaan + '<td>' + item
+                                                        .keterangan + '<td>';
                                                     isi_permintaan = isi_permintaan + '</tr>';
                                                 })
 
                                                 $('#permintaan_detail').html(isi_permintaan);
-                                                
-                                            }else{
+
+                                            } else {
                                                 $('#notif_modal').modal('show');
                                                 $('#notif_modal div div div').html('cannot find');
                                                 setTimeout(function () {
@@ -537,14 +541,14 @@
                                                 }, 1000);
                                             }
                                         },
-                                        error : function(){
+                                        error: function () {
                                             $('#notif_modal').modal('show');
                                             $('#notif_modal div div div').html('connection error');
                                             setTimeout(function () {
                                                 $('#notif_modal').modal('hide');
                                             }, 1000);
                                         },
-                                        timeout : 15000
+                                        timeout: 15000
                                     })
                                 }
 
@@ -641,62 +645,69 @@
 
                                     $.ajax({
                                         url: '/perintah_kerja/find_permintaan/' + $('#nomor_sp_ubah').val(),
-                                            header: {
-                                                "Content-type": "applocation/json"
-                                            },
-                                            dataType: 'json',
-                                            success: function (response) {
-                                                if (!response.status) {
-                                                    $('#notif_modal div div div').html(
-                                                        'nomor sp tidak ditemukan');
-                                                    setTimeout(function () {
-                                                        $('#notif_modal').modal('hide');
-                                                    }, 1500)
-                                                    status = false;
-                                                } else{
-                                                    id_permintaan = response.id_permintaan;
+                                        header: {
+                                            "Content-type": "applocation/json"
+                                        },
+                                        dataType: 'json',
+                                        success: function (response) {
+                                            if (!response.status) {
+                                                $('#notif_modal div div div').html(
+                                                    'nomor sp tidak ditemukan');
+                                                setTimeout(function () {
+                                                    $('#notif_modal').modal('hide');
+                                                }, 1500)
+                                                status = false;
+                                            } else {
+                                                id_permintaan = response.id_permintaan;
 
-                                                    $.ajax({
-                                                        url: "/perintah_kerja/update/"+$('#id_perintah_kerja_ubah').val(),
-                                                        header: {
-                                                            "Content-type": "applocation/application/x-www-form-urlencoded"
-                                                        },
-                                                        type: "post",
-                                                        dataType: "json",
-                                                        data: {
-                                                            'id_permintaan' : id_permintaan,
-                                                            'nomor_surat' : $('#nomor_spk_ubah').val(),
-                                                            'lokasi' : $('#lokasi_ubah').val(),
-                                                            'tanggal_kembali' : $('#tanggal_kembali_ubah').val(),
-                                                            'keterangan' : $('#keterangan_ubah').val(),
-                                                        },
-                                                        success: function (response) {
-                                                            $('#ubah_modal').modal('hide');
-                                                            $('#notif_modal').modal('show');
-                                                            if (!response.status) {
-                                                                $("#notif_modal div div div").html('gagal ubah');
-                                                            } else {
-                                                                $("#notif_modal div div div").html('sukses ubah');
-                                                            }
-                                                            setTimeout(function () {
-                                                                $('#notif_modal').modal('hide');
-                                                            }, 1000);
-
-                                                            reload_table();
-                                                        },
-                                                        error: function () {
-                                                            $("#notif_modal div div div").html('sukses hapus');
-                                                            setTimeout(function () {
-                                                                $('#notif_modal').modal('hide');
-                                                            }, 1000);
+                                                $.ajax({
+                                                    url: "/perintah_kerja/update/" + $(
+                                                        '#id_perintah_kerja_ubah').val(),
+                                                    header: {
+                                                        "Content-type": "applocation/application/x-www-form-urlencoded"
+                                                    },
+                                                    type: "post",
+                                                    dataType: "json",
+                                                    data: {
+                                                        'id_permintaan': id_permintaan,
+                                                        'nomor_surat': $('#nomor_spk_ubah').val(),
+                                                        'lokasi': $('#lokasi_ubah').val(),
+                                                        'tanggal_kembali': $(
+                                                            '#tanggal_kembali_ubah').val(),
+                                                        'keterangan': $('#keterangan_ubah').val(),
+                                                    },
+                                                    success: function (response) {
+                                                        $('#ubah_modal').modal('hide');
+                                                        $('#notif_modal').modal('show');
+                                                        if (!response.status) {
+                                                            $("#notif_modal div div div").html(
+                                                                'gagal ubah');
+                                                        } else {
+                                                            $("#notif_modal div div div").html(
+                                                                'sukses ubah');
                                                         }
-                                                    });
-                                                }
-                                            },
-                                            error : function(){
+                                                        setTimeout(function () {
+                                                            $('#notif_modal').modal(
+                                                                'hide');
+                                                        }, 1000);
 
-                                            },
-                                            timeout : 15000
+                                                        reload_table();
+                                                    },
+                                                    error: function () {
+                                                        $("#notif_modal div div div").html(
+                                                            'sukses hapus');
+                                                        setTimeout(function () {
+                                                            $('#notif_modal').modal(
+                                                                'hide');
+                                                        }, 1000);
+                                                    }
+                                                });
+                                            }
+                                        },
+                                        error: function () {
+
+                                        },
+                                        timeout: 15000
                                     });
                                 }
 

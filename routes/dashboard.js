@@ -133,6 +133,32 @@ dashboard.get('/data', async (req, res) => {
     }
 })
 
+dashboard.get('/find_per_instalasi', async (req, res) => {
+    
+    try{
+        await dbconn.query('BEGIN')
+
+        var { rows } = await dbconn.query('SELECT i.nama_instalasi, count(*) as jumlah_permintaan FROM permintaan p INNER JOIN instalasi i ON p.id_instalasi = i.id_instalasi GROUP BY i.id_instalasi')
+        
+        await dbconn.query('COMMIT')
+        var response_json = {
+            status : true,
+            data : rows
+        }
+
+        res.status(200).json(response_json)
+    } catch(err){
+        var response_json = {
+            status : false,
+        }
+
+        res.status(200).json(response_json)
+    } finally {
+        await dbconn.release
+    }
+
+})
+
 dashboard.get('/find/:instalasi/:tahun', async (req, res) => {
     var sql
     var id_instalasi = req.params.instalasi
@@ -147,7 +173,7 @@ dashboard.get('/find/:instalasi/:tahun', async (req, res) => {
     try {
         await dbconn.query('BEGIN')
 
-        sql = 'SELECT EXTRACT(MINUTE FROM (diterima - dikerjakan)) as jumlah_menit FROM permintaan WHERE id_instalasi = \'' + id_instalasi + '\' AND tanggal LIKE \'%' + tahun + '%\' AND diterima is not null AND dikerjakan is not null'
+        sql = 'SELECT EXTRACT(MINUTE FROM (dikerjakan - diterima)) as jumlah_menit FROM permintaan WHERE id_instalasi = \'' + id_instalasi + '\' AND tanggal LIKE \'%' + tahun + '%\' AND diterima is not null AND dikerjakan is not null'
         var {
             rows
         } = await dbconn.query(sql)

@@ -41,6 +41,7 @@
     <script src="dist/js/demo.js"></script>
     <script src="plugins/datatables/jquery.dataTables.js"></script>
     <script src="plugins/datatables/dataTables.bootstrap4.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 </head>
 
@@ -69,46 +70,46 @@
 
                         <li class="nav-item">
                             <a href="/permintaan" class="nav-link">
-                                <i class="nav-icon fa fa-sticky-note-o"></i>
+                                <i class="nav-icon fa fa-apple"></i>
                                 <p>
                                     Surat Permintaan
-                                    <i class="right fa fa-angle-left"></i>
+                                    <i class="right fa fa-angle-right"></i>
                                 </p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="/perintah_kerja" class="nav-link">
-                                <i class="nav-icon fa fa-sticky-note-o"></i>
+                                <i class="nav-icon fa fa-apple"></i>
                                 <p>
                                     Surat Perintah Kerja
-                                    <i class="right fa fa-angle-left"></i>
+                                    <i class="right fa fa-angle-right"></i>
                                 </p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="/instalasi" class="nav-link">
-                                <i class="nav-icon fa fa-sticky-note-o"></i>
+                                <i class="nav-icon fa fa-apple"></i>
                                 <p>
                                     Instalasi
-                                    <i class="right fa fa-angle-left"></i>
+                                    <i class="right fa fa-angle-right"></i>
                                 </p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="/bidang" class="nav-link">
-                                <i class="nav-icon fa fa-sticky-note-o"></i>
+                                <i class="nav-icon fa fa-apple"></i>
                                 <p>
                                     Bidang
-                                    <i class="right fa fa-angle-left"></i>
+                                    <i class="right fa fa-angle-right"></i>
                                 </p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="/pengguna" class="nav-link">
-                                <i class="nav-icon fa fa-user-o"></i>
+                                <i class="nav-icon fa fa-apple"></i>
                                 <p>
                                     Pengguna
-                                    <i class="right fa fa-angle-left"></i>
+                                    <i class="right fa fa-angle-right"></i>
                                 </p>
                             </a>
                         </li>
@@ -117,7 +118,7 @@
                                 <i class="nav-icon fa fa-sign-out"></i>
                                 <p>
                                     Logout
-                                    <i class="right fa fa-angle-left"></i>
+                                    <i class="right fa fa-angle-right"></i>
                                 </p>
                             </a>
                         </li>
@@ -162,6 +163,11 @@
                                 <div class="icon" style="margin-top: 6px">
                                     <i class="ion ion-document"></i>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-6">
+                            <div class="small-box">
+                                <div id="google_chart"></div>
                             </div>
                         </div>
                         <div class="col-lg-4 form-group">
@@ -242,23 +248,81 @@
                     },
                     timeout: 15000
                 })
-                
+
                 $.ajax({
-                    url : '/dashboard/find_instalasi',
-                    haeder : {
+                    url: '/dashboard/find_instalasi',
+                    haeder: {
                         "Content-type": "applocation/json"
                     },
-                    dataType : 'json',
-                    success : function(response) {
+                    dataType: 'json',
+                    success: function (response) {
                         var isi_instalasi = ''
-                        response.instalasi.forEach(function(item){
-                            isi_instalasi = isi_instalasi + '<option value="'+item.id_instalasi+'">'+item.nama_instalasi+'</option>'
+                        response.instalasi.forEach(function (item) {
+                            isi_instalasi = isi_instalasi + '<option value="' + item.id_instalasi +
+                                '">' + item.nama_instalasi + '</option>'
                         });
                         $('#instalasi').html(isi_instalasi)
                     }
                 })
 
+
+                google.charts.load('current', {
+                    'packages': ['corechart']
+                });
+
+                google.charts.setOnLoadCallback(drawChart);
+
             });
+
+
+            function drawChart() {
+
+                $.ajax({
+                    url: '/dashboard/find_per_instalasi',
+                    header: {
+                        "Content-type": "applocation/json"
+                    },
+                    dataType: "json",
+                    success: function (response) {
+                        if (response.status) {
+                            //data dari response
+                            var item = response.data
+                            //
+                            // Create the data table.
+                            var data = new google.visualization.DataTable();
+                            data.addColumn('string', 'Nama Instalasi');
+                            data.addColumn('number', 'Jumlah Permintaan');
+
+                            //data hasil per response
+                            var temp_item = new Array();
+                            var i = 0;
+                            item.forEach(function (item) {
+                                var isi_item = new Array();
+                                isi_item[0] = item.nama_instalasi;
+                                isi_item[1] = parseInt(item.jumlah_permintaan)
+                                temp_item[i] = isi_item
+                                i++
+                            })
+
+                            data.addRows(temp_item)
+
+                            // Set chart options
+                            var options = {
+                                'title': 'Data permintaan per ruangan',
+                                'width': 400,
+                                'height': 200
+                            };
+
+                            var chart = new google.visualization.PieChart($('#google_chart')[0]);
+                            chart.draw(data, options);
+                        }
+                    },
+                    error: function () {
+
+                    },
+                    timeout: 15000
+                })
+            }
 
             function search_proccess() {
                 var id_instalasi_val = $('#instalasi').val();
@@ -350,14 +414,14 @@
         </script>
 
         <footer class="main-footer">
-                <strong>Copyright &copy; 2018 - forever
-                    <a href="#">PKL RSSA</a>.</strong>
-                All rights reserved.
-                <div class="float-right d-none d-sm-inline-block">
-                    <b>Ver</b> 1.0.0-alpha
-                </div>
-            </footer>
-        
+            <strong>Copyright &copy; 2018 - forever
+                <a href="#">PKL RSSA</a>.</strong>
+            All rights reserved.
+            <div class="float-right d-none d-sm-inline-block">
+                <b>Ver</b> 1.0.0-alpha
+            </div>
+        </footer>
+
 
         <aside class="control-sidebar control-sidebar-dark">
         </aside>
