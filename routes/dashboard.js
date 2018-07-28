@@ -159,6 +159,84 @@ dashboard.get('/find_per_instalasi', async (req, res) => {
 
 })
 
+dashboard.get('/find/:instalasi/', async (req, res) => {
+    var sql
+    var id_instalasi = req.params.instalasi
+    var sql
+    var rata_rata_diterima_dikerjakan
+    var rata_rata_dikerjakan_selesai
+    var selesai
+    var dikerjakan
+    var diterima
+
+    try {
+        await dbconn.query('BEGIN')
+
+        sql = 'SELECT EXTRACT(MINUTE FROM (dikerjakan - diterima)) as jumlah_menit FROM permintaan WHERE id_instalasi = \'' + id_instalasi + '\' AND diterima is not null AND dikerjakan is not null'
+        var {
+            rows
+        } = await dbconn.query(sql)
+        var jumlah_menit = 0
+        var i
+        var banyak_row = rows.length
+        for (i = 0; i < banyak_row; i++) {
+            jumlah_menit = jumlah_menit + rows[i].jumlah_menit
+        }
+        rata_rata_diterima_dikerjakan = jumlah_menit / banyak_row
+
+        sql = 'SELECT EXTRACT(MINUTE FROM (selesai - dikerjakan)) as jumlah_menit FROM permintaan WHERE id_instalasi = \'' + id_instalasi + '\' AND dikerjakan is not null AND selesai is not null'
+        var {
+            rows
+        } = await dbconn.query(sql)
+        var jumlah_menit = 0
+        var i
+        var banyak_row = rows.length
+        for (i = 0; i < banyak_row; i++) {
+            jumlah_menit = jumlah_menit + rows[i].jumlah_menit
+        }
+        rata_rata_dikerjakan_selesai = jumlah_menit / banyak_row
+
+        sql = 'SELECT * FROM permintaan WHERE id_instalasi = \'' + id_instalasi + '\' AND selesai is not null'
+        var {
+            rows
+        } = await dbconn.query(sql)
+        selesai = rows.length
+
+
+        sql = 'SELECT * FROM permintaan WHERE id_instalasi = \'' + id_instalasi + '\' AND dikerjakan is not null'
+        var {
+            rows
+        } = await dbconn.query(sql)
+        dikerjakan = rows.length
+
+        sql = 'SELECT * FROM permintaan WHERE id_instalasi = \'' + id_instalasi + '\' AND diterima is not null'
+        var {
+            rows
+        } = await dbconn.query(sql)
+        diterima = rows.length
+
+        await dbconn.query('COMMIT')
+
+        var json_return = {
+            status: true,
+            rata_rata_diterima_dikerjakan: Math.ceil(rata_rata_diterima_dikerjakan),
+            rata_rata_dikerjakan_selesai: Math.ceil(rata_rata_dikerjakan_selesai),
+            diterima: diterima,
+            selesai: selesai,
+            dikerjakan: dikerjakan
+        }
+        res.status(200).json(json_return)
+    } catch (err) {
+        await dbconn.query('ROLLBACK')
+        var json_return = {
+            status: false
+        }
+        res.status(200).json(json_return)
+    } finally {
+        await dbconn.release
+    }
+})
+
 dashboard.get('/find/:instalasi/:tahun', async (req, res) => {
     var sql
     var id_instalasi = req.params.instalasi
