@@ -41,7 +41,7 @@
     <script src="dist/js/demo.js"></script>
     <script src="plugins/datatables/jquery.dataTables.js"></script>
     <script src="plugins/datatables/dataTables.bootstrap4.js"></script>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="plugins/chart/google_chart.js"></script>
 
 </head>
 
@@ -306,7 +306,6 @@
 
                             data.addRows(temp_item)
 
-                            // Set chart options
                             var options = {
                                 'title': 'Data permintaan per ruangan',
                                 'width': 400,
@@ -330,8 +329,11 @@
                 var bulan_val = $('#bulan').val();
                 var tanggal_val = $('#tanggal').val();
 
-                var url = '/dashboard/find/' + id_instalasi_val + '/' + tahun_val
+                var url = '/dashboard/find/' + id_instalasi_val
 
+                if(tahun_val != ''){
+                    url = '/dashboard/find/' + id_instalasi_val + '/' + tahun_val
+                }
                 if (bulan_val != '') {
                     url = '/dashboard/find/' + id_instalasi_val + '/' + tahun_val + '/' + bulan_val;
                 }
@@ -361,8 +363,8 @@
                         isi_table = isi_table + '<tr>';
                         isi_table = isi_table + '<td>Response diterima - dikerjakan</td>';
 
-                        if (rata_rata_diterima_dikerjakan != null) {
-                            isi_table = isi_table + '<td>' + rata_rata_diterima_dikerjakan + ' menit</td>';
+                        if (!rata_rata_diterima_dikerjakan.includes('NaN')) {
+                            isi_table = isi_table + '<td>' + rata_rata_diterima_dikerjakan+ '</td>';
                         } else {
                             isi_table = isi_table + '<td> belum ada </td>';
                         }
@@ -370,9 +372,9 @@
                         isi_table = isi_table + '</tr>';
                         isi_table = isi_table + '<tr>';
                         isi_table = isi_table + '<td>Response dikerjakan - selesai</td>';
-
-                        if (rata_rata_dikerjakan_selesai != null) {
-                            isi_table = isi_table + '<td>' + rata_rata_dikerjakan_selesai + ' menit</td>';
+                            
+                        if (!rata_rata_dikerjakan_selesai.includes('NaN')) {
+                            isi_table = isi_table + '<td>' + rata_rata_dikerjakan_selesai + '</td>';
                         } else {
                             isi_table = isi_table + '<td> belum ada </td>';
                         }

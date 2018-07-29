@@ -44,7 +44,7 @@ if (second.length == 1) {
 bidang.use((req, res, next) => {
     if (!req.cookies.token) {
         var fileName = 'login.html'
-        res.sendfile(fileName, options, (err) => {
+        res.sendFile(fileName, options, (err) => {
             if (err) {
                 console.log(err)
             }
@@ -59,7 +59,7 @@ bidang.use((req, res, next) => {
             decoded = jwt.verify(token, 'secret_token')
         } catch (error) {
             var fileName = 'login.html'
-            res.sendfile(fileName, options, (err) => {
+            res.sendFile(fileName, options, (err) => {
                 if (err) {
                     console.log(err)
                 }
@@ -69,14 +69,14 @@ bidang.use((req, res, next) => {
             next()
         } else if (decoded.logged_in) {
             var fileName = 'forbidden400.html'
-            res.sendfile(fileName, options, (err) => {
+            res.sendFile(fileName, options, (err) => {
                 if (err) {
                     console.log(err)
                 }
             })
         } else {
             var fileName = 'login.html'
-            res.sendfile(fileName, options, (err) => {
+            res.sendFile(fileName, options, (err) => {
                 if (err) {
                     console.log(err)
                 }
@@ -87,7 +87,7 @@ bidang.use((req, res, next) => {
 
 bidang.get('/', (req, res) => {
     var fileName = 'bidang.html'
-    res.sendfile(fileName, options, (err) => {
+    res.sendFile(fileName, options, (err) => {
         if (err) {
             console.log(err)
         }

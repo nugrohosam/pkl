@@ -44,7 +44,7 @@ if (second.length == 1) {
 permintaan.use((req, res, next) => {
     if (!req.cookies.token) {
         var fileName = 'login.html'
-        res.sendfile(fileName, options, (err) => {
+        res.sendFile(fileName, options, (err) => {
             if (err) {
                 console.log(err)
             }
@@ -59,7 +59,7 @@ permintaan.use((req, res, next) => {
             decoded = jwt.verify(token, 'secret_token')
         } catch (error) {
             var fileName = 'login.html'
-            res.sendfile(fileName, options, (err) => {
+            res.sendFile(fileName, options, (err) => {
                 if (err) {
                     console.log(err)
                 }
@@ -69,7 +69,7 @@ permintaan.use((req, res, next) => {
             next()
         } else {
             var fileName = 'login.html'
-            res.sendfile(fileName, options, (err) => {
+            res.sendFile(fileName, options, (err) => {
                 if (err) {
                     console.log(err)
                 }
@@ -80,7 +80,7 @@ permintaan.use((req, res, next) => {
 
 permintaan.get('/', (req, res) => {
     var fileName = 'permintaan.html'
-    res.sendfile(fileName, options, (err) => {
+    res.sendFile(fileName, options, (err) => {
         if (err) {
             console.log(err)
         }

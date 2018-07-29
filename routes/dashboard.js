@@ -44,7 +44,7 @@ if (second.length == 1) {
 dashboard.use((req, res, next) => {
     if (!req.cookies.token) {
         var fileName = 'login.html'
-        res.sendfile(fileName, options, (err) => {
+        res.sendFile(fileName, options, (err) => {
             if (err) {
                 console.log(err)
             }
@@ -59,7 +59,7 @@ dashboard.use((req, res, next) => {
             decoded = jwt.verify(token, 'secret_token')
         } catch (error) {
             var fileName = 'login.html'
-            res.sendfile(fileName, options, (err) => {
+            res.sendFile(fileName, options, (err) => {
                 if (err) {
                     console.log(err)
                 }
@@ -69,7 +69,7 @@ dashboard.use((req, res, next) => {
             next()
         } else {
             var fileName = 'login.html'
-            res.sendfile(fileName, options, (err) => {
+            res.sendFile(fileName, options, (err) => {
                 if (err) {
                     console.log(err)
                 }
@@ -80,7 +80,7 @@ dashboard.use((req, res, next) => {
 
 dashboard.get('/', (req, res) => {
     var fileName = 'dashboard.html'
-    res.sendfile(fileName, options, (err) => {
+    res.sendFile(fileName, options, (err) => {
         if (err) {
             console.log(err)
         }
@@ -134,22 +134,24 @@ dashboard.get('/data', async (req, res) => {
 })
 
 dashboard.get('/find_per_instalasi', async (req, res) => {
-    
-    try{
+
+    try {
         await dbconn.query('BEGIN')
 
-        var { rows } = await dbconn.query('SELECT i.nama_instalasi, count(*) as jumlah_permintaan FROM permintaan p INNER JOIN instalasi i ON p.id_instalasi = i.id_instalasi GROUP BY i.id_instalasi')
-        
+        var {
+            rows
+        } = await dbconn.query('SELECT i.nama_instalasi, count(*) as jumlah_permintaan FROM permintaan p INNER JOIN instalasi i ON p.id_instalasi = i.id_instalasi GROUP BY i.id_instalasi')
+
         await dbconn.query('COMMIT')
         var response_json = {
-            status : true,
-            data : rows
+            status: true,
+            data: rows
         }
 
         res.status(200).json(response_json)
-    } catch(err){
+    } catch (err) {
         var response_json = {
-            status : false,
+            status: false,
         }
 
         res.status(200).json(response_json)
@@ -159,7 +161,7 @@ dashboard.get('/find_per_instalasi', async (req, res) => {
 
 })
 
-dashboard.get('/find/:instalasi/', async (req, res) => {
+dashboard.get('/find/:instalasi', async (req, res) => {
     var sql
     var id_instalasi = req.params.instalasi
     var sql
@@ -172,7 +174,7 @@ dashboard.get('/find/:instalasi/', async (req, res) => {
     try {
         await dbconn.query('BEGIN')
 
-        sql = 'SELECT EXTRACT(MINUTE FROM (dikerjakan - diterima)) as jumlah_menit FROM permintaan WHERE id_instalasi = \'' + id_instalasi + '\' AND diterima is not null AND dikerjakan is not null'
+        sql = 'SELECT buat_rentang_respon_waktu(diterima, dikerjakan) as jumlah_menit FROM permintaan WHERE id_instalasi = \'' + id_instalasi + '\' AND diterima is not null AND dikerjakan is not null'
         var {
             rows
         } = await dbconn.query(sql)
@@ -182,9 +184,9 @@ dashboard.get('/find/:instalasi/', async (req, res) => {
         for (i = 0; i < banyak_row; i++) {
             jumlah_menit = jumlah_menit + rows[i].jumlah_menit
         }
-        rata_rata_diterima_dikerjakan = jumlah_menit / banyak_row
+        rata_rata_diterima_dikerjakan = minutesToString(jumlah_menit / banyak_row)
 
-        sql = 'SELECT EXTRACT(MINUTE FROM (selesai - dikerjakan)) as jumlah_menit FROM permintaan WHERE id_instalasi = \'' + id_instalasi + '\' AND dikerjakan is not null AND selesai is not null'
+        sql = 'SELECT buat_rentang_respon_waktu(dikerjakan, selesai) as jumlah_menit FROM permintaan WHERE id_instalasi = \'' + id_instalasi + '\' AND dikerjakan is not null AND selesai is not null'
         var {
             rows
         } = await dbconn.query(sql)
@@ -194,7 +196,7 @@ dashboard.get('/find/:instalasi/', async (req, res) => {
         for (i = 0; i < banyak_row; i++) {
             jumlah_menit = jumlah_menit + rows[i].jumlah_menit
         }
-        rata_rata_dikerjakan_selesai = jumlah_menit / banyak_row
+        rata_rata_dikerjakan_selesai = minutesToString(jumlah_menit / banyak_row)
 
         sql = 'SELECT * FROM permintaan WHERE id_instalasi = \'' + id_instalasi + '\' AND selesai is not null'
         var {
@@ -219,8 +221,8 @@ dashboard.get('/find/:instalasi/', async (req, res) => {
 
         var json_return = {
             status: true,
-            rata_rata_diterima_dikerjakan: Math.ceil(rata_rata_diterima_dikerjakan),
-            rata_rata_dikerjakan_selesai: Math.ceil(rata_rata_dikerjakan_selesai),
+            rata_rata_diterima_dikerjakan: rata_rata_diterima_dikerjakan,
+            rata_rata_dikerjakan_selesai: rata_rata_dikerjakan_selesai,
             diterima: diterima,
             selesai: selesai,
             dikerjakan: dikerjakan
@@ -251,7 +253,7 @@ dashboard.get('/find/:instalasi/:tahun', async (req, res) => {
     try {
         await dbconn.query('BEGIN')
 
-        sql = 'SELECT EXTRACT(MINUTE FROM (dikerjakan - diterima)) as jumlah_menit FROM permintaan WHERE id_instalasi = \'' + id_instalasi + '\' AND tanggal LIKE \'%' + tahun + '%\' AND diterima is not null AND dikerjakan is not null'
+        sql = 'SELECT buat_rentang_respon_waktu(diterima, dikerjakan) as jumlah_menit FROM permintaan WHERE id_instalasi = \'' + id_instalasi + '\' AND tanggal LIKE \'%' + tahun + '%\' AND diterima is not null AND dikerjakan is not null'
         var {
             rows
         } = await dbconn.query(sql)
@@ -261,9 +263,9 @@ dashboard.get('/find/:instalasi/:tahun', async (req, res) => {
         for (i = 0; i < banyak_row; i++) {
             jumlah_menit = jumlah_menit + rows[i].jumlah_menit
         }
-        rata_rata_diterima_dikerjakan = jumlah_menit / banyak_row
+        rata_rata_diterima_dikerjakan = minutesToString(jumlah_menit / banyak_row)
 
-        sql = 'SELECT EXTRACT(MINUTE FROM (selesai - dikerjakan)) as jumlah_menit FROM permintaan WHERE id_instalasi = \'' + id_instalasi + '\' AND tanggal LIKE \'%' + tahun + '%\' AND dikerjakan is not null AND selesai is not null'
+        sql = 'SELECT buat_rentang_respon_waktu(dikerjakan, selesai) as jumlah_menit FROM permintaan WHERE id_instalasi = \'' + id_instalasi + '\' AND tanggal LIKE \'%' + tahun + '%\' AND dikerjakan is not null AND selesai is not null'
         var {
             rows
         } = await dbconn.query(sql)
@@ -273,7 +275,7 @@ dashboard.get('/find/:instalasi/:tahun', async (req, res) => {
         for (i = 0; i < banyak_row; i++) {
             jumlah_menit = jumlah_menit + rows[i].jumlah_menit
         }
-        rata_rata_dikerjakan_selesai = jumlah_menit / banyak_row
+        rata_rata_dikerjakan_selesai = minutesToString(jumlah_menit / banyak_row)
 
         sql = 'SELECT * FROM permintaan WHERE id_instalasi = \'' + id_instalasi + '\' AND tanggal LIKE \'%' + tahun + '%\' AND selesai is not null'
         var {
@@ -298,8 +300,8 @@ dashboard.get('/find/:instalasi/:tahun', async (req, res) => {
 
         var json_return = {
             status: true,
-            rata_rata_diterima_dikerjakan: Math.ceil(rata_rata_diterima_dikerjakan),
-            rata_rata_dikerjakan_selesai: Math.ceil(rata_rata_dikerjakan_selesai),
+            rata_rata_diterima_dikerjakan: rata_rata_diterima_dikerjakan,
+            rata_rata_dikerjakan_selesai: rata_rata_dikerjakan_selesai,
             diterima: diterima,
             selesai: selesai,
             dikerjakan: dikerjakan
@@ -331,7 +333,7 @@ dashboard.get('/find/:instalasi/:tahun/:bulan', async (req, res) => {
     try {
         await dbconn.query('BEGIN')
 
-        sql = 'SELECT EXTRACT(MINUTE FROM (dikerjakan - diterima)) as jumlah_menit FROM permintaan WHERE id_instalasi = \'' + id_instalasi + '\' AND tanggal LIKE \'%' + tahun + '-' + bulan + '%\' AND diterima is not null AND dikerjakan is not null'
+        sql = 'SELECT buat_rentang_respon_waktu(diterima, dikerjakan) as jumlah_menit FROM permintaan WHERE id_instalasi = \'' + id_instalasi + '\' AND tanggal LIKE \'%' + tahun + '-' + bulan + '%\' AND diterima is not null AND dikerjakan is not null'
         var {
             rows
         } = await dbconn.query(sql)
@@ -341,9 +343,9 @@ dashboard.get('/find/:instalasi/:tahun/:bulan', async (req, res) => {
         for (i = 0; i < banyak_row; i++) {
             jumlah_menit = jumlah_menit + rows[i].jumlah_menit
         }
-        rata_rata_diterima_dikerjakan = jumlah_menit / banyak_row
+        rata_rata_diterima_dikerjakan = minutesToString(jumlah_menit / banyak_row)
 
-        sql = 'SELECT EXTRACT(MINUTE FROM (selesai - dikerjakan)) as jumlah_menit FROM permintaan WHERE id_instalasi = \'' + id_instalasi + '\' AND tanggal LIKE \'%' + tahun + '-' + bulan + '%\' AND diterima is not null AND dikerjakan is not null'
+        sql = 'SELECT buat_rentang_respon_waktu(dikerjakan, selesai) as jumlah_menit FROM permintaan WHERE id_instalasi = \'' + id_instalasi + '\' AND tanggal LIKE \'%' + tahun + '-' + bulan + '%\' AND diterima is not null AND dikerjakan is not null'
         var {
             rows
         } = await dbconn.query(sql)
@@ -353,7 +355,7 @@ dashboard.get('/find/:instalasi/:tahun/:bulan', async (req, res) => {
         for (i = 0; i < banyak_row; i++) {
             jumlah_menit = jumlah_menit + rows[i].jumlah_menit
         }
-        rata_rata_dikerjakan_selesai = jumlah_menit / banyak_row
+        rata_rata_dikerjakan_selesai = minutesToString(jumlah_menit / banyak_row)
 
         sql = 'SELECT * FROM permintaan WHERE id_instalasi = \'' + id_instalasi + '\' AND tanggal LIKE \'%' + tahun + '-' + bulan + '%\' AND selesai is not null'
         var {
@@ -377,9 +379,9 @@ dashboard.get('/find/:instalasi/:tahun/:bulan', async (req, res) => {
 
         var json_return = {
             status: true,
-            rata_rata_diterima_dikerjakan: Math.ceil(rata_rata_diterima_dikerjakan),
-            rata_rata_dikerjakan_selesai: Math.ceil(rata_rata_dikerjakan_selesai),
-            diterima : diterima,
+            rata_rata_diterima_dikerjakan: rata_rata_diterima_dikerjakan,
+            rata_rata_dikerjakan_selesai: rata_rata_dikerjakan_selesai,
+            diterima: diterima,
             selesai: selesai,
             dikerjakan: dikerjakan
         }
@@ -412,7 +414,7 @@ dashboard.get('/find/:instalasi/:tahun/:bulan/:tanggal', async (req, res) => {
     try {
         await dbconn.query('BEGIN')
 
-        sql = 'SELECT EXTRACT(MINUTE FROM (dikerjakan - diterima)) as jumlah_menit FROM permintaan WHERE id_instalasi = \'' + id_instalasi + '\' AND tanggal LIKE \'' + tahun + '-' + bulan + '-' + tanggal + '\' AND diterima is not null AND dikerjakan is not null'
+        sql = 'SELECT buat_rentang_respon_waktu(diterima, dikerjakan) as jumlah_menit FROM permintaan WHERE id_instalasi = \'' + id_instalasi + '\' AND tanggal LIKE \'' + tahun + '-' + bulan + '-' + tanggal + '\' AND diterima is not null AND dikerjakan is not null'
         var {
             rows
         } = await dbconn.query(sql)
@@ -422,9 +424,9 @@ dashboard.get('/find/:instalasi/:tahun/:bulan/:tanggal', async (req, res) => {
         for (i = 0; i < banyak_row; i++) {
             jumlah_menit = jumlah_menit + rows[i].jumlah_menit
         }
-        rata_rata_diterima_dikerjakan = jumlah_menit / banyak_row
+        rata_rata_diterima_dikerjakan = minutesToString(jumlah_menit / banyak_row)
 
-        sql = 'SELECT EXTRACT(MINUTE FROM (selesai - dikerjakan)) as jumlah_menit FROM permintaan WHERE id_instalasi = \'' + id_instalasi + '\' AND tanggal LIKE \'' + tahun + '-' + bulan + '-' + tanggal + '\' AND diterima is not null AND dikerjakan is not null'
+        sql = 'SELECT buat_rentang_respon_waktu(dikerjakan, selesai) as jumlah_menit FROM permintaan WHERE id_instalasi = \'' + id_instalasi + '\' AND tanggal LIKE \'' + tahun + '-' + bulan + '-' + tanggal + '\' AND diterima is not null AND dikerjakan is not null'
         var {
             rows
         } = await dbconn.query(sql)
@@ -434,7 +436,7 @@ dashboard.get('/find/:instalasi/:tahun/:bulan/:tanggal', async (req, res) => {
         for (i = 0; i < banyak_row; i++) {
             jumlah_menit = jumlah_menit + rows[i].jumlah_menit
         }
-        rata_rata_dikerjakan_selesai = jumlah_menit / banyak_row
+        rata_rata_dikerjakan_selesai = minutesToString(jumlah_menit / banyak_row)
 
         sql = 'SELECT * FROM permintaan WHERE id_instalasi = \'' + id_instalasi + '\' AND tanggal LIKE \'' + tahun + '-' + bulan + '-' + tanggal + '\'  AND selesai is not null'
         var {
@@ -458,8 +460,8 @@ dashboard.get('/find/:instalasi/:tahun/:bulan/:tanggal', async (req, res) => {
 
         var json_return = {
             status: true,
-            rata_rata_diterima_dikerjakan: Math.ceil(rata_rata_diterima_dikerjakan),
-            rata_rata_dikerjakan_selesai: Math.ceil(rata_rata_dikerjakan_selesai),
+            rata_rata_diterima_dikerjakan: rata_rata_diterima_dikerjakan,
+            rata_rata_dikerjakan_selesai: rata_rata_dikerjakan_selesai,
             diterima: diterima,
             selesai: selesai,
             dikerjakan: dikerjakan
@@ -502,5 +504,12 @@ dashboard.get('/find_instalasi', async (req, res) => {
         await dbconn.release
     }
 })
+
+function minutesToString(minutes) {
+    var numdays = Math.floor(minutes / 1440)
+    var numhours = Math.floor((minutes % 1440) / 60)
+    var numminutes = Math.floor(((minutes % 1440) % 60))
+    return numdays + ' hari ' + numhours + ' jam ' + numminutes + ' menit'
+}
 
 module.exports = dashboard

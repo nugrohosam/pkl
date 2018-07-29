@@ -186,37 +186,10 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>
-                                                        111137
-                                                    </td>
-                                                    <td>
-                                                        SPK/1.1/IPL/2018
-                                                    </td>
-                                                    <td>
-                                                        2018-07-02
-                                                    </td>
-                                                    <td>
-                                                        Radiologi
-                                                    </td>
-                                                    <td>
-                                                        R.9
-                                                    </td>
-                                                    <td>
-                                                        2018
-                                                    </td>
-                                                    <td>
-                                                        <i class="left fa fa-pencil" style="cursor : pointer" onClick="ubah_modal()"></i>
-                                                        <span style="cursor : pointer" onClick="ubah_modal()"> Edit</span>
-                                                        <i class="left fa fa-eye" style="cursor : pointer" onClick="detail_modal()"></i>
-                                                        <span style="cursor : pointer" onClick="detail_modal()"> Detail</span>
-                                                    </td>
-                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
-                                <!-- /.card-body -->
                             </div>
 
                             <div id="ubah_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
@@ -392,7 +365,7 @@
                                                     </div>
                                                 </div>
                                                 <div>
-                                                    <table class="table table-sm table-striped">
+                                                    <table class="table table-sm table-stripe">
                                                         <thead class="bg-warning">
                                                             <tr>
                                                                 <th>
@@ -521,13 +494,13 @@
                                                 response.permintaan.forEach(function (item) {
                                                     isi_permintaan = isi_permintaan + '<tr>';
                                                     isi_permintaan = isi_permintaan + '<td>' + item
-                                                        .permintaan + '<td>';
+                                                        .permintaan + '</td>';
                                                     isi_permintaan = isi_permintaan + '<td>' + item
-                                                        .huruf + '<td>';
+                                                        .huruf + '</td>';
                                                     isi_permintaan = isi_permintaan + '<td>' + item
-                                                        .jumlah + '<td>';
+                                                        .jumlah + '</td>';
                                                     isi_permintaan = isi_permintaan + '<td>' + item
-                                                        .keterangan + '<td>';
+                                                        .keterangan + '</td>';
                                                     isi_permintaan = isi_permintaan + '</tr>';
                                                 })
 

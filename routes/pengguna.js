@@ -24,7 +24,7 @@ var second = "" + now.getSeconds(); if (second.length == 1) { second = "0" + sec
 pengguna.use((req, res, next) => {
     if(!req.cookies.token){
         var fileName = 'login.html'
-            res.sendfile(fileName, options, (err) => {
+            res.sendFile(fileName, options, (err) => {
                 if(err){
                     console.log(err)
                 }  
@@ -40,7 +40,7 @@ pengguna.use((req, res, next) => {
         }
         catch (error) {
             var fileName = 'login.html'
-            res.sendfile(fileName, options, (err) => {
+            res.sendFile(fileName, options, (err) => {
                 if(err){
                     console.log(err)
                 }  
@@ -51,7 +51,7 @@ pengguna.use((req, res, next) => {
         }
         else if(decoded.logged_in){
             var fileName = 'forbidden400.html'
-            res.sendfile(fileName, options, (err) => {
+            res.sendFile(fileName, options, (err) => {
                 if(err){
                     console.log(err)
                 }  
@@ -59,7 +59,7 @@ pengguna.use((req, res, next) => {
         }
         else{
             var fileName = 'login.html'
-            res.sendfile(fileName, options, (err) => {
+            res.sendFile(fileName, options, (err) => {
                 if(err){
                     console.log(err)
                 }  
@@ -70,7 +70,7 @@ pengguna.use((req, res, next) => {
 
 pengguna.get('/', (req, res) => {
     var fileName = 'pengguna.html'
-    res.sendfile(fileName, options, (err) => {
+    res.sendFile(fileName, options, (err) => {
         if(err){
             console.log(err)
         }  

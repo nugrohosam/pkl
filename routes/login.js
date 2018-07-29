@@ -16,7 +16,7 @@ login.use(cors())
 login.use((req, res, next) => {
     if(!req.cookies.token && req.method != 'POST'){
         var fileName = 'login.html'
-            res.sendfile(fileName, options, (err) => {
+            res.sendFile(fileName, options, (err) => {
                 if(err){
                     console.log(err)
                 }  
@@ -32,7 +32,7 @@ login.use((req, res, next) => {
         }
         catch (error) {
             var fileName = 'login.html'
-            res.sendfile(fileName, options, (err) => {
+            res.sendFile(fileName, options, (err) => {
                 if(err){
                     console.log(err)
                 }  
@@ -41,14 +41,14 @@ login.use((req, res, next) => {
 
         if(decoded.logged_in){
             var fileName = 'dashboard.html'
-            res.sendfile(fileName, options, (err) => {
+            res.sendFile(fileName, options, (err) => {
                 if(err){
                     console.log(err)
                 }  
             })
         }else{
             var fileName = 'login.html'
-            res.sendfile(fileName, options, (err) => {
+            res.sendFile(fileName, options, (err) => {
                 if(err){
                     console.log(err)
                 }  
