@@ -121,7 +121,7 @@ instalasi.get('/find', async (req, res) => {
     
     var kolom = ['i.nama_instalasi', 'b.nama_bidang']
 
-    if(order_kolom == '0'){
+    if(order_kolom == ''){
         order_kolom = 'i.id_instalasi'
         tipe_order = 'desc'
     }else{

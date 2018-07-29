@@ -152,8 +152,8 @@ permintaan.get('/find', async (req, res) => {
 
     var kolom = ['p.nomor_surat', 'p.tanggal', 'i.nama_instalasi', 'p.nama_peminta', 'p.status']
 
-    if (order_kolom == '0') {
-        order_kolom = 'id_permintaan'
+    if (order_kolom == '') {
+        order_kolom = 'p.id_permintaan'
         tipe_order = 'desc'
     } else {
         order_kolom = kolom[order_kolom]

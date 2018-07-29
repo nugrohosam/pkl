@@ -140,10 +140,10 @@ bidang.get('/find', async (req, res) => {
     var tipe_order = order['0'].dir
     var draw = req.query.draw
 
-    var kolom = ['b.id_bidang', 'b.nama_bidang']
+    var kolom = ['b.nama_bidang', 'b.nama_bidang']
 
-    if (order_kolom == '0') {
-        order_kolom = 'id_bidang'
+    if (order_kolom == '') {
+        order_kolom = 'b.id_bidang'
         tipe_order = 'desc'
     } else {
         order_kolom = kolom[order_kolom]

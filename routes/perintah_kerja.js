@@ -125,7 +125,7 @@ perintah_kerja.get('/find', async (req, res) => {
     
     var kolom = ['p.nomor_surat', 'pk.nomor_surat', 'p.tanggal', 'i.nama_instalasi', 'pk.lokasi', 'pk.tanggal_kembali']
 
-    if(order_kolom == '0'){
+    if(order_kolom == ''){
         order_kolom = 'id_perintah_kerja'
         tipe_order = 'desc'
     }else{

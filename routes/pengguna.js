@@ -122,10 +122,10 @@ pengguna.get('/find', async (req, res) => {
     var tipe_order = order['0'].dir
     var draw = req.query.draw
     
-    var kolom = ['p.kategori', 'p.username' ]
+    var kolom = ['p.username', 'p.kategori']
 
-    if(order_kolom == '0'){
-        order_kolom = 'id_pengguna'
+    if(order_kolom == ''){
+        order_kolom = 'p.id_pengguna'
         tipe_order = 'desc'
     }else{
         order_kolom = kolom[order_kolom]
