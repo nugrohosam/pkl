@@ -122,8 +122,8 @@ perintah_kerja.get('/find', async (req, res) => {
     var order_kolom = order['0'].column;
     var tipe_order = order['0'].dir
     var draw = req.query.draw
-    
-    var kolom = ['p.nomor_surat', 'pk.nomor_surat', 'p.tanggal', 'i.nama_instalasi', 'pk.lokasi', 'pk.tanggal_kembali']
+
+    var kolom = ['p.nomor_surat', 'pk.nomor_surat', 'p.tanggal', 'i.nama_instalasi', 'pk.lokasi', 'pk.tanggal_kembali', 'pk.keterangan',]
 
     if(order_kolom == ''){
         order_kolom = 'id_perintah_kerja'
@@ -140,7 +140,7 @@ perintah_kerja.get('/find', async (req, res) => {
     try{
         await dbconn.query('BEGIN')
         
-        sql = "SELECT pk.id_perintah_kerja, p.nomor_surat as nomor_sp, pk.nomor_surat as nomor_spk, p.tanggal, i.nama_instalasi, pk.lokasi, pk.tanggal_kembali FROM perintah_kerja pk INNER JOIN permintaan p ON pk.id_permintaan = p.id_permintaan INNER JOIN instalasi i ON i.id_instalasi = p.id_instalasi WHERE ( p.nomor_surat LIKE '%"+isi_pencarian+"%' OR pk.nomor_surat LIKE '%"+isi_pencarian+"%' OR p.tanggal LIKE '%"+isi_pencarian+"%' OR i.nama_instalasi LIKE '%"+isi_pencarian+"%' OR pk.lokasi LIKE '%"+isi_pencarian+"%' OR pk.tanggal_kembali LIKE '%"+isi_pencarian+"%' ) ORDER BY "+order_kolom+" "+tipe_order+" LIMIT "+panjang_baris+" OFFSET "+awal_baris
+        sql = "SELECT pk.id_perintah_kerja, p.nomor_surat as nomor_sp, pk.nomor_surat as nomor_spk, p.tanggal, i.nama_instalasi, pk.lokasi, pk.keterangan, pk.tanggal_kembali FROM perintah_kerja pk INNER JOIN permintaan p ON pk.id_permintaan = p.id_permintaan INNER JOIN instalasi i ON i.id_instalasi = p.id_instalasi WHERE ( p.nomor_surat LIKE '%"+isi_pencarian+"%' OR pk.nomor_surat LIKE '%"+isi_pencarian+"%' OR p.tanggal LIKE '%"+isi_pencarian+"%' OR i.nama_instalasi LIKE '%"+isi_pencarian+"%' OR pk.lokasi LIKE '%"+isi_pencarian+"%' OR pk.tanggal_kembali LIKE '%"+isi_pencarian+"%' ) ORDER BY "+order_kolom+" "+tipe_order+" LIMIT "+panjang_baris+" OFFSET "+awal_baris
         var { rows } = await dbconn.query(sql)
         var i = 0
         rows.forEach((item) => {
@@ -149,7 +149,7 @@ perintah_kerja.get('/find', async (req, res) => {
             if(item.status == 'selesai') {
                 script_html = '<i class="left fa fa-eye" style="cursor : pointer" onClick="detail_modal(\''+item.id_perintah_kerja+'\')"></i><span style="cursor : pointer" onClick="detail_modal(\''+item.id_perintah_kerja+'\')"> Detail</span>'
             }
-            var data_table = [item.nomor_sp, item.nomor_spk, item.tanggal, item.nama_instalasi, item.lokasi, item.tanggal_kembali, script_html]
+            var data_table = [item.nomor_sp, item.nomor_spk, item.tanggal, item.nama_instalasi, item.lokasi, item.tanggal_kembali, item.keterangan, script_html]
             data[i] = data_table
             i++
         })

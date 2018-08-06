@@ -167,7 +167,10 @@
 
                         <div class="col-12">
                             <div class="card">
-                                <button class="btn btn-success" onClick="tambah_modal()"><i class="fa fa-plus"></i><span> Tambah Surat</span></button>
+                                <button class="btn btn-success" onClick="tambah_modal()">
+                                    <i class="fa fa-plus"></i>
+                                    <span> Tambah Surat</span>
+                                </button>
                             </div>
 
                             <div class="card">
@@ -513,6 +516,48 @@
                                 </div>
                             </div>
 
+                            <div id="tambah_spk_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Tambah SPK</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-2">No SP
+                                                </label>
+                                                <span>:</span>
+                                                <div class="col-sm-8 form-ubah">
+                                                    <input class="form-control" id="nomor_sp_tambah">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-2">No SPK
+                                                </label>
+                                                <span>:</span>
+                                                <div class="col-sm-8 form-ubah">
+                                                    <input class="form-control" id="nomor_spk_tambah">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-2">Lokasi
+                                                </label>
+                                                <span>:</span>
+                                                <div class="col-sm-8 form-ubah">
+                                                    <input class="form-control" id="lokasi_tambah">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-primary" id="button_save_ubah" onClick="tambah_spk_proccess()">Save</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div id="notif_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content">
@@ -718,6 +763,11 @@
                                     if (detail_tambah.rows.length == 0) {
                                         this.tambah_baris_detail_tambah()
                                     }
+                                }
+
+                                function tambah_spk_modal(id_permintaan) {
+                                    $('#nomor_sp_tambah').val(id_permintaan);
+                                    $('#tambah_spk_modal').modal('show');
                                 }
 
                                 function tambah_modal() {
@@ -1135,6 +1185,91 @@
                                                 $('#ubah_modal').modal('hide');
                                             }, 1500);
                                         }
+                                    }
+                                }
+
+                                function tambah_spk_proccess() {
+                                    $('#tambah_spk_modal').modal('hide');
+                                    $('#notif_modal').modal('show');
+
+                                    var status = true;
+
+                                    var bool1 = $('#nomor_sp_tambah').val() == '';
+                                    var bool2 = $('#nomor_spk_tambah').val() == '';
+                                    var bool3 = $('#lokasi_tambah').val() == '';
+
+
+                                    if (bool1 || bool2 || bool3) {
+                                        status = false;
+                                    }
+
+                                    if (status) {
+                                        var id_permintaan = '';
+                                        $.ajax({
+                                            url: '/perintah_kerja/find_permintaan/' + $('#nomor_sp_tambah').val(),
+                                            header: {
+                                                "Content-type": "applocation/json"
+                                            },
+                                            dataType: 'json',
+                                            success: function (response) {
+                                                if (!response.status) {
+                                                    $('#notif_modal div div div').html(
+                                                        'nomor sp tidak ditemukan');
+                                                    setTimeout(function () {
+                                                        $('#notif_modal').modal('hide');
+                                                    }, 1500)
+                                                    status = false;
+                                                } else {
+                                                    id_permintaan = response.id_permintaan
+
+                                                    $.ajax({
+                                                        url: '/perintah_kerja/save',
+                                                        header: {
+                                                            "Content-type": "applocation/json"
+                                                        },
+                                                        type: 'post',
+                                                        dataType: 'json',
+                                                        data: {
+                                                            'id_permintaan': id_permintaan,
+                                                            'nomor_surat': $('#nomor_spk_tambah').val(),
+                                                            'lokasi': $('#lokasi_tambah').val()
+                                                        },
+                                                        success: function (response) {
+                                                            if (response.status) {
+                                                                $('#notif_modal div div div').html(
+                                                                    'sukses tambah')
+                                                            } else {
+                                                                $('#notif_modal div div div').html(
+                                                                    'gagal tambah')
+                                                            }
+
+                                                            setTimeout(function () {
+                                                                $('#notif_modal').modal(
+                                                                    'hide')
+                                                            }, 1500)
+
+                                                            reload_table()
+                                                        },
+                                                        error: function () {
+                                                            $('#notif_modal div div div').html(
+                                                                'gagal tambah')
+                                                            setTimeout(function () {
+                                                                $('#notif_modal').modal(
+                                                                    'hide')
+                                                            }, 1500)
+                                                        },
+                                                        timeout: 15000
+                                                    })
+                                                }
+                                            },
+                                            error: function () {
+                                                $('#notif_modal div div div').html('error pada server');
+                                                setTimeout(function () {
+                                                    $('#notif_modal').modal('hide');
+                                                }, 1500)
+                                            },
+                                            timeout: 15000
+                                        })
                                     }
                                 }
 

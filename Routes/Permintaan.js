@@ -149,6 +149,8 @@ permintaan.get('/find', async (req, res) => {
     var order_kolom = order['0'].column;
     var tipe_order = order['0'].dir
     var draw = req.query.draw
+    var token = req.cookies.token
+    var decoded = jwt.verify(token, 'secret_token')
 
     var kolom = ['p.nomor_surat', 'p.tanggal', 'i.nama_instalasi', 'p.nama_peminta', 'p.status']
 
@@ -174,10 +176,15 @@ permintaan.get('/find', async (req, res) => {
         var i = 0
         rows.forEach((item) => {
             var script_html = '<i class="left fa fa-pencil" style="cursor : pointer" onClick="ubah_modal(\'' + item.id_permintaan + '\')"></i><span style="cursor : pointer" onClick="ubah_modal(\'' + item.id_permintaan + '\')"> Edit</span> <i class="left fa fa-eye" style="cursor : pointer" onClick="detail_modal(\'' + item.id_permintaan + '\')"></i><span style="cursor : pointer" onClick="detail_modal(\'' + item.id_permintaan + '\')"> Detail</span>'
-
+            
             if (item.status == 'selesai') {
                 script_html = '<i class="left fa fa-eye" style="cursor : pointer" onClick="detail_modal(\'' + item.id_permintaan + '\')"></i><span style="cursor : pointer" onClick="detail_modal(\'' + item.id_permintaan + '\')"> Detail</span>'
             }
+
+            if(decoded.kategori == 'user ipl' || decoded.kategori == 'admin'){
+                script_html = script_html + ' <i class="left fa fa-sticky-note" style="cursor : pointer" onClick="tambah_spk_modal(\'' + item.nomor_surat + '\')"></i><span style="cursor : pointer" onClick="tambah_spk_modal(\'' + item.nomor_surat + '\')"> Buat SPK</span>'
+            }
+
             var data_table = [item.nomor_surat, item.tanggal, item.nama_instalasi, item.nama_peminta, item.status, script_html]
             data[i] = data_table
             i++
