@@ -41,6 +41,12 @@
     <script src="dist/js/demo.js"></script>
     <script src="plugins/datatables/jquery.dataTables.js"></script>
     <script src="plugins/datatables/dataTables.bootstrap4.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
 
 </head>
 
@@ -271,6 +277,30 @@
                                         table = $('#table-pengguna').DataTable({
                                             'processing': false,
                                             'serverSide': true,
+                                            'dom': 'lfrtBip',
+                                            'buttons': [{
+                                                    'extend': 'excel',
+                                                    'text': 'Export to .xlsx <i class="fa fa-file-excel-o"></i>',
+                                                    'exportOptions': {
+                                                        'modifier': {
+                                                            'page': 'all'
+                                                        },
+                                                        'columns' : [ 0, 1 ]
+                                                    },
+                                                    'title': 'Instalasi'
+                                                },
+                                                {
+                                                    'extend': 'pdf',
+                                                    'text': 'Export To .pdf <i class="fa fa-file-pdf-o"></i>',
+                                                    'exportOptions': {
+                                                        'modifier': {
+                                                            'page': 'all'
+                                                        },
+                                                        'columns' : [ 0, 1 ]                                                        
+                                                    },
+                                                    'title': 'Instalasi'
+                                                }
+                                            ],
                                             'ajax': {
                                                 'url': '/instalasi/find'
                                             },

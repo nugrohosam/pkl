@@ -41,7 +41,43 @@
     <script src="dist/js/demo.js"></script>
     <script src="plugins/datatables/jquery.dataTables.js"></script>
     <script src="plugins/datatables/dataTables.bootstrap4.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
+    <style>
+        /* .flex-wrapper{
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                align-items: stretch;
+            } */
 
+        .form-group {
+            display: flex;
+            flex-direction: row;
+        }
+
+        div.form-group>label.control-label {
+            display: inline-block;
+            flex-direction: row;
+            justify-content: left;
+        }
+
+        div.form-group>span {
+            margin-left: 5%;
+        }
+
+        div.form-ubah>input.form-control,
+        div.form-ubah>textarea.form-control,
+        div.form-ubah>select.form-control {
+            display: inline;
+            flex-direction: row-reverse;
+            margin-left: 15%;
+        }
+    </style>
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -133,7 +169,10 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
-                                <button class="btn btn-success" onClick="tambah_modal()"><i class="fa fa-plus"></i><span> Tambah Bidang</span></button>
+                                <button class="btn btn-success" onClick="tambah_modal()">
+                                    <i class="fa fa-plus"></i>
+                                    <span> Tambah Bidang</span>
+                                </button>
                             </div>
                             <div class="card">
                                 <div class="card-header">
@@ -246,6 +285,30 @@
                                         table = $('#table-pengguna').DataTable({
                                             'processing': false,
                                             'serverSide': true,
+                                            'dom': 'lfrtBip',
+                                            'buttons': [{
+                                                    'extend': 'excel',
+                                                    'text': 'Export to .xlsx <i class="fa fa-file-excel-o"></i>',
+                                                    'exportOptions': {
+                                                        'modifier': {
+                                                            'page': 'all'
+                                                        },
+                                                        'columns': [0]
+                                                    },
+                                                    'title': 'Bidang'
+                                                },
+                                                {
+                                                    'extend': 'pdf',
+                                                    'text': 'Export To .pdf <i class="fa fa-file-pdf-o"></i>',
+                                                    'exportOptions': {
+                                                        'modifier': {
+                                                            'page': 'all'
+                                                        },
+                                                        'columns': [0]
+                                                    },
+                                                    'title': 'Bidang'
+                                                }
+                                            ],
                                             'ajax': {
                                                 'url': '/bidang/find'
                                             },
@@ -256,7 +319,7 @@
                                         });
 
                                         setInterval(reload_table, 4000);
-                                        
+
                                     }
                                 );
 
