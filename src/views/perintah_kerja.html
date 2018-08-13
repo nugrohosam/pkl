@@ -98,7 +98,7 @@
             <div class="sidebar">
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                        <li class="nav-item">
+                        <li id="nav_permintaan" class="nav-item">
                             <a href="/permintaan" class="nav-link">
                                 <i class="nav-icon fa fa-apple"></i>
                                 <p>
@@ -107,7 +107,7 @@
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li id="nav_perintah_kerja" class="nav-item">
                             <a href="/perintah_kerja" class="nav-link">
                                 <i class="nav-icon fa fa-apple"></i>
                                 <p>
@@ -116,7 +116,7 @@
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li id="nav_instalasi" class="nav-item">
                             <a href="/instalasi" class="nav-link">
                                 <i class="nav-icon fa fa-apple"></i>
                                 <p>
@@ -125,7 +125,7 @@
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li id="nav_bidang" class="nav-item">
                             <a href="/bidang" class="nav-link">
                                 <i class="nav-icon fa fa-apple"></i>
                                 <p>
@@ -134,7 +134,7 @@
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li id="nav_pengguna" class="nav-item">
                             <a href="/pengguna" class="nav-link">
                                 <i class="nav-icon fa fa-apple"></i>
                                 <p>
@@ -144,7 +144,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="login" class="nav-link" onClick="logout()">
+                            <a href="authentication" class="nav-link" onClick="logout()">
                                 <i class="nav-icon fa fa-sign-out"></i>
                                 <p>
                                     Logout
@@ -428,9 +428,34 @@
                                             todayBtn: true,
                                             todayHighlight: true,
                                         });
+
+                                        setNav()
                                     }
                                 );
-
+                                
+                                function setNav() {
+                                    $.ajax({
+                                        url: '/authentication/auth_nav',
+                                        header: {
+                                            "Content-type": "applocation/json"
+                                        },
+                                        dataType: 'json',
+                                        success: function (response) {
+                                            var status = response.status;
+                                            if (status) {
+                                                var role = response.role;
+                                                if(role == 'user ipl'){
+                                                    $('#nav_instalasi').attr('hidden', true);
+                                                    $('#nav_bidang').attr('hidden', true);
+                                                    $('#nav_pengguna').attr('hidden', true);
+                                                }
+                                            }
+                                        },
+                                        error: function () {
+                                            console.log('error')
+                                        }
+                                    })
+                                }
 
                                 function ubah_modal(id_perintah_kerja) {
                                     $('#ubah_modal').modal('show');
@@ -524,6 +549,10 @@
                                         },
                                         timeout: 15000
                                     })
+                                }
+                                
+                                function to_pdf(id_perintah_kerja){
+                                    window.open('/perintah_kerja/go_pdf/'+id_perintah_kerja, '_blank');
                                 }
 
                                 function tambah_proccess() {

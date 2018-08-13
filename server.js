@@ -21,7 +21,7 @@ app.use(session({
 var perintah_kerja = require('./routes/perintah_kerja')
 var dashboard = require('./routes/dashboard')
 var permintaan = require('./routes/permintaan')
-var login = require('./routes/login')
+var authentication = require('./routes/authentication')
 var instalasi = require('./routes/instalasi')
 var bidang = require('./routes/bidang')
 var pengguna = require('./routes/pengguna')
@@ -32,7 +32,7 @@ app.use('/bidang',bidang)
 app.use('/pengguna',pengguna)
 app.use('/perintah_kerja',perintah_kerja)
 app.use('/permintaan',permintaan)
-app.use('/login',login)
+app.use('/authentication',authentication)
 app.use(express.static('src/assets/'))
 
 app.use(function(req, res, next) {

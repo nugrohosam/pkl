@@ -29,7 +29,7 @@
             $('#button_login').attr('disabled', true)
 
             $.ajax({
-                url: 'http://localhost:3000/login/proccess',
+                url: '/authentication/proccess',
                 header: {
                     'content-type': 'application/json'
                 },
@@ -50,7 +50,8 @@
                         window.open('/permintaan', '_self');
                     }
                 },
-                error: function () {
+                error: function (e) {
+                    console.log(e);
                     $('#pesan').html('Koneksi error...');
                     $('#pesan').css('color', 'red')
                     $('#button_login').attr('disabled', false);

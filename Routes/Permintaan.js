@@ -169,7 +169,7 @@ permintaan.get('/find', async (req, res) => {
     try {
         await dbconn.query('BEGIN')
 
-        sql = "SELECT p.id_permintaan, p.nomor_surat, p.tanggal, i.nama_instalasi, p.nama_peminta, p.status  FROM permintaan p INNER JOIN instalasi i ON i.id_instalasi = p.id_instalasi  WHERE ( p.nomor_surat LIKE '%" + isi_pencarian + "%' OR p.tanggal LIKE '%" + isi_pencarian + "%' OR i.nama_instalasi LIKE '%" + isi_pencarian + "%' OR p.nama_peminta LIKE '%" + isi_pencarian + "%' OR p.status LIKE '%" + isi_pencarian + "%') ORDER BY " + order_kolom + " " + tipe_order + " LIMIT " + panjang_baris + " OFFSET " + awal_baris
+        sql = "SELECT p.id_permintaan, p.nomor_surat, p.tanggal, i.nama_instalasi, p.nama_peminta, p.status, pk.id_perintah_kerja FROM permintaan p LEFT JOIN perintah_kerja pk ON p.id_permintaan = pk.id_permintaan INNER JOIN instalasi i ON i.id_instalasi = p.id_instalasi  WHERE ( p.nomor_surat LIKE '%" + isi_pencarian + "%' OR p.tanggal LIKE '%" + isi_pencarian + "%' OR i.nama_instalasi LIKE '%" + isi_pencarian + "%' OR p.nama_peminta LIKE '%" + isi_pencarian + "%' OR p.status LIKE '%" + isi_pencarian + "%') ORDER BY " + order_kolom + " " + tipe_order + " LIMIT " + panjang_baris + " OFFSET " + awal_baris
         var {
             rows
         } = await dbconn.query(sql)
@@ -181,7 +181,7 @@ permintaan.get('/find', async (req, res) => {
                 script_html = '<i class="left fa fa-eye" style="cursor : pointer" onClick="detail_modal(\'' + item.id_permintaan + '\')"></i><span style="cursor : pointer" onClick="detail_modal(\'' + item.id_permintaan + '\')"> Detail</span>'
             }
 
-            if(decoded.kategori == 'user ipl' || decoded.kategori == 'admin'){
+            if((decoded.kategori == 'user ipl' || decoded.kategori == 'admin') && item.id_perintah_kerja == null ){
                 script_html = script_html + ' <i class="left fa fa-sticky-note" style="cursor : pointer" onClick="tambah_spk_modal(\'' + item.nomor_surat + '\')"></i><span style="cursor : pointer" onClick="tambah_spk_modal(\'' + item.nomor_surat + '\')"> Buat SPK</span>'
             }
 

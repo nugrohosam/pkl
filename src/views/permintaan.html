@@ -98,7 +98,7 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
 
-                        <li class="nav-item">
+                        <li id="nav_permintaan" class="nav-item">
                             <a href="/permintaan" class="nav-link">
                                 <i class="nav-icon fa fa-apple"></i>
                                 <p>
@@ -107,7 +107,7 @@
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li id="nav_perintah_kerja" class="nav-item">
                             <a href="/perintah_kerja" class="nav-link">
                                 <i class="nav-icon fa fa-apple"></i>
                                 <p>
@@ -116,7 +116,7 @@
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li id="nav_instalasi" class="nav-item">
                             <a href="/instalasi" class="nav-link">
                                 <i class="nav-icon fa fa-apple"></i>
                                 <p>
@@ -125,7 +125,7 @@
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li id="nav_bidang" class="nav-item">
                             <a href="/bidang" class="nav-link">
                                 <i class="nav-icon fa fa-apple"></i>
                                 <p>
@@ -134,7 +134,7 @@
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li id="nav_pengguna" class="nav-item">
                             <a href="/pengguna" class="nav-link">
                                 <i class="nav-icon fa fa-apple"></i>
                                 <p>
@@ -144,7 +144,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="login" class="nav-link" onClick="logout()">
+                            <a href="authentication" class="nav-link" onClick="logout()">
                                 <i class="nav-icon fa fa-sign-out"></i>
                                 <p>
                                     Logout
@@ -570,9 +570,7 @@
                             <script type="text/javascript">
                                 var table;
                                 var index_detail_table = 0;
-
                                 $(document).ready(
-
                                     function () {
                                         table = $('#table_permintaan').DataTable({
                                             "initComplete": function () {
@@ -603,7 +601,7 @@
                                             'serverSide': true,
                                             'ajax': {
                                                 'url': '/permintaan/find',
-                                                'timeout': 15000
+                                                'timeout': 15000,
                                             },
                                             'columnDefs': [{
                                                 'targets': [-1],
@@ -698,10 +696,40 @@
                                             })
                                         })
 
+                                        setNav()
+
                                         setInterval(reload_table, 4000)
                                     }
                                 );
 
+                                function setNav() {
+                                    $.ajax({
+                                        url: '/authentication/auth_nav',
+                                        header: {
+                                            "Content-type": "applocation/json"
+                                        },
+                                        dataType: 'json',
+                                        success: function (response) {
+                                            var status = response.status;
+                                            if (status) {
+                                                var role = response.role;
+                                                if (role == 'user') {
+                                                    $('#nav_perintah_kerja').attr('hidden', true);
+                                                    $('#nav_instalasi').attr('hidden', true);
+                                                    $('#nav_bidang').attr('hidden', true);
+                                                    $('#nav_pengguna').attr('hidden', true);
+                                                } else if (role == 'user ipl') {
+                                                    $('#nav_instalasi').attr('hidden', true);
+                                                    $('#nav_bidang').attr('hidden', true);
+                                                    $('#nav_pengguna').attr('hidden', true);
+                                                }
+                                            }
+                                        },
+                                        error: function () {
+                                            console.log('error')
+                                        }
+                                    })
+                                }
 
                                 function tambah_baris_detail_ubah() {
                                     var string_append = '';

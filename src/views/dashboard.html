@@ -68,7 +68,7 @@
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
-                        <li class="nav-item">
+                        <li id="nav_permintaan" class="nav-item">
                             <a href="/permintaan" class="nav-link">
                                 <i class="nav-icon fa fa-apple"></i>
                                 <p>
@@ -77,7 +77,7 @@
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li id="nav_perintah_kerja" class="nav-item">
                             <a href="/perintah_kerja" class="nav-link">
                                 <i class="nav-icon fa fa-apple"></i>
                                 <p>
@@ -86,7 +86,7 @@
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li id="nav_instalasi" class="nav-item">
                             <a href="/instalasi" class="nav-link">
                                 <i class="nav-icon fa fa-apple"></i>
                                 <p>
@@ -95,7 +95,7 @@
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li id="nav_bidang" class="nav-item">
                             <a href="/bidang" class="nav-link">
                                 <i class="nav-icon fa fa-apple"></i>
                                 <p>
@@ -104,7 +104,7 @@
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li id="nav_pengguna" class="nav-item">
                             <a href="/pengguna" class="nav-link">
                                 <i class="nav-icon fa fa-apple"></i>
                                 <p>
@@ -114,7 +114,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="login" class="nav-link" onClick="logout()">
+                            <a href="authentication" class="nav-link" onClick="logout()">
                                 <i class="nav-icon fa fa-sign-out"></i>
                                 <p>
                                     Logout
@@ -198,7 +198,10 @@
                             <input class="form-control" placeholder="Tanggal.." id="tanggal">
                         </div>
                         <div class="col-lg-2 form-group">
-                            <button class="form-control bg-success" onClick="search_proccess()"><i class="ion ion-search"></i> <span>Search</span></button>
+                            <button class="form-control bg-success" onClick="search_proccess()">
+                                <i class="ion ion-search"></i>
+                                <span>Search</span>
+                            </button>
                         </div>
                         <div class="col-lg-12 col-6">
                             <table id="" class="table table-sm">
@@ -271,9 +274,34 @@
                 });
 
                 google.charts.setOnLoadCallback(drawChart);
-
+                setNav();
             });
 
+            function setNav() {
+                $.ajax({
+                    url: '/authentication/auth_nav',
+                    header: {
+                        'Content-type': 'application/json'
+                    },
+                    dataType: 'json',
+                    success: function (response) {
+                        var status = response.status;
+                        if (status) {
+                            var role = response.role;
+                            if (role == 'user') {
+                                $('#nav_perintah_kerja').attr('hidden', true);
+                                $('#nav_instalasi').attr('hidden', true);
+                                $('#nav_bidang').attr('hidden', true);
+                                $('#nav_pengguna').attr('hidden', true);
+                            } else if (role == 'user ipl') {
+                                $('#nav_instalasi').attr('hidden', true);
+                                $('#nav_bidang').attr('hidden', true);
+                                $('#nav_pengguna').attr('hidden', true);
+                            }
+                        }
+                    }
+                })
+            }
 
             function drawChart() {
 
@@ -331,7 +359,7 @@
 
                 var url = '/dashboard/find/' + id_instalasi_val
 
-                if(tahun_val != ''){
+                if (tahun_val != '') {
                     url = '/dashboard/find/' + id_instalasi_val + '/' + tahun_val
                 }
                 if (bulan_val != '') {
@@ -364,7 +392,7 @@
                         isi_table = isi_table + '<td>Response diterima - dikerjakan</td>';
 
                         if (!rata_rata_diterima_dikerjakan.includes('NaN')) {
-                            isi_table = isi_table + '<td>' + rata_rata_diterima_dikerjakan+ '</td>';
+                            isi_table = isi_table + '<td>' + rata_rata_diterima_dikerjakan + '</td>';
                         } else {
                             isi_table = isi_table + '<td> belum ada </td>';
                         }
@@ -372,7 +400,7 @@
                         isi_table = isi_table + '</tr>';
                         isi_table = isi_table + '<tr>';
                         isi_table = isi_table + '<td>Response dikerjakan - selesai</td>';
-                            
+
                         if (!rata_rata_dikerjakan_selesai.includes('NaN')) {
                             isi_table = isi_table + '<td>' + rata_rata_dikerjakan_selesai + '</td>';
                         } else {

@@ -144,11 +144,8 @@ perintah_kerja.get('/find', async (req, res) => {
         var { rows } = await dbconn.query(sql)
         var i = 0
         rows.forEach((item) => {
-            var script_html = '<i class="left fa fa-pencil" style="cursor : pointer" onClick="ubah_modal(\''+item.id_perintah_kerja+'\')"></i><span style="cursor : pointer" onClick="ubah_modal(\''+item.id_perintah_kerja+'\')"> Edit</span> <i class="left fa fa-eye" style="cursor : pointer" onClick="detail_modal(\''+item.id_perintah_kerja+'\')"></i><span style="cursor : pointer" onClick="detail_modal(\''+item.id_perintah_kerja+'\')"> Detail</span>'
+            var script_html = '<i class="left fa fa-pencil" style="cursor : pointer" onClick="ubah_modal(\''+item.id_perintah_kerja+'\')"></i><span style="cursor : pointer" onClick="ubah_modal(\''+item.id_perintah_kerja+'\')"> Edit</span> <i class="left fa fa-eye" style="cursor : pointer" onClick="detail_modal(\''+item.id_perintah_kerja+'\')"></i><span style="cursor : pointer" onClick="detail_modal(\''+item.id_perintah_kerja+'\')"> Detail</span> <i class="left fa fa-print" style="cursor : pointer" onClick="to_pdf(\''+item.id_perintah_kerja+'\')"></i><span style="cursor : pointer" onClick="to_pdf(\''+item.id_perintah_kerja+'\')"> Pdf</span>'
             
-            if(item.status == 'selesai') {
-                script_html = '<i class="left fa fa-eye" style="cursor : pointer" onClick="detail_modal(\''+item.id_perintah_kerja+'\')"></i><span style="cursor : pointer" onClick="detail_modal(\''+item.id_perintah_kerja+'\')"> Detail</span>'
-            }
             var data_table = [item.nomor_sp, item.nomor_spk, item.tanggal, item.nama_instalasi, item.lokasi, item.tanggal_kembali, item.keterangan, script_html]
             data[i] = data_table
             i++
@@ -296,6 +293,15 @@ perintah_kerja.get('/find_permintaan/:nomor_surat', async (req, res) => {
     } finally {
         await dbconn.release
     }
+})
+
+perintah_kerja.get('/go_pdf/:id_perintah_kerja', async (req, res) => {
+    var fileName = 'perintah_kerja_to_pdf.html'
+    res.sendFile(fileName, options, (err) => {
+        if(err){
+            console.log(err)
+        }  
+    })
 })
 
 module.exports = perintah_kerja;
