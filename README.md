@@ -36,7 +36,9 @@ $ npm install
 # 2. Restore db on your PostgreSQL
    
 ```bash
-db can find on dbbackup file
+create new db with name as dbipl
+restore dbbackup to your dbipl
+db can find on dbbackup
 ```
 # 3. Run your project
 
