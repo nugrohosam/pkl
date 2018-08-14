@@ -3,7 +3,7 @@
 
 project PKL-UB for RSSA-Malang
 
-**Before cloning on this project make sure has been install git-cli on your computer**
+**Before clone this project make sure has been install git-cli on your computer**
 
 # 1. Install this project on your computer
 
