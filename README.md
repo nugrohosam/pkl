@@ -34,7 +34,10 @@ $ npm install
 #sudo optional
 ```
 # 2. Restore db on your PostgreSQL
-
+   
+```bash
+db can find on dbbackup file
+```
 # 3. Run your project
 
 ```bash
