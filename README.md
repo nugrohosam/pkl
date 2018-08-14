@@ -43,9 +43,9 @@ db can find on dbbackup
 # 3. Run your project
 
 ```bash
-npm test
-//or
-node server.js
+$ npm test
+// or
+$ node server.js
 ```
 
 
