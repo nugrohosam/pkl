@@ -24,16 +24,21 @@ var permintaan = require('./routes/permintaan')
 var authentication = require('./routes/authentication')
 var instalasi = require('./routes/instalasi')
 var bidang = require('./routes/bidang')
+var staff_ipl = require('./routes/staff_ipl')
 var pengguna = require('./routes/pengguna')
 
+app.use('/src/assets', express.static('./src/assets/'))
 app.use('/dashboard',dashboard)
 app.use('/instalasi',instalasi)
 app.use('/bidang',bidang)
 app.use('/pengguna',pengguna)
+app.use('/staff_ipl',staff_ipl)
 app.use('/perintah_kerja',perintah_kerja)
 app.use('/permintaan',permintaan)
 app.use('/authentication',authentication)
-app.use(express.static('src/assets/'))
+
+// redirect
+app.use('/',dashboard)
 
 app.use(function(req, res, next) {
     var err = new Error('Not Found');

@@ -41,6 +41,7 @@ if (second.length == 1) {
     second = "0" + second
 }
 
+
 dashboard.use((req, res, next) => {
     if (!req.cookies.token) {
         var fileName = 'login.html'

@@ -5,42 +5,42 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>IPL Software</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="src/assets/plugins/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="dist/css/adminlte.min.css">
-    <link rel="stylesheet" href="plugins/iCheck/flat/blue.css">
-    <link rel="stylesheet" href="plugins/morris/morris.css">
-    <link rel="stylesheet" href="plugins/jvectormap/jquery-jvectormap-1.2.2.css">
-    <link rel="stylesheet" href="plugins/datepicker/datepicker3.css">
-    <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker-bs3.css">
-    <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+    <link rel="stylesheet" href="src/assets/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="src/assets/plugins/iCheck/flat/blue.css">
+    <link rel="stylesheet" href="src/assets/plugins/morris/morris.css">
+    <link rel="stylesheet" href="src/assets/plugins/jvectormap/jquery-jvectormap-1.2.2.css">
+    <link rel="stylesheet" href="src/assets/plugins/datepicker/datepicker3.css">
+    <link rel="stylesheet" href="src/assets/plugins/daterangepicker/daterangepicker-bs3.css">
+    <link rel="stylesheet" href="src/assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-    <link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap4.css">
+    <link rel="stylesheet" href="src/assets/plugins/datatables/dataTables.bootstrap4.css">
 
 
-    <script src="plugins/jquery/jquery.min.js"></script>
+    <script src="src/assets/plugins/jquery/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script>
         $.widget.bridge('uibutton', $.ui.button)
     </script>
-    <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="src/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-    <script src="plugins/morris/morris.min.js"></script>
-    <script src="plugins/sparkline/jquery.sparkline.min.js"></script>
-    <script src="plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
-    <script src="plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
-    <script src="plugins/knob/jquery.knob.js"></script>
+    <script src="src/assets/plugins/morris/morris.min.js"></script>
+    <script src="src/assets/plugins/sparkline/jquery.sparkline.min.js"></script>
+    <script src="src/assets/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
+    <script src="src/assets/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+    <script src="src/assets/plugins/knob/jquery.knob.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
-    <script src="plugins/daterangepicker/daterangepicker.js"></script>
-    <script src="plugins/datepicker/bootstrap-datepicker.js"></script>
-    <script src="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
-    <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
-    <script src="plugins/fastclick/fastclick.js"></script>
-    <script src="dist/js/adminlte.js"></script>
-    <script src="dist/js/pages/dashboard.js"></script>
-    <script src="dist/js/demo.js"></script>
-    <script src="plugins/datatables/jquery.dataTables.js"></script>
-    <script src="plugins/datatables/dataTables.bootstrap4.js"></script>
+    <script src="src/assets/plugins/daterangepicker/daterangepicker.js"></script>
+    <script src="src/assets/plugins/datepicker/bootstrap-datepicker.js"></script>
+    <script src="src/assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+    <script src="src/assets/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <script src="src/assets/plugins/fastclick/fastclick.js"></script>
+    <script src="src/assets/dist/js/adminlte.js"></script>
+    <script src="src/assets/dist/js/pages/dashboard.js"></script>
+    <script src="src/assets/dist/js/demo.js"></script>
+    <script src="src/assets/plugins/datatables/jquery.dataTables.js"></script>
+    <script src="src/assets/plugins/datatables/dataTables.bootstrap4.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.flash.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
@@ -64,7 +64,7 @@
 
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <a href="/dashboard" class="brand-link">
-                <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                <img src="src/assets/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
                 <span class="brand-text font-weight-light">Admin IPL</span>
             </a>
 
@@ -104,6 +104,15 @@
                                 <i class="nav-icon fa fa-apple"></i>
                                 <p>
                                     Bidang
+                                    <i class="right fa fa-angle-right"></i>
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/staff_ipl" class="nav-link">
+                                <i class="nav-icon fa fa-apple"></i>
+                                <p>
+                                    Staff IPL
                                     <i class="right fa fa-angle-right"></i>
                                 </p>
                             </a>
@@ -166,7 +175,7 @@
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title">Tambah</h5>
+                                            <h5 class="modal-title">Ubah</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
@@ -203,7 +212,7 @@
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title">Ubah</h5>
+                                            <h5 class="modal-title">Tambah</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>

@@ -1,5 +1,5 @@
 var express = require('express')
-var pengguna = express.Router()
+var staff_ipl = express.Router()
 var cors = require('cors')
 var dbconn = require('../database/database')
 var jwt = require('jsonwebtoken')
@@ -7,7 +7,7 @@ var md5 = require('md5')
 var token;
 
 var token = jwt.sign({ data: {logged_in : false}}, 'secret_token', { expiresIn: '1d' })
-pengguna.use(cors())
+staff_ipl.use(cors())
 var appData = {}
 var options = {
     root: './src/views/'
@@ -21,7 +21,7 @@ var hour = "" + now.getHours(); if (hour.length == 1) { hour = "0" + hour; }
 var minute = "" + now.getMinutes(); if (minute.length == 1) { minute = "0" + minute; }
 var second = "" + now.getSeconds(); if (second.length == 1) { second = "0" + second; }
 
-pengguna.use((req, res, next) => {
+staff_ipl.use((req, res, next) => {
     if(!req.cookies.token){
         var fileName = 'login.html'
             res.sendFile(fileName, options, (err) => {
@@ -68,8 +68,8 @@ pengguna.use((req, res, next) => {
     }
 })
 
-pengguna.get('/', (req, res) => {
-    var fileName = 'pengguna.html'
+staff_ipl.get('/', (req, res) => {
+    var fileName = 'staff_ipl.html'
     res.sendFile(fileName, options, (err) => {
         if(err){
             console.log(err)
@@ -77,16 +77,15 @@ pengguna.get('/', (req, res) => {
     })
 })
 
-pengguna.post('/save', async (req, res) => {
+staff_ipl.post('/save', async (req, res) => {
     
     var datetime = Date.now()
-    var id_pengguna = 'peng'+datetime
+    var id_staff_ipl = 'staf'+datetime
     var datetime_format = year+'-'+month+'-'+day+' '+hour+':'+minute+':'+second;
 
     var data = req.body
-    var username = data.username
-    var kategori = data.kategori
-    var password = md5(data.password)
+    var nama = data.nama
+    var nip = data.nip
 
     var buat_pada = datetime_format
     var ubah_pada = datetime_format
@@ -96,9 +95,9 @@ pengguna.post('/save', async (req, res) => {
     try{
         await dbconn.query('BEGIN')
 
-        sql = 'INSERT INTO pengguna (id_pengguna, kategori, username, password, buat_pada, ubah_pada ) VALUES (\''+id_pengguna+'\', \''+kategori+'\', \''+username+'\', \''+password+'\', \''+buat_pada+'\', \''+ubah_pada+'\' )';
-        var result = await dbconn.query(sql)
-        
+        sql = 'INSERT INTO staff_ipl (id_staff_ipl, nama, nip, buat_pada, ubah_pada ) VALUES (\''+id_staff_ipl+'\', \''+nama+'\', \''+nip+'\', \''+buat_pada+'\', \''+ubah_pada+'\' )';
+        await dbconn.query(sql);
+
         await dbconn.query('COMMIT')
         var json_return = {status : true}
         res.status(200).json(json_return)
@@ -111,7 +110,7 @@ pengguna.post('/save', async (req, res) => {
     }
 })
 
-pengguna.get('/find', async (req, res) => {
+staff_ipl.get('/find', async (req, res) => {
 
     var panjang_baris = req.query.length
     var awal_baris = req.query.start
@@ -122,10 +121,10 @@ pengguna.get('/find', async (req, res) => {
     var tipe_order = order['0'].dir
     var draw = req.query.draw
     
-    var kolom = ['p.username', 'p.kategori']
+    var kolom = ['s.nama', 's.nip']
 
     if(order_kolom == ''){
-        order_kolom = 'p.id_pengguna'
+        order_kolom = 's.id_staff_ipl'
         tipe_order = 'desc'
     }else{
         order_kolom = kolom[order_kolom]
@@ -140,21 +139,21 @@ pengguna.get('/find', async (req, res) => {
     try{
         await dbconn.query('BEGIN')
         
-        sql = "SELECT p.id_pengguna, p.kategori, p.username, p.password FROM pengguna p WHERE ( p.username LIKE '%"+isi_pencarian+"%' OR p.kategori LIKE '%"+isi_pencarian+"%' ) ORDER BY "+order_kolom+" "+tipe_order+" LIMIT "+panjang_baris+" OFFSET "+awal_baris
+        sql = "SELECT s.id_staff_ipl, s.nama, s.nip FROM staff_ipl s WHERE ( s.nama LIKE '%"+isi_pencarian+"%' OR s.nip LIKE '%"+isi_pencarian+"%' ) ORDER BY "+order_kolom+" "+tipe_order+" LIMIT "+panjang_baris+" OFFSET "+awal_baris
         var { rows } = await dbconn.query(sql)
         var i = 0
         rows.forEach((item) => {
-            var script_html = '<i class="left fa fa-pencil" style="cursor : pointer" onClick="ubah_modal(\''+item.id_pengguna+'\')"></i><span style="cursor : pointer" onClick="ubah_modal(\''+item.id_pengguna+'\')"> Edit</span> <i class="left fa fa-eye" style="cursor : pointer" onClick="detail_modal(\''+item.id_pengguna+'\')"></i><span style="cursor : pointer" onClick="detail_modal(\''+item.id_pengguna+'\')"> Detail</span>'
-            var data_table = [item.username, item.kategori, script_html]
+            var script_html = '<i class="left fa fa-pencil" style="cursor : pointer" onClick="ubah_modal(\''+item.id_staff_ipl+'\')"></i><span style="cursor : pointer" onClick="ubah_modal(\''+item.id_staff_ipl+'\')"> Edit</span> <i class="left fa fa-eye" style="cursor : pointer" onClick="detail_modal(\''+item.id_staff_ipl+'\')"></i><span style="cursor : pointer" onClick="detail_modal(\''+item.id_staff_ipl+'\')"> Detail</span>'
+            var data_table = [item.nama, item.nip, script_html]
             data[i] = data_table
             i++
         })
 
-        sql = "SELECT * FROM pengguna p "
+        sql = "SELECT * FROM staff_ipl s "
         rows = await dbconn.query(sql)
         recordsTotal = rows.rowCount
         
-        sql = "p.id_pengguna, p.kategori, p.username, p.password FROM pengguna p WHERE ( p.username LIKE '%"+isi_pencarian+"%' OR p.kategori LIKE '%"+isi_pencarian+"%' ) ORDER BY "+order_kolom+" "+tipe_order
+        sql = "s.id_staff_ipl, s.nama, s.nip, FROM staff_ipl s WHERE ( s.nama LIKE '%"+isi_pencarian+"%' OR s.nip LIKE '%"+isi_pencarian+"%') ORDER BY "+order_kolom+" "+tipe_order
         var { rows } = await dbconn.query(sql)
         recordsFiltered = rows.length
 
@@ -180,7 +179,7 @@ pengguna.get('/find', async (req, res) => {
     }
 })
 
-pengguna.get('/find/:id', async (req, res) => {
+staff_ipl.get('/find/:id', async (req, res) => {
 
     var id = req.params.id
     var sql
@@ -188,13 +187,13 @@ pengguna.get('/find/:id', async (req, res) => {
     try{
         await dbconn.query('BEGIN')
 
-        sql = 'SELECT p.id_pengguna, p,kategori, p.username, p.password FROM pengguna p WHERE p.id_pengguna = \''+id+'\''
+        sql = 'SELECT s.id_staff_ipl, s,nama, s.nip FROM staff_ipl s WHERE s.id_staff_ipl = \''+id+'\''
         var { rows } = await dbconn.query(sql)
         var json_return = {
             status : true,
-            id_pengguna : rows[0].id_pengguna,
-            kategori : rows[0].kategori,
-            username : rows[0].username
+            id_staff_ipl : rows[0].id_staff_ipl,
+            nama : rows[0].nama,
+            nip : rows[0].nip
         }
 
         await dbconn.query('COMMIT')
@@ -208,15 +207,14 @@ pengguna.get('/find/:id', async (req, res) => {
     }
 })
 
-pengguna.post('/update/:id', async (req, res) => {
+staff_ipl.post('/update/:id', async (req, res) => {
 
-    var id_pengguna = req.params.id
+    var id_staff_ipl = req.params.id
     var datetime_format = year+'-'+month+'-'+day+' '+hour+':'+minute+':'+second;
 
     var data = req.body
-    var kategori = data.kategori
-    var username = data.username
-    var password = md5(data.password)
+    var nama = data.nama
+    var nip = data.nip
     var ubah_pada = datetime_format
     
     var sql
@@ -224,11 +222,7 @@ pengguna.post('/update/:id', async (req, res) => {
     try{
         await dbconn.query('BEGIN')
         
-        if(data.password == ''){
-            sql = 'UPDATE pengguna SET kategori = \''+kategori+'\', username =  \''+username+'\', ubah_pada = \''+ubah_pada+'\' WHERE id_pengguna = \''+id_pengguna+'\''
-        }else{
-            sql = 'UPDATE pengguna SET kategori = \''+kategori+'\', username =  \''+username+'\', password = \''+password+'\', ubah_pada = \''+ubah_pada+'\' WHERE id_pengguna = \''+id_pengguna+'\''
-        }
+        sql = 'UPDATE staff_ipl SET nama = \''+nama+'\', nip =  \''+nip+'\', ubah_pada = \''+ubah_pada+'\' WHERE id_staff_ipl = \''+id_staff_ipl+'\''
         await dbconn.query(sql)
 
         await dbconn.query('COMMIT')
@@ -243,4 +237,4 @@ pengguna.post('/update/:id', async (req, res) => {
     }
 })
 
-module.exports = pengguna;
+module.exports = staff_ipl;

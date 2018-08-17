@@ -1,0 +1,571 @@
+
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>IPL Software</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="src/assets/plugins/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+        <link rel="stylesheet" href="src/assets/dist/css/adminlte.min.css">
+        <link rel="stylesheet" href="src/assets/plugins/iCheck/flat/blue.css">
+        <link rel="stylesheet" href="src/assets/plugins/morris/morris.css">
+        <link rel="stylesheet" href="src/assets/plugins/jvectormap/jquery-jvectormap-1.2.2.css">
+        <link rel="stylesheet" href="src/assets/plugins/datepicker/datepicker3.css">
+        <link rel="stylesheet" href="src/assets/plugins/daterangepicker/daterangepicker-bs3.css">
+        <link rel="stylesheet" href="src/assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+        <link rel="stylesheet" href="src/assets/plugins/datatables/dataTables.bootstrap4.css">
+    
+        <script src="src/assets/plugins/jquery/jquery.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+        <script>
+            $.widget.bridge('uibutton', $.ui.button)
+        </script>
+        <script src="src/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+        <script src="src/assets/plugins/morris/morris.min.js"></script>
+        <script src="src/assets/plugins/sparkline/jquery.sparkline.min.js"></script>
+        <script src="src/assets/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
+        <script src="src/assets/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+        <script src="src/assets/plugins/knob/jquery.knob.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
+        <script src="src/assets/plugins/daterangepicker/daterangepicker.js"></script>
+        <script src="src/assets/plugins/datepicker/bootstrap-datepicker.js"></script>
+        <script src="src/assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+        <script src="src/assets/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+        <script src="src/assets/plugins/fastclick/fastclick.js"></script>
+        <script src="src/assets/dist/js/adminlte.js"></script>
+        <script src="src/assets/dist/js/pages/dashboard.js"></script>
+        <script src="src/assets/dist/js/demo.js"></script>
+        <script src="src/assets/plugins/datatables/jquery.dataTables.js"></script>
+        <script src="src/assets/plugins/datatables/dataTables.bootstrap4.js"></script>
+        <script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.flash.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+        <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
+    
+        <style>
+            /* .flex-wrapper{
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    align-items: stretch;
+                } */
+    
+            .form-group {
+                display: flex;
+                flex-direction: row;
+            }
+    
+            div.form-group>label.control-label {
+                display: inline-block;
+                flex-direction: row;
+                justify-content: left;
+            }
+    
+            div.form-group>span {
+                margin-left: 5%;
+            }
+    
+            div.form-ubah>input.form-control,
+            div.form-ubah>select.form-control {
+                display: inline;
+                flex-direction: row-reverse;
+                margin-left: 15%;
+            }
+        </style>
+    
+    </head>
+    
+    <body class="hold-transition sidebar-mini">
+        <div class="wrapper">
+            <nav class="main-header navbar navbar-expand bg-white navbar-light border-bottom">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" data-widget="pushmenu" href="#">
+                            <i class="fa fa-bars"></i>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+    
+            <aside class="main-sidebar sidebar-dark-primary elevation-4">
+                <a href="/dashboard" class="brand-link">
+                    <img src="src/assets/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                    <span class="brand-text font-weight-light">Admin IPL</span>
+                </a>
+    
+    
+                <div class="sidebar">
+                    <nav class="mt-2">
+                        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+    
+                            <li class="nav-item">
+                                <a href="/permintaan" class="nav-link">
+                                    <i class="nav-icon fa fa-apple"></i>
+                                    <p>
+                                        Surat Permintaan
+                                        <i class="right fa fa-angle-right"></i>
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/perintah_kerja" class="nav-link">
+                                    <i class="nav-icon fa fa-apple"></i>
+                                    <p>
+                                        Surat Perintah Kerja
+                                        <i class="right fa fa-angle-right"></i>
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/instalasi" class="nav-link">
+                                    <i class="nav-icon fa fa-apple"></i>
+                                    <p>
+                                        Instalasi
+                                        <i class="right fa fa-angle-right"></i>
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/bidang" class="nav-link">
+                                    <i class="nav-icon fa fa-apple"></i>
+                                    <p>
+                                        Bidang
+                                        <i class="right fa fa-angle-right"></i>
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/staff_ipl" class="nav-link">
+                                    <i class="nav-icon fa fa-apple"></i>
+                                    <p>
+                                        Staff IPL
+                                        <i class="right fa fa-angle-right"></i>
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/pengguna" class="nav-link">
+                                    <i class="nav-icon fa fa-apple"></i>
+                                    <p>
+                                        Pengguna
+                                        <i class="right fa fa-angle-right"></i>
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="authentication" class="nav-link" onClick="logout()">
+                                    <i class="nav-icon fa fa-sign-out"></i>
+                                    <p>
+                                        Logout
+                                        <i class="right fa fa-angle-left"></i>
+                                    </p>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </aside>
+    
+            <div class="content-wrapper">
+                </br>
+    
+                <section class="content">
+                    <div class="container-fluid">
+                        <div class="row">
+    
+                            <div class="col-12">
+                                <div class="card">
+                                    <button class="btn btn-success" onClick="tambah_modal()"><i class="fa fa-plus"></i><span> Tambah Staff IPL</span></button>
+                                </div>
+    
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Staff IPL</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table id="table_staff_ipl" class="table table-sm">
+                                                <thead class="bg-warning">
+                                                    <tr>
+                                                        <th>Nama</th>
+                                                        <th>NIP</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+    
+                                <div id="ubah_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Ubah</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="col-sm-8 form-ubah" hidden>
+                                                    <input class="form-control" id="id_staff_ipl_ubah">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-2">Nama</label>
+                                                    <span>:</span>
+                                                    <div class="col-sm-8 form-ubah">
+                                                        <input class="form-control" id="nama_ubah">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-2">NIP</label>
+                                                    <span>:</span>
+                                                    <div class="col-sm-8 form-ubah">
+                                                        <input class="form-control" id="nip_ubah">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-primary" id="button_save_ubah" onClick="ubah_proccess()">Save</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+    
+                                <div id="tambah_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Tambah</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-2">Nama</label>
+                                                    <span>:</span>
+                                                    <div class="col-sm-8 form-ubah">
+                                                        <input class="form-control" id="nama_tambah">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-2">NIP</label>
+                                                    <span>:</span>
+                                                    <div class="col-sm-8 form-ubah">
+                                                        <input class="form-control" id="nip_tambah">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-primary" id="button_save_tambah" onClick="tambah_proccess()">Save</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <div id="detail_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Detail</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="modal-body">
+                                                <div class="col-sm-8 form-ubah" hidden>
+                                                    <input class="form-control" id="id_staff_ipl_detail">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-2">Nama</label>
+                                                    <span>:</span>
+                                                    <div class="col-sm-8 form-ubah">
+                                                        <input class="form-control" id="nama_detail">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-2">NIP</label>
+                                                    <span>:</span>
+                                                    <div class="col-sm-8 form-ubah">
+                                                        <input class="form-control" id="nip_detail">
+                                                    </div>
+                                                </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <div id="notif_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <script type="text/javascript">
+                                var table;
+                                var index_detail_table = 0;
+    
+                                $(document).ready(
+    
+                                    function () {
+                                        table = $('#table_staff_ipl').DataTable({
+                                            'processing': false,
+                                            'serverSide': true,
+                                            'dom': 'lfrtBip',
+                                                'buttons': [{
+                                                        'extend': 'excel',
+                                                        'text': 'Export to .xlsx <i class="fa fa-file-excel-o"></i>',
+                                                        'exportOptions': {
+                                                            'modifier': {
+                                                                'page': 'all'
+                                                            },
+                                                            'columns' : [ 0, 1 ]
+                                                        },
+                                                        'title': 'staff_ipl'
+                                                    },
+                                                    {
+                                                        'extend': 'pdf',
+                                                        'text': 'Export to .pdf <i class="fa fa-file-pdf-o"></i>',
+                                                        'exportOptions': {
+                                                            'modifier': {
+                                                                'page': 'all'
+                                                            },
+                                                            'columns' : [ 0, 1 ]                                                        
+                                                        },
+                                                        'title': 'staff_ipl'
+                                                    }
+                                                ],
+                                                'ajax': {
+                                                'url': '/staff_ipl/find',
+                                                'timeout': 15000
+                                            },
+                                            'columnDefs': [{
+                                                'targets': [-1],
+                                                'orderable': false,
+                                            }]
+                                        });
+    
+                                        setInterval(reload_table, 4000)
+                                    }
+                                );
+    
+                                function tambah_modal() {
+                                    $('#tambah_modal').modal('show');
+                                }
+    
+                                function ubah_modal(id_staff_ipl) {
+    
+                                    $.ajax({
+                                        url: '/staff_ipl/find/' + id_staff_ipl,
+                                        header: {
+                                            "Content-type": "applocation/json"
+                                        },
+                                        dataType: "json",
+                                        success: function (response) {
+                                            $('#id_staff_ipl_ubah').val(response.id_staff_ipl);
+                                            $('#nama_ubah').val(response.nama);
+                                            $('#nip_ubah').val(response.nip);
+                                        },
+                                        error: function (err) {
+                                            $('#notif_modal').modal('show');
+                                            $('#notif_modal div div div').html('connection error');
+                                            setTimeout(function () {
+                                                $('#notif_modal').modal('hide');
+                                            }, 1000);
+                                        },
+                                        timeout: 15000
+                                    })
+                                    $('#ubah_modal').modal('show');
+                                }
+    
+                                function logout() {
+                                    document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+                                }
+    
+                                function tambah_proccess() {
+                                    $('#tambah_modal').modal('hide');
+                                    $('#notif_modal').modal('show');
+    
+                                    var status = true;
+
+                                    var bool1 = $('#nama_tambah').val() == '';
+                                    var bool2 = $('#nip_tambah').val() == '';
+
+                                    if (bool1 || bool2) {
+                                        status = false
+                                    }
+    
+                                    if (status) {
+                                        $.ajax({
+                                            url: '/staff_ipl/save',
+                                            header: {
+                                                "Content-type": "applocation/json"
+                                            },
+                                            type: "post",
+                                            dataType: "json",
+                                            data: {
+                                                'nama': $('#nama_tambah').val(),
+                                                'nip': $('#nip_tambah').val()
+                                            },
+                                            success: function (response) {
+                                                if (!response.status) {
+                                                    $("#notif_modal div div div").html('gagal tambah');
+                                                } else {
+                                                    $("#notif_modal div div div").html('sukses tambah');
+                                                }
+    
+                                                setTimeout(function () {
+                                                    $('#notif_modal').modal('hide');
+                                                }, 1500);
+    
+                                                reload_table();
+                                            },
+                                            error: function () {
+                                                $("#notif_modal div div div").html('gagal tambah');
+                                                setTimeout(function () {
+                                                    $('#notif_modal').modal('hide');
+                                                }, 1000);
+                                            },
+                                            timeout: 15000
+                                        })
+                                    } else {
+                                        $("#notif_modal div div div").html('detail harus terisi dengan benar');
+                                        $('#notif_modal').modal('show');
+                                        setTimeout(function () {
+                                            $('#notif_modal').modal('hide');
+                                            $('#tambah_modal').modal('hide');
+                                        }, 1500);
+                                    }
+    
+                                }
+    
+                                function ubah_proccess() {
+                                    $('#ubah_modal').modal('hide');
+                                    $('#notif_modal').modal('show');
+    
+                                    var bool1 = $('#nama_ubah').val() == '';
+                                    var bool2 = $('#nip_ubah').val() == '';
+    
+                                    var status = true;
+    
+                                    if (bool1 || bool2) {
+                                        status = false;
+                                        $("#notif_modal div div div").html('field harus terisi semua');
+                                        setTimeout(function () {
+                                            $('#notif_modal').modal('hide');
+                                            $('#ubah_modal').modal('show');
+                                        }, 1000);
+                                    }
+
+                                    if (status) {
+                                        $.ajax({
+                                            url: '/staff_ipl/update/' + $('#id_staff_ipl_ubah').val(),
+                                            header: {
+                                                "Content-type": "applocation/json"
+                                            },
+                                            type: "post",
+                                            dataType: "json",
+                                            data: {
+                                                'nama': $('#nama_ubah').val(),
+                                                'nip': $('#nip_ubah').val()
+                                            },
+                                            success: function (response) {
+                                                if (!response.status) {
+                                                    $("#notif_modal div div div").html('gagal ubah');
+                                                } else {
+                                                    $("#notif_modal div div div").html('sukses ubah');
+                                                }
+    
+                                                setTimeout(function () {
+                                                    $('#notif_modal').modal('hide');
+                                                }, 1000);
+    
+                                                reload_table();
+                                            },
+                                            error: function () {
+                                                $("#notif_modal div div div").html('gagal ubah');
+                                                setTimeout(function () {
+                                                    $('#notif_modal').modal('hide');
+                                                }, 1000);
+                                            },
+                                            timeout: 15000
+                                        })
+                                    } else {
+                                        $('#notif_modal div div div').html('detail harus terisi dengan benar');
+                                        $('#notif_modal').modal('show');
+                                        setTimeout(function () {
+                                            $('#notif_modal').modal('hide');
+                                            $('#ubah_modal').modal('hide');
+                                        }, 1500);
+                                    }
+    
+                                }
+    
+                                function detail_modal(id_staff_ipl) {
+    
+                                    var id_bidang = '';
+                                    var id_instalasi = '';
+    
+                                    $.ajax({
+                                        url: '/staff_ipl/find/' + id_staff_ipl,
+                                        header: {
+                                            "Content-type": "applocation/json"
+                                        },
+                                        dataType: "json",
+                                        success: function (response) {
+                                            $('#username_detail').val(response.username);
+                                            $('#kategori_detail').val(response.kategori);
+                                            $('#password_detail').val(response.password);
+                                        },
+                                        error: function (err) {
+    
+                                        },
+                                        timeout: 15000
+                                    })
+    
+                                    $('#detail_modal').modal('show');
+                                }
+    
+                                function reload_table() {
+                                    table.ajax.reload(null, false)
+                                }
+                            </script>
+    
+    
+                        </div>
+                    </div>
+                </section>
+            </div>
+    
+            <footer class="main-footer">
+                <strong>Copyright &copy; 2018 - forever
+                    <a href="/">PKL RSSA</a>.</strong>
+                All rights reserved.
+                <div class="float-right d-none d-sm-inline-block">
+                    <b>Ver</b> 1.0.0-alpha
+                </div>
+            </footer>
+    
+            <aside class="control-sidebar control-sidebar-dark">
+            </aside>
+        </div>
+    
+    </body>
+    
+    </html>

@@ -12,8 +12,12 @@
     <script type="text/javascript">
         var pathname = window.location.pathname;
         var url = pathname.split('/');
-        var id_perintah_kerja = url[url.length - 1];
-
+        var id_perintah_kerja = url[url.length - 3];
+        var id_staf = url[url.length - 2];
+        var jenis_perintah = url[url.length - 1].split('%20').join(' ');
+        var diperintahkan_kepada = 'Budi';
+        var nip = '12391230992123';
+        
         setBody(id_perintah_kerja);
 
         function setBody(id_perintah_kerja) {
@@ -382,7 +386,7 @@
                                         <P CLASS="western" ALIGN=JUSTIFY>
                                             <FONT FACE="Arial, serif">
                                                 <FONT SIZE=2 STYLE="font-size: 11pt">
-                                                    <SPAN LANG="id-ID">Mulyono</SPAN>
+                                                    <SPAN LANG="id-ID">`+diperintahkan_kepada+`</SPAN>
                                                 </FONT>
                                             </FONT>
                                         </P>
@@ -390,109 +394,7 @@
                                     <TD WIDTH=226 STYLE="border: none; padding: 0in">
                                         <P CLASS="western" ALIGN=JUSTIFY>
                                             <FONT FACE="Arial, serif">
-                                                <FONT SIZE=2 STYLE="font-size: 11pt">Nip. ………………………………
-                                                </FONT>
-                                            </FONT>
-                                        </P>
-                                    </TD>
-                                </TR>
-                                <TR VALIGN=TOP>
-                                    <TD WIDTH=17 STYLE="border: none; padding: 0in">
-                                        <P CLASS="western" ALIGN=CENTER>
-                                            <BR>
-                                        </P>
-                                    </TD>
-                                    <TD WIDTH=166 STYLE="border: none; padding: 0in">
-                                        <P CLASS="western" ALIGN=JUSTIFY>
-                                            <BR>
-                                        </P>
-                                    </TD>
-                                    <TD WIDTH=10 STYLE="border: none; padding: 0in">
-                                        <P CLASS="western">
-                                            <BR>
-                                        </P>
-                                    </TD>
-                                    <TD WIDTH=20 STYLE="border: none; padding: 0in">
-                                        <P CLASS="western" ALIGN=CENTER>
-                                            <FONT FACE="Arial, serif">
-                                                <FONT SIZE=2 STYLE="font-size: 11pt">b.</FONT>
-                                            </FONT>
-                                        </P>
-                                    </TD>
-                                    <TD WIDTH=168 STYLE="border: none; padding: 0in">
-                                        <P CLASS="western">
-                                            <FONT FACE="Arial, serif">
-                                                <FONT SIZE=2 STYLE="font-size: 11pt">
-                                                    <SPAN LANG="id-ID">Fadoris</SPAN>
-                                                </FONT>
-                                            </FONT>
-                                        </P>
-                                    </TD>
-                                    <TD WIDTH=226 STYLE="border: none; padding: 0in">
-                                        <P CLASS="western" ALIGN=JUSTIFY>
-                                            <FONT FACE="Arial, serif">
-                                                <FONT SIZE=2 STYLE="font-size: 11pt">Nip. ………………………………
-                                                </FONT>
-                                            </FONT>
-                                        </P>
-                                    </TD>
-                                </TR>
-                                <TR VALIGN=TOP>
-                                    <TD WIDTH=17 STYLE="border: none; padding: 0in">
-                                        <P CLASS="western" ALIGN=CENTER>
-                                            <BR>
-                                        </P>
-                                    </TD>
-                                    <TD WIDTH=166 STYLE="border: none; padding: 0in">
-                                        <P CLASS="western" ALIGN=JUSTIFY>
-                                            <BR>
-                                        </P>
-                                    </TD>
-                                    <TD WIDTH=10 STYLE="border: none; padding: 0in">
-                                        <P CLASS="western">
-                                            <BR>
-                                        </P>
-                                    </TD>
-                                    <TD WIDTH=20 STYLE="border: none; padding: 0in">
-                                        <P CLASS="western" ALIGN=CENTER STYLE="margin-bottom: 0in">
-                                            <FONT FACE="Arial, serif">
-                                                <FONT SIZE=2 STYLE="font-size: 11pt">c.</FONT>
-                                            </FONT>
-                                        </P>
-                                        <P CLASS="western" ALIGN=CENTER>
-                                            <FONT FACE="Arial, serif">
-                                                <FONT SIZE=2 STYLE="font-size: 11pt">
-                                                    <SPAN LANG="id-ID">d.</SPAN>
-                                                </FONT>
-                                            </FONT>
-                                        </P>
-                                    </TD>
-                                    <TD WIDTH=168 STYLE="border: none; padding: 0in">
-                                        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-bottom: 0in">
-                                            <FONT FACE="Arial, serif">
-                                                <FONT SIZE=2 STYLE="font-size: 11pt">
-                                                    <SPAN LANG="id-ID">Agus</SPAN>
-                                                </FONT>
-                                            </FONT>
-                                        </P>
-                                        <P CLASS="western" ALIGN=JUSTIFY>
-                                            <FONT FACE="Arial, serif">
-                                                <FONT SIZE=2 STYLE="font-size: 11pt">
-                                                    <SPAN LANG="id-ID">Ronny</SPAN>
-                                                </FONT>
-                                            </FONT>
-                                        </P>
-                                    </TD>
-                                    <TD WIDTH=226 STYLE="border: none; padding: 0in">
-                                        <P CLASS="western" ALIGN=JUSTIFY STYLE="margin-bottom: 0in">
-                                            <FONT FACE="Arial, serif">
-                                                <FONT SIZE=2 STYLE="font-size: 11pt">Nip. ………………………………
-                                                </FONT>
-                                            </FONT>
-                                        </P>
-                                        <P CLASS="western" ALIGN=JUSTIFY>
-                                            <FONT FACE="Arial, serif">
-                                                <FONT SIZE=2 STYLE="font-size: 11pt">Nip. ………………………………
+                                                <FONT SIZE=2 STYLE="font-size: 11pt">Nip. `+nip+`
                                                 </FONT>
                                             </FONT>
                                         </P>
@@ -559,127 +461,7 @@
                                     <TD WIDTH=168 STYLE="border: none; padding: 0in">
                                         <P CLASS="western" ALIGN=JUSTIFY>
                                             <FONT FACE="Arial, serif">
-                                                <FONT SIZE=2 STYLE="font-size: 11pt">Monitoring Rutin
-                                                </FONT>
-                                            </FONT>
-                                        </P>
-                                    </TD>
-                                    <TD WIDTH=226 STYLE="border: none; padding: 0in">
-                                        <P CLASS="western" ALIGN=JUSTIFY>
-                                            <FONT FACE="Arial, serif">
-                                                <FONT SIZE=2 STYLE="font-size: 11pt">
-                                                    <SPAN LANG="id-ID">Pengendalian vektor
-                                                    </SPAN>
-                                                </FONT>
-                                            </FONT>
-                                        </P>
-                                    </TD>
-                                </TR>
-                                <TR VALIGN=TOP>
-                                    <TD WIDTH=17 STYLE="border: none; padding: 0in">
-                                        <P CLASS="western" ALIGN=CENTER>
-                                            <BR>
-                                        </P>
-                                    </TD>
-                                    <TD WIDTH=166 STYLE="border: none; padding: 0in">
-                                        <P CLASS="western" ALIGN=JUSTIFY>
-                                            <BR>
-                                        </P>
-                                    </TD>
-                                    <TD WIDTH=10 STYLE="border: none; padding: 0in">
-                                        <P CLASS="western">
-                                            <BR>
-                                        </P>
-                                    </TD>
-                                    <TD WIDTH=20 STYLE="border: none; padding: 0in">
-                                        <P CLASS="western"></P>
-                                    </TD>
-                                    <TD WIDTH=168 STYLE="border: none; padding: 0in">
-                                        <P CLASS="western" ALIGN=JUSTIFY>
-                                            <FONT FACE="Arial, serif">
-                                                <FONT SIZE=2 STYLE="font-size: 11pt">Pengambilan Sampel
-                                                </FONT>
-                                            </FONT>
-                                        </P>
-                                    </TD>
-                                    <TD WIDTH=226 STYLE="border: none; padding: 0in">
-                                        <P CLASS="western" ALIGN=JUSTIFY>
-                                            <FONT FACE="Arial, serif">
-                                                <FONT SIZE=2 STYLE="font-size: 11pt">
-                                                    <SPAN LANG="id-ID">Perbaikan sarana Air Bersih</SPAN>
-                                                </FONT>
-                                            </FONT>
-                                        </P>
-                                    </TD>
-                                </TR>
-                                <TR VALIGN=TOP>
-                                    <TD WIDTH=17 STYLE="border: none; padding: 0in">
-                                        <P CLASS="western" ALIGN=CENTER>
-                                            <BR>
-                                        </P>
-                                    </TD>
-                                    <TD WIDTH=166 STYLE="border: none; padding: 0in">
-                                        <P CLASS="western" ALIGN=JUSTIFY>
-                                            <BR>
-                                        </P>
-                                    </TD>
-                                    <TD WIDTH=10 STYLE="border: none; padding: 0in">
-                                        <P CLASS="western">
-                                            <BR>
-                                        </P>
-                                    </TD>
-                                    <TD WIDTH=20 STYLE="border: none; padding: 0in">
-                                        <P CLASS="western"></P>
-                                    </TD>
-                                    <TD WIDTH=168 STYLE="border: none; padding: 0in">
-                                        <P CLASS="western" ALIGN=JUSTIFY>
-                                            <FONT FACE="Arial, serif">
-                                                <FONT SIZE=2 STYLE="font-size: 11pt">Penyuluhan / Konseling</FONT>
-                                            </FONT>
-                                        </P>
-                                    </TD>
-                                    <TD WIDTH=226 STYLE="border: none; padding: 0in">
-                                        <P CLASS="western" ALIGN=JUSTIFY>
-                                            <FONT FACE="Arial, serif">
-                                                <FONT SIZE=2 STYLE="font-size: 11pt">
-                                                    <SPAN LANG="id-ID">Perbaikan sarana Air Limbah</SPAN>
-                                                </FONT>
-                                            </FONT>
-                                        </P>
-                                    </TD>
-                                </TR>
-                                <TR VALIGN=TOP>
-                                    <TD WIDTH=17 STYLE="border: none; padding: 0in">
-                                        <P CLASS="western" ALIGN=CENTER>
-                                            <BR>
-                                        </P>
-                                    </TD>
-                                    <TD WIDTH=166 STYLE="border: none; padding: 0in">
-                                        <P CLASS="western" ALIGN=JUSTIFY>
-                                            <BR>
-                                        </P>
-                                    </TD>
-                                    <TD WIDTH=10 STYLE="border: none; padding: 0in">
-                                        <P CLASS="western">
-                                            <BR>
-                                        </P>
-                                    </TD>
-                                    <TD WIDTH=20 STYLE="border: none; padding: 0in">
-                                        <P CLASS="western"></P>
-                                    </TD>
-                                    <TD WIDTH=168 STYLE="border: none; padding: 0in">
-                                        <P CLASS="western" ALIGN=JUSTIFY>
-                                            <FONT FACE="Arial, serif">
-                                                <FONT SIZE=2 STYLE="font-size: 11pt">Inspeksi Sanitasi
-                                                </FONT>
-                                            </FONT>
-                                        </P>
-                                    </TD>
-                                    <TD WIDTH=226 STYLE="border: none; padding: 0in">
-                                        <P CLASS="western" ALIGN=JUSTIFY>
-                                            <FONT FACE="Arial, serif">
-                                                <FONT SIZE=2 STYLE="font-size: 11pt">
-                                                    <SPAN LANG="id-ID">...............................................</SPAN>
+                                                <FONT SIZE=2 STYLE="font-size: 11pt">`+jenis_perintah+`
                                                 </FONT>
                                             </FONT>
                                         </P>
