@@ -834,8 +834,9 @@
                                     }
                                 }
 
-                                function tambah_spk_modal(id_permintaan) {
-                                    $('#nomor_sp_tambah').val(id_permintaan);
+                                function tambah_spk_modal(nomor_sp) {
+                                    $('#nomor_sp_tambah').val(nomor_sp);
+                                    $('#nomor_sp_tambah').attr('disabled', true);
                                     $('#tambah_spk_modal').modal('show');
                                 }
 
@@ -1259,6 +1260,7 @@
 
                                 function tambah_spk_proccess() {
                                     $('#tambah_spk_modal').modal('hide');
+                                    $('#nomor_sp_tambah').attr('disabled', false);
                                     $('#notif_modal').modal('show');
 
                                     var status = true;
@@ -1339,6 +1341,11 @@
                                             },
                                             timeout: 15000
                                         })
+                                    } else {
+                                        $('#notif_modal div div div').html('detail harus terisi semua');
+                                        setTimeout(function () {
+                                            $('#notif_modal').modal('hide');
+                                        }, 1500)
                                     }
                                 }
 
