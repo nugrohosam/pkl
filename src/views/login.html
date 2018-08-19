@@ -47,7 +47,7 @@
                         $('#button_login').html('Login');
                     } else {
                         document.cookie = 'token=' + response.token;
-                        window.open('/permintaan', '_self');
+                        window.open('/', '_self');
                     }
                 },
                 error: function (e) {

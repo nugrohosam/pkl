@@ -174,9 +174,20 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-12 col-6">
+                        <div class="col-lg-6 col-6">
                             <div class="small-box">
-                                <div id="google_chart"></div>
+                                <select id="instalasi_chart" class="form-control">
+                                </select>
+                                <input class="form-control" placeholder="Tahun.." id="tahun_chart">
+                                <button class="form-control bg-success" onClick="search_chart_proccess()">
+                                    <i class="ion ion-search"></i>
+                                    <span>Show Chart</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-6">
+                            <div class="small-box">
+                                <div id="google_chart_1"></div>
                             </div>
                         </div>
                         <div class="col-lg-4 form-group">
@@ -273,7 +284,9 @@
                             isi_instalasi = isi_instalasi + '<option value="' + item.id_instalasi +
                                 '">' + item.nama_instalasi + '</option>'
                         });
-                        $('#instalasi').html(isi_instalasi)
+                        $('#instalasi').html(isi_instalasi);
+                        isi_instalasi =  '<option value="all" >All</option>' + isi_instalasi;
+                        $('#instalasi_chart').html(isi_instalasi);
                     }
                 })
 
@@ -315,7 +328,7 @@
             function drawChart() {
 
                 $.ajax({
-                    url: '/dashboard/find_per_instalasi',
+                    url: '/dashboard/find_per_instalasi/all/all',
                     header: {
                         "Content-type": "applocation/json"
                     },
@@ -345,11 +358,60 @@
 
                             var options = {
                                 'title': 'Data permintaan per ruangan',
-                                'width': 400,
-                                'height': 200
                             };
 
-                            var chart = new google.visualization.PieChart($('#google_chart')[0]);
+                            var chart2 = new google.visualization.PieChart($('#google_chart_1')[0]);
+
+                            chart2.draw(data, options);
+                        }
+                    },
+                    error: function () {
+
+                    },
+                    timeout: 15000
+                });
+            }
+
+            function search_chart_proccess(){
+                var id_instalasi = $('#instalasi_chart').val();
+                var tahun = $('#tahun_chart').val();
+                var bulan = ['', 'januari', 'februari', 'maret', 'april', 'mei', 'juni', 'juli', 'agustus', 'september', 'oktober', 'november', 'desember'];
+                
+                $.ajax({
+                    url: '/dashboard/find_per_instalasi/'+id_instalasi+'/'+tahun,
+                    header: {
+                        "Content-type": "applocation/json"
+                    },
+                    dataType: "json",
+                    success: function (response) {
+                        if (response.status) {
+                            //data dari response
+                            var item = response.data
+                            //
+                            // Create the data table.
+                            var data = new google.visualization.DataTable();
+                            data.addColumn('string', 'Nama Instalasi');
+                            data.addColumn('number', 'Jumlah Permintaan');
+
+                            //data hasil per response
+                            var temp_item = new Array();
+                            var i = 0;
+                            item.forEach(function (item) {
+                                var isi_item = new Array();
+                                isi_item[0] = bulan[item.bulan];
+                                isi_item[1] = parseInt(item.jumlah_permintaan)
+                                temp_item[i] = isi_item
+                                i++
+                            })
+
+                            data.addRows(temp_item)
+                            var selected = $('#instalasi_chart')[0];
+                            var options = {
+                                'title': 'Data permintaan tahun '+tahun+' pada '+selected.options[selected.selectedIndex].text,
+                            };
+
+                            var chart = new google.visualization.PieChart($('#google_chart_1')[0]);
+
                             chart.draw(data, options);
                         }
                     },

@@ -134,30 +134,60 @@ dashboard.get('/data', async (req, res) => {
     }
 })
 
-dashboard.get('/find_per_instalasi', async (req, res) => {
+dashboard.get('/find_per_instalasi/:id_instalasi/:tahun', async (req, res) => {
 
-    try {
-        await dbconn.query('BEGIN')
+    var params = req.params
+    var id_instalasi = params.id_instalasi
+    var tahun = params.tahun
 
-        var {
-            rows
-        } = await dbconn.query('SELECT i.nama_instalasi, count(*) as jumlah_permintaan FROM permintaan p INNER JOIN instalasi i ON p.id_instalasi = i.id_instalasi GROUP BY i.id_instalasi')
+    if (tahun == 'all' && id_instalasi == 'all') {
+        try {
+            await dbconn.query('BEGIN')
 
-        await dbconn.query('COMMIT')
-        var response_json = {
-            status: true,
-            data: rows
+            var {
+                rows
+            } = await dbconn.query('SELECT i.nama_instalasi, count(*) as jumlah_permintaan FROM permintaan p INNER JOIN instalasi i ON p.id_instalasi = i.id_instalasi GROUP BY i.id_instalasi')
+
+            await dbconn.query('COMMIT')
+            var response_json = {
+                status: true,
+                data: rows
+            }
+
+            res.status(200).json(response_json)
+        } catch (err) {
+            var response_json = {
+                status: false,
+            }
+
+            res.status(200).json(response_json)
+        } finally {
+            await dbconn.release
         }
+    } else if (id_instalasi != 'all' && tahun != 'all') {
+        try {
+            await dbconn.query('BEGIN')
 
-        res.status(200).json(response_json)
-    } catch (err) {
-        var response_json = {
-            status: false,
+            var {
+                rows
+            } = await dbconn.query('SELECT date_part(\'month\', date(p.tanggal)) as bulan, count(*) as jumlah_permintaan FROM permintaan p INNER JOIN instalasi i ON p.id_instalasi = i.id_instalasi WHERE date_part(\'year\', date(p.tanggal)) = \''+tahun+'\' and i.id_instalasi = \''+id_instalasi+'\' GROUP BY i.id_instalasi, date_part(\'month\', date(p.tanggal))')
+
+            await dbconn.query('COMMIT')
+            var response_json = {
+                status: true,
+                data: rows
+            }
+
+            res.status(200).json(response_json)
+        } catch (err) {
+            var response_json = {
+                status: false,
+                err: err
+            }
+            res.status(200).json(response_json)
+        } finally {
+            await dbconn.release
         }
-
-        res.status(200).json(response_json)
-    } finally {
-        await dbconn.release
     }
 
 })
