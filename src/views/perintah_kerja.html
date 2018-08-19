@@ -466,7 +466,7 @@
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-primary" id="button_to_pdf" onClick="to_pdf_proccess()">Print PDF</button>
+                                            <button type="button" class="btn btn-primary" id="button_to_pdf" onClick="to_pdf_proccess()">Print / Save PDF</button>
                                         </div>
                                     </div>
                                 </div>
@@ -844,78 +844,105 @@
                                             },
                                             timeout: 15000
                                         })
+                                    } else {
+                                        $('#notif_modal div div div').html('field harus terisi semua');
+                                        setTimeout(function () {
+                                            $('#notif_modal').modal('hide');
+                                        }, 1500)
                                     }
                                 }
 
                                 function ubah_proccess() {
+                                    $('#ubah_modal').modal('hide');
+                                    $('#notif_modal').modal('show');
                                     var id_permintaan;
 
-                                    $.ajax({
-                                        url: '/perintah_kerja/find_permintaan/' + $('#nomor_sp_ubah').val(),
-                                        header: {
-                                            "Content-type": "applocation/json"
-                                        },
-                                        dataType: 'json',
-                                        success: function (response) {
-                                            if (!response.status) {
-                                                $('#notif_modal div div div').html(
-                                                    'nomor sp tidak ditemukan');
+                                    var status = true;
+
+                                    var bool1 = $('#nomor_sp_ubah').val() == '';
+                                    var bool2 = $('#nomor_spk_ubah').val() == '';
+                                    var bool3 = $('#lokasi_ubah').val() == '';
+
+                                    if (bool1 || bool2 || bool3) {
+                                        status = false;
+                                    }
+
+                                    if (status) {
+                                        $.ajax({
+                                            url: '/perintah_kerja/find_permintaan/' + $('#nomor_sp_ubah').val(),
+                                            header: {
+                                                "Content-type": "applocation/json"
+                                            },
+                                            dataType: 'json',
+                                            success: function (response) {
+                                                if (!response.status) {
+                                                    $('#notif_modal div div div').html(
+                                                        'nomor sp tidak ditemukan');
+                                                    setTimeout(function () {
+                                                        $('#notif_modal').modal('hide');
+                                                    }, 1500)
+                                                    status = false;
+                                                } else {
+                                                    id_permintaan = response.id_permintaan;
+
+                                                    $.ajax({
+                                                        url: "/perintah_kerja/update/" + $(
+                                                            '#id_perintah_kerja_ubah').val(),
+                                                        header: {
+                                                            "Content-type": "applocation/application/x-www-form-urlencoded"
+                                                        },
+                                                        type: "post",
+                                                        dataType: "json",
+                                                        data: {
+                                                            'id_permintaan': id_permintaan,
+                                                            'nomor_surat': $('#nomor_spk_ubah').val(),
+                                                            'lokasi': $('#lokasi_ubah').val(),
+                                                            'tanggal_kembali': $(
+                                                                '#tanggal_kembali_ubah').val(),
+                                                            'keterangan': $('#keterangan_ubah').val(),
+                                                        },
+                                                        success: function (response) {
+                                                            $('#ubah_modal').modal('hide');
+                                                            $('#notif_modal').modal('show');
+                                                            if (!response.status) {
+                                                                $("#notif_modal div div div").html(
+                                                                    'gagal ubah');
+                                                            } else {
+                                                                $("#notif_modal div div div").html(
+                                                                    'sukses ubah');
+                                                            }
+                                                            setTimeout(function () {
+                                                                $('#notif_modal').modal(
+                                                                    'hide');
+                                                            }, 1000);
+
+                                                            reload_table();
+                                                        },
+                                                        error: function () {
+                                                            $("#notif_modal div div div").html(
+                                                                'sukses hapus');
+                                                            setTimeout(function () {
+                                                                $('#notif_modal').modal(
+                                                                    'hide');
+                                                            }, 1000);
+                                                        }
+                                                    });
+                                                }
+                                            },
+                                            error: function () {
+                                                $('#notif_modal div div div').html('error pada server');
                                                 setTimeout(function () {
                                                     $('#notif_modal').modal('hide');
                                                 }, 1500)
-                                                status = false;
-                                            } else {
-                                                id_permintaan = response.id_permintaan;
-
-                                                $.ajax({
-                                                    url: "/perintah_kerja/update/" + $(
-                                                        '#id_perintah_kerja_ubah').val(),
-                                                    header: {
-                                                        "Content-type": "applocation/application/x-www-form-urlencoded"
-                                                    },
-                                                    type: "post",
-                                                    dataType: "json",
-                                                    data: {
-                                                        'id_permintaan': id_permintaan,
-                                                        'nomor_surat': $('#nomor_spk_ubah').val(),
-                                                        'lokasi': $('#lokasi_ubah').val(),
-                                                        'tanggal_kembali': $(
-                                                            '#tanggal_kembali_ubah').val(),
-                                                        'keterangan': $('#keterangan_ubah').val(),
-                                                    },
-                                                    success: function (response) {
-                                                        $('#ubah_modal').modal('hide');
-                                                        $('#notif_modal').modal('show');
-                                                        if (!response.status) {
-                                                            $("#notif_modal div div div").html(
-                                                                'gagal ubah');
-                                                        } else {
-                                                            $("#notif_modal div div div").html(
-                                                                'sukses ubah');
-                                                        }
-                                                        setTimeout(function () {
-                                                            $('#notif_modal').modal(
-                                                                'hide');
-                                                        }, 1000);
-
-                                                        reload_table();
-                                                    },
-                                                    error: function () {
-                                                        $("#notif_modal div div div").html(
-                                                            'sukses hapus');
-                                                        setTimeout(function () {
-                                                            $('#notif_modal').modal(
-                                                                'hide');
-                                                        }, 1000);
-                                                    }
-                                                });
-                                            }
-                                        },
-                                        error: function () {
-
-                                        },
-                                        timeout: 15000
-                                    });
+                                            },
+                                            timeout: 15000
+                                        });
+                                    } else {
+                                        $('#notif_modal div div div').html('field utama terisi semua');
+                                        setTimeout(function () {
+                                            $('#notif_modal').modal('hide');
+                                        }, 1500)
+                                    }
                                 }
 
                                 function logout() {

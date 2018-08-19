@@ -41,7 +41,6 @@ if (second.length == 1) {
     second = "0" + second
 }
 
-
 dashboard.use((req, res, next) => {
     if (!req.cookies.token) {
         var fileName = 'login.html'
@@ -89,7 +88,6 @@ dashboard.get('/', (req, res) => {
 })
 
 dashboard.get('/data', async (req, res) => {
-
     var sql
     var tahun_ini
     var bulan_ini

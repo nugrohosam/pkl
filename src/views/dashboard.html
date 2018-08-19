@@ -144,7 +144,7 @@
                         <div class="col-lg-4 col-6">
                             <div class="small-box bg-primary">
                                 <div class="inner">
-                                    <h3 id="tahun_ini">150</h3>
+                                    <h3 id="tahun_ini">0</h3>
                                     <p>Permintaan Tahun Ini</p>
                                 </div>
                                 <div class="icon" style="margin-top: 6px">
@@ -223,7 +223,7 @@
                                 <span>Search</span>
                             </button>
                         </div>
-                        <div class="col-lg-12 col-6">
+                        <div class="col-lg-12">
                             <table id="" class="table table-sm">
                                 <thead class="bg-warning">
                                     <tr>
@@ -252,7 +252,6 @@
         <script>
             var page
             $(document).ready(function () {
-
                 page = $.ajax({
                     url: '/dashboard/data',
                     header: {
@@ -315,9 +314,11 @@
                                 $('#nav_instalasi').attr('hidden', true);
                                 $('#nav_bidang').attr('hidden', true);
                                 $('#nav_pengguna').attr('hidden', true);
+                                $('#nav_staff_ipl').attr('hidden', true);
                             } else if (role == 'user ipl') {
                                 $('#nav_instalasi').attr('hidden', true);
                                 $('#nav_bidang').attr('hidden', true);
+                                $('#nav_staff_ipl').attr('hidden', true);
                                 $('#nav_pengguna').attr('hidden', true);
                             }
                         }

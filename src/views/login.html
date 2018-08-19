@@ -23,44 +23,6 @@
         }
     </style>
 
-    <script type="text/javascript">
-        function button_login() {
-            $('#button_login').html('..wait..');
-            $('#button_login').attr('disabled', true)
-
-            $.ajax({
-                url: '/authentication/proccess',
-                header: {
-                    'content-type': 'application/json'
-                },
-                type: 'post',
-                dataType: 'json',
-                data: {
-                    'username': $('#username').val(),
-                    'password': $('#password').val()
-                },
-                success: function (response) {
-                    if (!response.status) {
-                        $('#pesan').html('Email dan password tidak cocok');
-                        $('#pesan').css('color', 'red')
-                        $('#button_login').attr('disabled', false);
-                        $('#button_login').html('Login');
-                    } else {
-                        document.cookie = 'token=' + response.token;
-                        window.open('/', '_self');
-                    }
-                },
-                error: function (e) {
-                    console.log(e);
-                    $('#pesan').html('Koneksi error...');
-                    $('#pesan').css('color', 'red')
-                    $('#button_login').attr('disabled', false);
-                    $('#button_login').html('Login');
-                }
-            });
-        }
-    </script>
-
 </head>
 
 <body>
@@ -94,14 +56,62 @@
             <a href="http://filkom.ub.ac.id/">PKL UB IF'15 </a> Since 2018 - Forever. All rights reserved</label>
     </center>
 
-
     <script src="http://localhost:3000/src/assets/plugins/jquery/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#username').keypress(function (e) {
+                if (e.keyCode == 13) {
+                    button_login();
+                }
+            });
+            $('#password').keypress(function (e) {
+                if (e.keyCode == 13) {
+                    button_login();
+                }
+            });
+        });
+
+        function button_login() {
+            $('#button_login').html('..wait..');
+            $('#button_login').attr('disabled', true);
+
+            $.ajax({
+                url: '/authentication/proccess',
+                header: {
+                    'content-type': 'application/json'
+                },
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    'username': $('#username').val(),
+                    'password': $('#password').val()
+                },
+                success: function (response) {
+                    if (!response.status) {
+                        $('#pesan').html('Email dan password tidak cocok');
+                        $('#pesan').css('color', 'red')
+                        $('#button_login').attr('disabled', false);
+                        $('#button_login').html('Login');
+                    } else {
+                        window.localStorage.setItem('token', response.token);
+                        document.cookie = 'token=' + response.token;
+                        window.open('/', '_self');
+                    }
+                },
+                error: function (e) {
+                    $('#pesan').html('Koneksi error...');
+                    $('#pesan').css('color', 'red')
+                    $('#button_login').attr('disabled', false);
+                    $('#button_login').html('Login');
+                }
+            });
+        }
+    </script>
     <script>
         $.widget.bridge('uibutton', $.ui.button)
     </script>
-    <!-- Bootstrap 4 -->
 </body>
 
 </html>
