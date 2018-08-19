@@ -285,7 +285,7 @@
                                 '">' + item.nama_instalasi + '</option>'
                         });
                         $('#instalasi').html(isi_instalasi);
-                        isi_instalasi =  '<option value="all" >All</option>' + isi_instalasi;
+                        isi_instalasi = '<option value="all" >All</option>' + isi_instalasi;
                         $('#instalasi_chart').html(isi_instalasi);
                     }
                 })
@@ -372,54 +372,78 @@
                 });
             }
 
-            function search_chart_proccess(){
+            function search_chart_proccess() {
                 var id_instalasi = $('#instalasi_chart').val();
                 var tahun = $('#tahun_chart').val();
-                var bulan = ['', 'januari', 'februari', 'maret', 'april', 'mei', 'juni', 'juli', 'agustus', 'september', 'oktober', 'november', 'desember'];
-                
-                $.ajax({
-                    url: '/dashboard/find_per_instalasi/'+id_instalasi+'/'+tahun,
-                    header: {
-                        "Content-type": "applocation/json"
-                    },
-                    dataType: "json",
-                    success: function (response) {
-                        if (response.status) {
-                            //data dari response
-                            var item = response.data
-                            //
-                            // Create the data table.
-                            var data = new google.visualization.DataTable();
-                            data.addColumn('string', 'Nama Instalasi');
-                            data.addColumn('number', 'Jumlah Permintaan');
+                var bulan = ['', 'januari', 'februari', 'maret', 'april', 'mei', 'juni', 'juli', 'agustus', 'september',
+                    'oktober', 'november', 'desember'
+                ];
 
-                            //data hasil per response
-                            var temp_item = new Array();
-                            var i = 0;
-                            item.forEach(function (item) {
-                                var isi_item = new Array();
-                                isi_item[0] = bulan[item.bulan];
-                                isi_item[1] = parseInt(item.jumlah_permintaan)
-                                temp_item[i] = isi_item
-                                i++
-                            })
+                var bool1 = $('#tahun_chart').val() == '' ? false : true
 
-                            data.addRows(temp_item)
-                            var selected = $('#instalasi_chart')[0];
-                            var options = {
-                                'title': 'Data permintaan tahun '+tahun+' pada '+selected.options[selected.selectedIndex].text,
-                            };
+                if (bool1) {
+                    $.ajax({
+                        url: '/dashboard/find_per_instalasi/' + id_instalasi + '/' + tahun,
+                        header: {
+                            "Content-type": "applocation/json"
+                        },
+                        dataType: "json",
+                        success: function (response) {
+                            if (response.status) {
+                                //data dari response
+                                var item = response.data
+                                //
+                                // Create the data table.
+                                var data = new google.visualization.DataTable();
+                                var temp_item = new Array();
+                                
+                                if(id_instalasi != 'all'){
+                                    data.addColumn('string', 'Bulan');
+                                    data.addColumn('number', 'Jumlah Permintaan');
+                                    
+                                    //data hasil per response
+                                    var i = 0;
+                                    item.forEach(function (item) {
+                                        var isi_item = new Array();
+                                        isi_item[0] = bulan[item.bulan];
+                                        isi_item[1] = parseInt(item.jumlah_permintaan)
+                                        temp_item[i] = isi_item
+                                        i++
+                                    })
+                                }else{
+                                    data.addColumn('string', 'Nama Instalasi');
+                                    data.addColumn('number', 'Jumlah Permintaan');
+                                    
+                                    //data hasil per response
+                                    var i = 0;
+                                    item.forEach(function (item) {
+                                        var isi_item = new Array();
+                                        isi_item[0] = item.nama_instalasi;
+                                        isi_item[1] = parseInt(item.jumlah_permintaan)
+                                        temp_item[i] = isi_item
+                                        i++
+                                    })
+                                }
 
-                            var chart = new google.visualization.PieChart($('#google_chart_1')[0]);
+                                data.addRows(temp_item)
 
-                            chart.draw(data, options);
-                        }
-                    },
-                    error: function () {
+                                var selected = $('#instalasi_chart')[0];
+                                var options = {
+                                    'title': 'Data permintaan tahun ' + tahun + ' pada ' + selected.options[
+                                        selected.selectedIndex].text,
+                                };
 
-                    },
-                    timeout: 15000
-                })
+                                var chart = new google.visualization.PieChart($('#google_chart_1')[0]);
+
+                                chart.draw(data, options);
+                            }
+                        },
+                        error: function () {
+
+                        },
+                        timeout: 15000
+                    })
+                }
             }
 
             function search_proccess() {

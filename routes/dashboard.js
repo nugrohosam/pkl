@@ -164,6 +164,30 @@ dashboard.get('/find_per_instalasi/:id_instalasi/:tahun', async (req, res) => {
         } finally {
             await dbconn.release
         }
+    } else if (id_instalasi == 'all' && tahun != 'all') {
+        try {
+            await dbconn.query('BEGIN')
+
+            var {
+                rows
+            } = await dbconn.query('SELECT i.nama_instalasi, count(*) as jumlah_permintaan FROM permintaan p INNER JOIN instalasi i ON p.id_instalasi = i.id_instalasi WHERE date_part(\'year\', date(p.tanggal)) = \''+tahun+'\' GROUP BY i.id_instalasi')
+
+            await dbconn.query('COMMIT')
+            var response_json = {
+                status: true,
+                data: rows
+            }
+
+            res.status(200).json(response_json)
+        } catch (err) {
+            var response_json = {
+                status: false,
+                err: err
+            }
+            res.status(200).json(response_json)
+        } finally {
+            await dbconn.release
+        }
     } else if (id_instalasi != 'all' && tahun != 'all') {
         try {
             await dbconn.query('BEGIN')
