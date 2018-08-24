@@ -85,7 +85,6 @@ authentication.post('/proccess', async (req, res) => {
             }, 'secret_token', {
                 expiresIn: '1d'
             })
-            console.log(token_code)
             if (token_code != '') {
                 var json_return = {
                     status: true,
