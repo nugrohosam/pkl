@@ -397,11 +397,11 @@
                                 // Create the data table.
                                 var data = new google.visualization.DataTable();
                                 var temp_item = new Array();
-                                
-                                if(id_instalasi != 'all'){
+
+                                if (id_instalasi != 'all') {
                                     data.addColumn('string', 'Bulan');
                                     data.addColumn('number', 'Jumlah Permintaan');
-                                    
+
                                     //data hasil per response
                                     var i = 0;
                                     item.forEach(function (item) {
@@ -411,10 +411,10 @@
                                         temp_item[i] = isi_item
                                         i++
                                     })
-                                }else{
+                                } else {
                                     data.addColumn('string', 'Nama Instalasi');
                                     data.addColumn('number', 'Jumlah Permintaan');
-                                    
+
                                     //data hasil per response
                                     var i = 0;
                                     item.forEach(function (item) {
@@ -444,6 +444,12 @@
                         },
                         timeout: 15000
                     })
+                } else {
+                    $('#notif_modal').modal('show');
+                    $("#notif_modal div div div").html('tahun harus terisi');
+                    setTimeout(function () {
+                        $('#notif_modal').modal('hide');
+                    }, 1500);
                 }
             }
 
