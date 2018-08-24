@@ -95,7 +95,6 @@
                         $('#button_login').attr('disabled', false);
                         $('#button_login').html('Login');
                     } else {
-                        window.localStorage.setItem('token', response.token);
                         document.cookie = 'token=' + response.token;
                         window.open('/', '_self');
                     }

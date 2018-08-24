@@ -8,7 +8,6 @@ var md5 = require('md5')
 var token = jwt.sign({
     logged_in: false
 }, 'secret_token')
-var appData = {}
 var options = {
     root: './src/views/'
 }
@@ -16,7 +15,7 @@ var options = {
 authentication.use(cors())
 
 authentication.use((req, res, next) => {
-    if (!req.cookies.token || ( req.method != 'POST' && req.method != 'GET')) {
+    if (!req.cookies.token && req.method != 'POST' && req.method != 'GET') {
         var fileName = 'login.html'
         res.sendFile(fileName, options, (err) => {
             if (err) {
@@ -86,6 +85,7 @@ authentication.post('/proccess', async (req, res) => {
             }, 'secret_token', {
                 expiresIn: '1d'
             })
+            console.log(token_code)
             if (token_code != '') {
                 var json_return = {
                     status: true,
