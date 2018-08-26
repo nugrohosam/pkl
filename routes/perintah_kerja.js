@@ -108,11 +108,37 @@ perintah_kerja.post('/save', async (req, res) => {
     var lokasi = data.lokasi
     var buat_pada = datetime_format
     var ubah_pada = datetime_format
+    var detail_staff_ipl = data.staff_ipl
+    var panjang_detail_staff_ipl = detail_staff_ipl.length
+    var detail_jenis_perintah = data.jenis_perintah
+    var panjang_detail_jenis_perintah = detail_jenis_perintah.length
+    var sql
+    var i
 
     try {
         await dbconn.query('BEGIN')
 
         await dbconn.query('INSERT INTO perintah_kerja ( id_perintah_kerja, id_permintaan, nomor_surat, lokasi, buat_pada, ubah_pada ) VALUES ( \'' + id_perintah_kerja + '\', \'' + id_permintaan + '\', \'' + nomor_surat + '\', \'' + lokasi + '\', \'' + buat_pada + '\', \'' + ubah_pada + '\')')
+
+        sql = 'INSERT INTO staff_ipl_perintah_kerja VALUES '
+        for (i = 0; i < panjang_detail_staff_ipl; i++) {
+            if (i != (panjang_detail_staff_ipl - 1)) {
+                sql = sql + '( \'' + id_perintah_kerja + '\', \'' + detail_staff_ipl[i][0] + '\'), '
+            } else {
+                sql = sql + '( \'' + id_perintah_kerja + '\', \'' + detail_staff_ipl[i][0] + '\') '
+            }
+        }
+        await dbconn.query(sql)
+
+        sql = 'INSERT INTO jenis_perintah_perintah_kerja VALUES '
+        for (i = 0; i < panjang_detail_jenis_perintah; i++) {
+            if (i != (panjang_detail_jenis_perintah - 1)) {
+                sql = sql + '( \'' + id_perintah_kerja + '\', \'' + detail_jenis_perintah[i][0] + '\'), '
+            } else {
+                sql = sql + '( \'' + id_perintah_kerja + '\', \'' + detail_jenis_perintah[i][0] + '\') '
+            }
+        }
+        await dbconn.query(sql)
         await dbconn.query('COMMIT')
         var json_return = {
             status: true
@@ -215,6 +241,9 @@ perintah_kerja.get('/find/:id', async (req, res) => {
     var lokasi
     var tanggal_kembali
     var keterangan
+    var staff_ipl
+    var jenis_perintah
+    var permintaan
 
     try {
         await dbconn.query('BEGIN')
@@ -234,8 +263,14 @@ perintah_kerja.get('/find/:id', async (req, res) => {
         var {
             rows
         } = await dbconn.query('SELECT dp.permintaan, dp.huruf, dp.jumlah, dp.keterangan FROM detail_permintaan dp INNER JOIN permintaan p ON dp.id_permintaan = p.id_permintaan INNER JOIN perintah_kerja pk ON pk.id_permintaan = p.id_permintaan WHERE pk.id_perintah_kerja = \'' + id_perintah_kerja + '\'')
-        var i = 0
+        permintaan = rows
 
+        var { rows } = await dbconn.query('SELECT si.id_staff_ipl, si.nama, si.nip FROM staff_ipl_perintah_kerja sipk JOIN staff_ipl si ON sipk.id_staff_ipl = si.id_staff_ipl WHERE sipk.id_perintah_kerja = \''+id_perintah_kerja+'\'');
+        staff_ipl = rows;
+
+        var { rows } = await dbconn.query('SELECT * FROM jenis_perintah_perintah_kerja WHERE id_perintah_kerja = \''+id_perintah_kerja+'\'');
+        jenis_perintah = rows;
+        
         var json_return = {
             status: true,
             id_perintah_kerja: id_perintah_kerja,
@@ -246,7 +281,9 @@ perintah_kerja.get('/find/:id', async (req, res) => {
             lokasi: lokasi,
             tanggal_kembali: tanggal_kembali,
             keterangan: keterangan,
-            permintaan: rows
+            permintaan: permintaan,
+            staff_ipl: staff_ipl,
+            jenis_perintah: jenis_perintah
         }
 
         await dbconn.query('COMMIT')
@@ -254,7 +291,8 @@ perintah_kerja.get('/find/:id', async (req, res) => {
     } catch (err) {
         await dbconn.query('ROLLBACK')
         var json_return = {
-            status: false
+            status: false,
+            err : err
         }
         res.status(200).json(json_return)
     } finally {
@@ -274,11 +312,40 @@ perintah_kerja.post('/update/:id', async (req, res) => {
     var tanggal_kembali = data.tanggal_kembali
     var keterangan = data.keterangan
     var ubah_pada = datetime_format
+    var staff_ipl = data.staff_ipl
+    var panjang_staff_ipl = staff_ipl.length
+    var jenis_perintah = data.jenis_perintah
+    var panjang_jenis_perintah = jenis_perintah.length
 
     try {
         await dbconn.query('BEGIN')
 
         await dbconn.query('UPDATE perintah_kerja SET id_permintaan = \'' + id_permintaan + '\', nomor_surat = \'' + nomor_surat + '\', lokasi = \'' + lokasi + '\', tanggal_kembali = \'' + tanggal_kembali + '\', keterangan = \'' + keterangan + '\', ubah_pada = \'' + ubah_pada + '\' WHERE id_perintah_kerja = \'' + id_perintah_kerja + '\'')
+        
+        await dbconn.query('DELETE FROM staff_ipl_perintah_kerja WHERE id_perintah_kerja = \''+id_perintah_kerja+'\'');
+        await dbconn.query('DELETE FROM jenis_perintah_perintah_kerja WHERE id_perintah_kerja = \''+id_perintah_kerja+'\'');
+        
+        sql = 'INSERT INTO staff_ipl_perintah_kerja VALUES '
+        for (i = 0; i < panjang_staff_ipl; i++) {
+            if (i != (panjang_staff_ipl - 1)) {
+                sql = sql + '( \'' + id_perintah_kerja + '\', \'' + staff_ipl[i][0] + '\'), '
+            } else {
+                sql = sql + '( \'' + id_perintah_kerja + '\', \'' + staff_ipl[i][0] + '\') '
+            }
+
+        }
+        await dbconn.query(sql)
+
+        sql = 'INSERT INTO jenis_perintah_perintah_kerja VALUES '
+        for (i = 0; i < panjang_jenis_perintah; i++) {
+            if (i != (panjang_jenis_perintah - 1)) {
+                sql = sql + '( \'' + id_perintah_kerja + '\', \'' + jenis_perintah[i][0] + '\'), '
+            } else {
+                sql = sql + '( \'' + id_perintah_kerja + '\', \'' + jenis_perintah[i][0] + '\') '
+            }
+
+        }
+        await dbconn.query(sql)
 
         await dbconn.query('COMMIT')
         var json_return = {
@@ -286,6 +353,7 @@ perintah_kerja.post('/update/:id', async (req, res) => {
         }
         res.status(200).json(json_return)
     } catch (err) {
+        await dbconn.query('ROLLBACK')
         var json_return = {
             status: false
         }
@@ -319,13 +387,43 @@ perintah_kerja.get('/find_permintaan/:nomor_surat', async (req, res) => {
         var json_return = {
             satus: false
         }
-        res.status(400).json(json_return)
+        res.status(200).json(json_return)
     } finally {
         await dbconn.release
     }
 })
 
-perintah_kerja.get('/go_pdf/:id_perintah_kerja/:id_staf_ipl/:jenis_perintah', async (req, res) => {
+perintah_kerja.get('/find_permintaan_update_proccess/:nomor_surat', async (req, res) => {
+
+    var nomor_surat = req.params.nomor_surat
+    var sql
+
+    try {
+        await dbconn.query('BEGIN')
+
+        sql = 'SELECT p.id_permintaan FROM permintaan p LEFT JOIN perintah_kerja pk ON p.id_permintaan = pk.id_permintaan WHERE p.nomor_surat = \'' + nomor_surat + '\''
+        var {
+            rows
+        } = await dbconn.query(sql)
+        var json_return = {
+            status: true,
+            id_permintaan: rows[0].id_permintaan
+        }
+
+        await dbconn.query('COMMIT')
+        res.status(200).json(json_return)
+    } catch (err) {
+        await dbconn.query('ROLLBACK')
+        var json_return = {
+            satus: false
+        }
+        res.status(200).json(json_return)
+    } finally {
+        await dbconn.release
+    }
+})
+
+perintah_kerja.get('/go_pdf/:id_perintah_kerja', async (req, res) => {
     var fileName = 'perintah_kerja_to_pdf.html'
     res.sendFile(fileName, options, (err) => {
         if (err) {

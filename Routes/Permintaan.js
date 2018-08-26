@@ -115,9 +115,9 @@ permintaan.post('/save', async (req, res) => {
         sql = 'INSERT INTO detail_permintaan VALUES '
         for (i = 0; i < panjang_detail; i++) {
             if (i != (panjang_detail - 1)) {
-                sql = sql + '( \'' + id_permintaan + '\', \'' + detail[i][0] + '\', \'' + detail[i][1] + '\', \'' + detail[i][2] + '\', \'' + detail[i][3] + '\'), '
+                sql = sql + '( \'' + id_permintaan + '\', \'' + detail[i][0] + '\', \'' + detail[i][1] + '\', \'' + detail[i][2] + '\', \'' + detail[i][3] + '\', '+detail[i][4]+'), '
             } else {
-                sql = sql + '( \'' + id_permintaan + '\', \'' + detail[i][0] + '\', \'' + detail[i][1] + '\', \'' + detail[i][2] + '\', \'' + detail[i][3] + '\') '
+                sql = sql + '( \'' + id_permintaan + '\', \'' + detail[i][0] + '\', \'' + detail[i][1] + '\', \'' + detail[i][2] + '\', \'' + detail[i][3] + '\', '+detail[i][4]+') '
             }
         }
         await dbconn.query(sql)
@@ -307,9 +307,9 @@ permintaan.post('/update/:id', async (req, res) => {
         sql = 'INSERT INTO detail_permintaan VALUES '
         for (i = 0; i < panjang_detail; i++) {
             if (i != (panjang_detail - 1)) {
-                sql = sql + '( \'' + id_permintaan + '\', \'' + detail[i][0] + '\', \'' + detail[i][1] + '\', \'' + detail[i][2] + '\', \'' + detail[i][3] + '\'), '
+                sql = sql + '( \'' + id_permintaan + '\', \'' + detail[i][0] + '\', \'' + detail[i][1] + '\', \'' + detail[i][2] + '\', \'' + detail[i][3] + '\', '+detail[i][4]+'), '
             } else {
-                sql = sql + '( \'' + id_permintaan + '\', \'' + detail[i][0] + '\', \'' + detail[i][1] + '\', \'' + detail[i][2] + '\', \'' + detail[i][3] + '\') '
+                sql = sql + '( \'' + id_permintaan + '\', \'' + detail[i][0] + '\', \'' + detail[i][1] + '\', \'' + detail[i][2] + '\', \'' + detail[i][3] + '\', '+detail[i][4]+') '
             }
 
         }
