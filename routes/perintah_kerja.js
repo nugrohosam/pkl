@@ -262,7 +262,7 @@ perintah_kerja.get('/find/:id', async (req, res) => {
 
         var {
             rows
-        } = await dbconn.query('SELECT dp.permintaan, dp.huruf, dp.jumlah, dp.keterangan FROM detail_permintaan dp INNER JOIN permintaan p ON dp.id_permintaan = p.id_permintaan INNER JOIN perintah_kerja pk ON pk.id_permintaan = p.id_permintaan WHERE pk.id_perintah_kerja = \'' + id_perintah_kerja + '\'')
+        } = await dbconn.query('SELECT dp.permintaan, dp.huruf, dp.jumlah, dp.prioritas, dp.keterangan FROM detail_permintaan dp INNER JOIN permintaan p ON dp.id_permintaan = p.id_permintaan INNER JOIN perintah_kerja pk ON pk.id_permintaan = p.id_permintaan WHERE pk.id_perintah_kerja = \'' + id_perintah_kerja + '\'')
         permintaan = rows
 
         var { rows } = await dbconn.query('SELECT si.id_staff_ipl, si.nama, si.nip FROM staff_ipl_perintah_kerja sipk JOIN staff_ipl si ON sipk.id_staff_ipl = si.id_staff_ipl WHERE sipk.id_perintah_kerja = \''+id_perintah_kerja+'\'');
