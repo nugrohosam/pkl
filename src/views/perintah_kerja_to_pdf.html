@@ -3,6 +3,14 @@
 <HEAD>
     <META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
     <script src="/src/assets/plugins/jquery/jquery.min.js"></script>
+    <style type="text/css" media="print">
+        @page {
+            size: auto;
+            /* auto is the initial value */
+            margin: 10px;
+            /* this affects the margin in the printer settings */
+        }
+    </style>
 </HEAD>
 
 <BODY ID="idbody" LANG="en-US" DIR="LTR">
@@ -533,7 +541,7 @@
                                             </P>
                                         </TD>
                                     </TR>`;
-                                    i++;
+                            i++;
                         });
 
                         file_html = file_html + file_html_temp;
