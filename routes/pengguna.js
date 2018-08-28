@@ -135,7 +135,6 @@ pengguna.get('/find', async (req, res) => {
     var data = new Array()
     var recordsFiltered = 0
     var recordsTotal = 0
-    var data = new Array()
 
     try{
         await dbconn.query('BEGIN')

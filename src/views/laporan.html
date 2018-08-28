@@ -41,7 +41,12 @@
     <script src="src/assets/dist/js/demo.js"></script>
     <script src="src/assets/plugins/datatables/jquery.dataTables.js"></script>
     <script src="src/assets/plugins/datatables/dataTables.bootstrap4.js"></script>
-    <script src="src/assets/plugins/chart/google_chart.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
 
 </head>
 
@@ -122,6 +127,15 @@
                                 </p>
                             </a>
                         </li>
+                        <li id="nav_pengguna" class="nav-item">
+                            <a href="/laporan" class="nav-link">
+                                <i class="nav-icon fa fa-apple"></i>
+                                <p>
+                                    Laporan
+                                    <i class="right fa fa-angle-right"></i>
+                                </p>
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a href="authentication" class="nav-link" onClick="logout()">
                                 <i class="nav-icon fa fa-sign-out"></i>
@@ -153,19 +167,19 @@
                             </select>
                         </div>
                         <div class="col-lg-2 form-group">
-                            <input class="form-control datepick" placeholder="Dari Tanggal" id="dari_tanggal">
+                            <input class="form-control datepick" placeholder="Dari Tanggal" id="dr_tanggal">
                         </div>
                         <div class="col-lg-2 form-group">
-                            <input class="form-control datepick" placeholder="Hingga Tanggal" id="dari_tanggal">
+                            <input class="form-control datepick" placeholder="Hingga Tanggal" id="ke_tanggal">
                         </div>
                         <div class="col-lg-2 form-group">
-                            <button class="form-control bg-success" onClick="search_proccess()">
+                            <button id="button-search" class="form-control bg-success" onClick="find_sp()">
                                 <i class="ion ion-search"></i>
                                 <span>Search</span>
                             </button>
                         </div>
-                        <div class="col-lg-12">
-                            <table id="table" class="table table-sm">
+                        <div id="div-table" class="col-lg-12">
+                            <table id="table-laporan" class="table table-sm">
                                 <thead class="bg-warning">
                                     <tr>
                                         <th>No Surat</th>
@@ -195,55 +209,141 @@
 
         <script>
             $(document).ready(function () {
-                $.ajax({
-                    url: ''
-                });
 
                 $.ajax({
-                    url: '/dashboard/find_instalasi',
+                    url: '/laporan/find_instalasi',
                     haeder: {
                         "Content-type": "applocation/json"
                     },
                     dataType: 'json',
                     success: function (response) {
-                        var isi_instalasi = ''
+                        var isi_instalasi = '<option value="all" >All</option>';
                         response.instalasi.forEach(function (item) {
                             isi_instalasi = isi_instalasi + '<option value="' + item.id_instalasi +
                                 '">' + item.nama_instalasi + '</option>'
                         });
                         $('#instalasi').html(isi_instalasi);
-                        isi_instalasi = '<option value="all" >All</option>' + isi_instalasi;
                         $('#instalasi_chart').html(isi_instalasi);
                     }
                 })
             });
 
+            function find_sp() {
+                $('#div-table').html(
+                    `<table id="table-laporan" class="table table-sm">
+                        <thead class="bg-warning">
+                            <tr>
+                                <th>No Surat</th>
+                                <th>Tanggal</th>
+                                <th>Instalasi</th>
+                                <th>Peminta</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table_pencarian">
+                        </tbody>
+                    </table>`
+                );
+
+                var dr_tanggal = $('#dr_tanggal').val() != '' ? $('#dr_tanggal').val() : '0000-00-00';
+                var ke_tanggal = $('#ke_tanggal').val() != '' ? $('#ke_tanggal').val() : '9999-99-99';
+
+                $('#table-laporan').DataTable({
+                    'processing': false,
+                    'serverSide': true,
+                    'dom': 'lrtBip',
+                    'buttons': [{
+                            'extend': 'excel',
+                            'text': 'Export to .xlsx <i class="fa fa-file-excel-o"></i>',
+                            'exportOptions': {
+                                'modifier': {
+                                    'page': 'all'
+                                },
+                                'columns': [0, 1]
+                            },
+                            'title': 'Laporan Surat Permintaan'
+                        },
+                        {
+                            'extend': 'pdf',
+                            'text': 'Export to .pdf <i class="fa fa-file-pdf-o"></i>',
+                            'exportOptions': {
+                                'modifier': {
+                                    'page': 'all'
+                                },
+                                'columns': [0, 1]
+                            },
+                            'title': 'Laporan Surat Permintaan'
+                        }
+                    ],
+                    'ajax': {
+                        'url': '/laporan/find_sp/' + $('#instalasi').val() + '/' + dr_tanggal + '/' +
+                            ke_tanggal
+                    }
+                });
+
+            }
+
+            function find_spk() {
+                $('#div-table').html(
+                    `<table id="table-laporan" class="table table-sm">
+                        <thead class="bg-warning">
+                            <tr>
+                                <th>No SP</th>
+                                <th>No SPK</th>
+                                <th>Tanggal SP</th>
+                                <th>Instalasi</th>
+                                <th>Lokasi</th>
+                                <th>Tanggal Kembali</th>
+                                <th>Keterangan</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table_pencarian">
+                        </tbody>
+                    </table>`
+                );
+                var dr_tanggal = $('#dr_tanggal').val() != '' ? $('#dr_tanggal').val() : '0000-00-00';
+                var ke_tanggal = $('#ke_tanggal').val() != '' ? $('#ke_tanggal').val() : '9999-99-99';
+
+                $('#table-laporan').DataTable({
+                    'processing': false,
+                    'serverSide': true,
+                    'dom': 'lrtBip',
+                    'buttons': [{
+                            'extend': 'excel',
+                            'text': 'Export to .xlsx <i class="fa fa-file-excel-o"></i>',
+                            'exportOptions': {
+                                'modifier': {
+                                    'page': 'all'
+                                },
+                                'columns': [0, 1]
+                            },
+                            'title': 'Laporan Surat Perintah Kerja'
+                        },
+                        {
+                            'extend': 'pdf',
+                            'text': 'Export to .pdf <i class="fa fa-file-pdf-o"></i>',
+                            'exportOptions': {
+                                'modifier': {
+                                    'page': 'all'
+                                },
+                                'columns': [0, 1]
+                            },
+                            'title': 'Laporan Surat Perintah Kerja'
+                        }
+                    ],
+                    'ajax': {
+                        'url': '/laporan/find_spk/' + $('#instalasi').val() + '/' + dr_tanggal + '/' +
+                            ke_tanggal
+                    }
+                });
+            }
+
             $('#jenis_laporan').on('change', function () {
                 var jenis_laporan = $('#jenis_laporan').val();
                 if (jenis_laporan == 'sp') {
-                    $('tbody').html('');
-                    $('thead').html(
-                        `<tr>
-                            <th>No Surat</th>
-                            <th>Tanggal</th>
-                            <th>Instalasi</th>
-                            <th>Peminta</th>
-                            <th>Status</th>
-                        </tr>`
-                    );
+                    $('#button-search').attr('onClick', 'find_sp()');
                 } else {
-                    $('tbody').html('');
-                    $('thead').html(
-                        `<tr>
-                            <th>No SP</th>
-                            <th>No SPK</th>
-                            <th>Tanggal SP</th>
-                            <th>Instalasi</th>
-                            <th>Lokasi</th>
-                            <th>Tanggal Kembali</th>
-                            <th>Keterangan</th>
-                        </tr>`
-                    );
+                    $('#button-search').attr('onClick', 'find_spk()');
                 }
             });
 
