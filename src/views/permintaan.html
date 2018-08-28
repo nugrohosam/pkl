@@ -46,6 +46,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
 
     <style>
         .form-group {
@@ -94,7 +95,8 @@
 
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <a href="/dashboard" class="brand-link">
-                <img src="src/assets/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                <img src="src/assets/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+                    style="opacity: .8">
                 <span class="brand-text font-weight-light">Admin IPL</span>
             </a>
 
@@ -332,7 +334,8 @@
                                                     </tbody>
                                                 </table>
                                             </div>
-                                            <button type="button" class="btn btn-success" id="tambah_baris_detail" onClick="tambah_baris_detail_ubah()">+</button>
+                                            <button type="button" class="btn btn-success" id="tambah_baris_detail"
+                                                onClick="tambah_baris_detail_ubah()">+</button>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-primary" id="button_save_ubah" onClick="ubah_proccess()">Save</button>
@@ -420,7 +423,8 @@
                                                 </table>
                                             </div>
 
-                                            <button type="button" class="btn btn-success" id="tambah_baris_detail_tambah" onClick="tambah_baris_detail_tambah()">+</button>
+                                            <button type="button" class="btn btn-success" id="tambah_baris_detail_tambah"
+                                                onClick="tambah_baris_detail_tambah()">+</button>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-primary" id="button_save_ubah" onClick="tambah_proccess()">Save</button>
@@ -439,7 +443,8 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:16%" hidden>
+                                            <div class="col-sm-8 form-ubah" style="display: inline-block;margin-left:16%"
+                                                hidden>
                                                 <input class="form-control" id="id_permintaan_detail">
                                             </div>
                                             <div class="modal-body">
@@ -598,7 +603,8 @@
                                                     </tbody>
                                                 </table>
                                             </div>
-                                            <button type="button" class="btn btn-success" id="tambah_baris_detail_tambah" onClick="tambah_baris_staff_tambah()">+</button>
+                                            <button type="button" class="btn btn-success" id="tambah_baris_detail_tambah"
+                                                onClick="tambah_baris_staff_tambah()">+</button>
                                             <div class="form-group"></div>
                                             <div class="table-responsive">
                                                 <table class="table table-sm table-striped">
@@ -616,7 +622,8 @@
                                                     </tbody>
                                                 </table>
                                             </div>
-                                            <button type="button" class="btn btn-success" id="tambah_baris_detail_tambah" onClick="tambah_baris_jenis_perintah_tambah()">+</button>
+                                            <button type="button" class="btn btn-success" id="tambah_baris_detail_tambah"
+                                                onClick="tambah_baris_jenis_perintah_tambah()">+</button>
 
                                         </div>
 
@@ -641,6 +648,7 @@
                                 var index_detail_table = 0;
                                 var index_table_detail_staff = 0;
                                 var index_table_detail_jenis_perintah = 0;
+                                var socket = io.connect('http://localhost:3000/');
 
                                 $(document).ready(
                                     function () {
@@ -791,12 +799,15 @@
                                                 timeout: 15000
                                             })
                                         })
-
                                         setNav()
-
-                                        setInterval(reload_table, 4000)
                                     }
                                 );
+
+                                socket.on('reloadPermintaan', function (data) {
+                                    if (data.status) {
+                                        reload_table();
+                                    }
+                                });
 
                                 function setNav() {
                                     $.ajax({
@@ -1303,6 +1314,10 @@
                                                         $('#notif_modal').modal('hide');
                                                     }, 1500);
 
+                                                    socket.emit('reloadPermintaan', {
+                                                        status: true
+                                                    })
+
                                                     reload_table();
                                                 },
                                                 error: function () {
@@ -1428,6 +1443,11 @@
                                                     setTimeout(function () {
                                                         $('#notif_modal').modal('hide');
                                                     }, 1000);
+
+
+                                                    socket.emit('reloadPermintaan', {
+                                                        status: true
+                                                    })
 
                                                     reload_table();
                                                 },
@@ -1617,6 +1637,12 @@
                                                                     $('#notif_modal').modal(
                                                                         'hide')
                                                                 }, 1500)
+
+
+                                                                socket.emit('reloadPermintaan', {
+                                                                    status: true
+                                                                })
+
 
                                                                 reload_table()
                                                             },
@@ -1809,20 +1835,20 @@
                         </div>
                     </div>
             </section>
-            </div>
-
-            <footer class="main-footer">
-                <strong>Copyright &copy; 2018 - forever
-                    <a href="/">PKL RSSA</a>.</strong>
-                All rights reserved.
-                <div class="float-right d-none d-sm-inline-block">
-                    <b>Ver</b> 1.0.0-alpha
-                </div>
-            </footer>
-
-            <aside class="control-sidebar control-sidebar-dark">
-            </aside>
         </div>
+
+        <footer class="main-footer">
+            <strong>Copyright &copy; 2018 - forever
+                <a href="/">PKL RSSA</a>.</strong>
+            All rights reserved.
+            <div class="float-right d-none d-sm-inline-block">
+                <b>Ver</b> 1.0.0-alpha
+            </div>
+        </footer>
+
+        <aside class="control-sidebar control-sidebar-dark">
+        </aside>
+    </div>
 
 </body>
 

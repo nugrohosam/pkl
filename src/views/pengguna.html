@@ -46,6 +46,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
 
     <style>
         /* .flex-wrapper{
@@ -189,7 +190,10 @@
 
                         <div class="col-12">
                             <div class="card">
-                                <button class="btn btn-success" onClick="tambah_modal()"><i class="fa fa-plus"></i><span> Tambah Pengguna</span></button>
+                                <button class="btn btn-success" onClick="tambah_modal()">
+                                    <i class="fa fa-plus"></i>
+                                    <span> Tambah Pengguna</span>
+                                </button>
                             </div>
 
                             <div class="card">
@@ -369,37 +373,40 @@
                             var table;
                             var index_detail_table = 0;
 
+                            var socket = io.connect('http://localhost:3000/');
+
                             $(document).ready(
 
                                 function () {
+
                                     table = $('#table_pengguna').DataTable({
                                         'processing': false,
                                         'serverSide': true,
                                         'dom': 'lfrtBip',
-                                            'buttons': [{
-                                                    'extend': 'excel',
-                                                    'text': 'Export to .xlsx <i class="fa fa-file-excel-o"></i>',
-                                                    'exportOptions': {
-                                                        'modifier': {
-                                                            'page': 'all'
-                                                        },
-                                                        'columns' : [ 0, 1 ]
+                                        'buttons': [{
+                                                'extend': 'excel',
+                                                'text': 'Export to .xlsx <i class="fa fa-file-excel-o"></i>',
+                                                'exportOptions': {
+                                                    'modifier': {
+                                                        'page': 'all'
                                                     },
-                                                    'title': 'Pengguna'
+                                                    'columns': [0, 1]
                                                 },
-                                                {
-                                                    'extend': 'pdf',
-                                                    'text': 'Export to .pdf <i class="fa fa-file-pdf-o"></i>',
-                                                    'exportOptions': {
-                                                        'modifier': {
-                                                            'page': 'all'
-                                                        },
-                                                        'columns' : [ 0, 1 ]                                                        
+                                                'title': 'Pengguna'
+                                            },
+                                            {
+                                                'extend': 'pdf',
+                                                'text': 'Export to .pdf <i class="fa fa-file-pdf-o"></i>',
+                                                'exportOptions': {
+                                                    'modifier': {
+                                                        'page': 'all'
                                                     },
-                                                    'title': 'Pengguna'
-                                                }
-                                            ],
-                                            'ajax': {
+                                                    'columns': [0, 1]
+                                                },
+                                                'title': 'Pengguna'
+                                            }
+                                        ],
+                                        'ajax': {
                                             'url': '/pengguna/find',
                                             'timeout': 15000
                                         },
@@ -408,8 +415,6 @@
                                             'orderable': false,
                                         }]
                                     });
-
-                                    setInterval(reload_table, 4000)
                                 }
                             );
 
@@ -441,6 +446,12 @@
                                 })
                                 $('#ubah_modal').modal('show');
                             }
+
+                            socket.on('reloadPerngguna', function (data) {
+                                if (data.status) {
+                                    reload_table();
+                                }
+                            });
 
                             function logout() {
                                 document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
@@ -489,7 +500,11 @@
                                                 $('#notif_modal').modal('hide');
                                             }, 1500);
 
+                                            socket.emit('reloadPerngguna', {
+                                                status: true
+                                            });
                                             reload_table();
+
                                         },
                                         error: function () {
                                             $("#notif_modal div div div").html('gagal tambah');
@@ -500,7 +515,8 @@
                                         timeout: 15000
                                     })
                                 } else {
-                                    $("#notif_modal div div div").html('detail harus terisi dengan benar');
+                                    $("#notif_modal div div div").html(
+                                        'password dan konfirmasi harus terisi dengan benar');
                                     $('#notif_modal').modal('show');
                                     setTimeout(function () {
                                         $('#notif_modal').modal('hide');
@@ -562,7 +578,11 @@
                                                 $('#notif_modal').modal('hide');
                                             }, 1000);
 
+                                            socket.emit('reloadPerngguna', {
+                                                status: true
+                                            });
                                             reload_table();
+
                                         },
                                         error: function () {
                                             $("#notif_modal div div div").html('gagal ubah');

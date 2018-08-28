@@ -47,6 +47,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
         <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
     
         <style>
             /* .flex-wrapper{
@@ -329,7 +330,8 @@
                             <script type="text/javascript">
                                 var table;
                                 var index_detail_table = 0;
-    
+                                var socket = io.connect('http://localhost:3000/');
+
                                 $(document).ready(
     
                                     function () {
@@ -373,7 +375,13 @@
                                         setInterval(reload_table, 4000)
                                     }
                                 );
-    
+                                    
+                                socket.on('reloadStaffIpl', function(data){
+                                    if(data.status){
+                                        reload_table();
+                                    }
+                                });
+
                                 function tambah_modal() {
                                     $('#tambah_modal').modal('show');
                                 }
@@ -442,6 +450,10 @@
                                                 setTimeout(function () {
                                                     $('#notif_modal').modal('hide');
                                                 }, 1500);
+
+                                                socket.emit('reloadTable', {
+                                                    status: true
+                                                })
     
                                                 reload_table();
                                             },
@@ -504,6 +516,10 @@
                                                 setTimeout(function () {
                                                     $('#notif_modal').modal('hide');
                                                 }, 1000);
+
+                                                socket.emit('reloadStaffIpl', {
+                                                    status: true
+                                                })
     
                                                 reload_table();
                                             },

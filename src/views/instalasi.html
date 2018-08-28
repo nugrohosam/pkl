@@ -47,6 +47,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+
     <style>
         /* .flex-wrapper{
                 display: flex;
@@ -94,7 +96,8 @@
 
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <a href="/dashboard" class="brand-link">
-                <img src="src/assets/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                <img src="src/assets/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+                    style="opacity: .8">
                 <span class="brand-text font-weight-light">Admin IPL</span>
             </a>
 
@@ -187,7 +190,8 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
-                                <button class="btn btn-success" onClick="tambah_modal()"><i class="fa fa-plus"></i> <span> Tambah Instalasi</span> </button>
+                                <button class="btn btn-success" onClick="tambah_modal()"><i class="fa fa-plus"></i>
+                                    <span> Tambah Instalasi</span> </button>
                             </div>
                             <div class="card">
                                 <div class="card-header">
@@ -321,6 +325,7 @@
 
                             <script type="text/javascript">
                                 var table;
+                                var socket = io.connect('http://localhost:3000/');
 
                                 $(document).ready(
                                     function () {
@@ -335,7 +340,7 @@
                                                         'modifier': {
                                                             'page': 'all'
                                                         },
-                                                        'columns' : [ 0, 1 ]
+                                                        'columns': [0, 1]
                                                     },
                                                     'title': 'Instalasi'
                                                 },
@@ -346,7 +351,7 @@
                                                         'modifier': {
                                                             'page': 'all'
                                                         },
-                                                        'columns' : [ 0, 1 ]                                                        
+                                                        'columns': [0, 1]
                                                     },
                                                     'title': 'Instalasi'
                                                 }
@@ -360,10 +365,14 @@
                                             }]
                                         });
 
-                                        setInterval(reload_table, 4000)
                                     }
                                 );
 
+                                socket.on('reloadInstalasi', function (data) {
+                                    if (data.status) {
+                                        reload_table();
+                                    }
+                                })
 
                                 function ubah_modal(id_instalasi) {
                                     $('#ubah_modal').modal('show');
@@ -465,7 +474,11 @@
                                                 $('#notif_modal').modal('hide');
                                             }, 1000);
 
-                                            reload_table()
+                                            socket.emit('reloadInstalasi', {
+                                                status: true
+                                            })
+
+                                            reload_table();
                                         },
                                         error: function () {
                                             $("#notif_modal div div div").html('gagal ubah');
@@ -502,6 +515,11 @@
                                             setTimeout(function () {
                                                 $('#notif_modal').modal('hide');
                                             }, 1000);
+
+
+                                            socket.emit('reloadInstalasi', {
+                                                status: true
+                                            })
 
                                             reload_table()
                                         },
@@ -564,20 +582,20 @@
                         </div>
                     </div>
             </section>
-            </div>
-
-            <footer class="main-footer">
-                <strong>Copyright &copy; 2018 - forever
-                    <a href="#">PKL RSSA</a>.</strong>
-                All rights reserved.
-                <div class="float-right d-none d-sm-inline-block">
-                    <b>Ver</b> 1.0.0-alpha
-                </div>
-            </footer>
-
-            <aside class="control-sidebar control-sidebar-dark">
-            </aside>
         </div>
+
+        <footer class="main-footer">
+            <strong>Copyright &copy; 2018 - forever
+                <a href="#">PKL RSSA</a>.</strong>
+            All rights reserved.
+            <div class="float-right d-none d-sm-inline-block">
+                <b>Ver</b> 1.0.0-alpha
+            </div>
+        </footer>
+
+        <aside class="control-sidebar control-sidebar-dark">
+        </aside>
+    </div>
 
 </body>
 
