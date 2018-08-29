@@ -475,7 +475,10 @@
                         i = 0;
                         file_html_temp = '';
                         var jumlah_permintaan = jenis_perintah.length;
-                        jenis_perintah.forEach(function (item) {
+                        console.log(jumlah_permintaan);
+                        for (i = 0; i < jumlah_permintaan; i += 2) {
+                            console.log(i);
+                            console.log(i + 1);
                             if (i == 0) {
                                 file_html_temp = file_html_temp +
                                     `<TR VALIGN=TOP>
@@ -535,15 +538,26 @@
                                             <P CLASS="western" ALIGN=JUSTIFY>
                                                 <FONT FACE="Arial, serif">
                                                     <FONT SIZE=2 STYLE="font-size: 11pt">` +
-                                item.jenis_perintah +
+                                jenis_perintah[i].jenis_perintah.charAt(0).toUpperCase() + jenis_perintah[i].jenis_perintah.slice(1) +
                                 `</FONT>
                                                 </FONT>
                                             </P>
-                                        </TD>
-                                    </TR>`;
-                            i++;
-                        });
+                                        </TD>`;
+                            if (jenis_perintah[i + 1] !== undefined) {
+                                file_html_temp = file_html_temp +
+                                    `<TD WIDTH=226 STYLE="border: none; padding: 0in">
+                                            <P CLASS="western" ALIGN=JUSTIFY> 
+                                                <FONT FACE="Arial, serif">
+                                                    <FONT SIZE=2 STYLE="font-size: 11pt">` +
+                                                        jenis_perintah[i+1].jenis_perintah.charAt(0).toUpperCase() + jenis_perintah[i+1].jenis_perintah.slice(1) +
+                                    `</FONT>
+                                                </FONT>
+                                            </P>
+                                        </TD>`;
+                            }
 
+                            file_html_temp = file_html_temp + `</TR>`;
+                        };
                         file_html = file_html + file_html_temp;
                         file_html = file_html +
                             `</TABLE>
