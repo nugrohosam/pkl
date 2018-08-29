@@ -532,6 +532,29 @@ dashboard.get('/find/:instalasi/:tahun/:bulan/:tanggal', async (req, res) => {
     }
 })
 
+dashboard.get('/find_pertumbuhan_pertahun', async (req, res) => {
+    try{
+        await dbconn.query('BEGIN')
+        var { rows } = await dbconn.query('SELECT i.nama_instalasi, count(*) as jumlah_permintaan,  date_part(\'year\', date(p.tanggal)) as tahun, date_part(\'month\', date(p.tanggal)) as bulan FROM permintaan p INNER JOIN instalasi i ON p.id_instalasi = i.id_instalasi WHERE  date(p.tanggal) <= now() GROUP BY i.id_instalasi, date_part(\'year\', date(p.tanggal)), date_part(\'month\', date(p.tanggal)) ORDER BY date_part(\'year\', date(p.tanggal)) desc, date_part(\'month\', date(p.tanggal)) asc')
+        
+        await dbconn.query('COMMIT')
+
+        var json_return = {
+            status: true,
+            data: rows
+        }
+        res.status(200).json(json_return)
+    } catch (err) {
+        await dbconn.query('ROLLBACK')
+        var json_return = {
+            status: false
+        }
+        res.status(200).json(json_return)
+    } finally {
+        dbconn.release
+    }
+})
+
 dashboard.get('/find_instalasi', async (req, res) => {
 
     try {

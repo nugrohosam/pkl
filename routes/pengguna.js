@@ -149,11 +149,11 @@ pengguna.get('/find', async (req, res) => {
             i++
         })
 
-        sql = "SELECT * FROM pengguna p "
+        sql = "SELECT * FROM pengguna "
         rows = await dbconn.query(sql)
         recordsTotal = rows.rowCount
         
-        sql = "p.id_pengguna, p.kategori, p.username, p.password FROM pengguna p WHERE ( p.username LIKE '%"+isi_pencarian+"%' OR p.kategori LIKE '%"+isi_pencarian+"%' ) ORDER BY "+order_kolom+" "+tipe_order
+        sql = "SELECT p.id_pengguna, p.kategori, p.username, p.password FROM pengguna p WHERE ( p.username LIKE '%"+isi_pencarian+"%' OR p.kategori LIKE '%"+isi_pencarian+"%' ) ORDER BY "+order_kolom+" "+tipe_order
         var { rows } = await dbconn.query(sql)
         recordsFiltered = rows.length
 
