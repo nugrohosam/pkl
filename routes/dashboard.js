@@ -13,7 +13,6 @@ var token = jwt.sign({
     expiresIn: '1d'
 })
 dashboard.use(cors())
-var appData = {}
 var options = {
     root: './src/views/'
 }
@@ -168,7 +167,7 @@ dashboard.get('/find_per_instalasi/:id_instalasi/:tahun', async (req, res) => {
 
             var {
                 rows
-            } = await dbconn.query('SELECT i.nama_instalasi, count(*) as jumlah_permintaan FROM permintaan p INNER JOIN instalasi i ON p.id_instalasi = i.id_instalasi WHERE date_part(\'year\', date(p.tanggal)) = \''+tahun+'\' GROUP BY i.id_instalasi')
+            } = await dbconn.query('SELECT i.nama_instalasi, count(*) as jumlah_permintaan FROM permintaan p INNER JOIN instalasi i ON p.id_instalasi = i.id_instalasi WHERE date_part(\'year\', date(p.tanggal)) = \'' + tahun + '\' GROUP BY i.id_instalasi')
 
             await dbconn.query('COMMIT')
             var response_json = {
@@ -192,7 +191,7 @@ dashboard.get('/find_per_instalasi/:id_instalasi/:tahun', async (req, res) => {
 
             var {
                 rows
-            } = await dbconn.query('SELECT date_part(\'month\', date(p.tanggal)) as bulan, count(*) as jumlah_permintaan FROM permintaan p INNER JOIN instalasi i ON p.id_instalasi = i.id_instalasi WHERE date_part(\'year\', date(p.tanggal)) = \''+tahun+'\' and i.id_instalasi = \''+id_instalasi+'\' GROUP BY i.id_instalasi, date_part(\'month\', date(p.tanggal))')
+            } = await dbconn.query('SELECT date_part(\'month\', date(p.tanggal)) as bulan, count(*) as jumlah_permintaan FROM permintaan p INNER JOIN instalasi i ON p.id_instalasi = i.id_instalasi WHERE date_part(\'year\', date(p.tanggal)) = \'' + tahun + '\' and i.id_instalasi = \'' + id_instalasi + '\' GROUP BY i.id_instalasi, date_part(\'month\', date(p.tanggal))')
 
             await dbconn.query('COMMIT')
             var response_json = {
@@ -533,10 +532,12 @@ dashboard.get('/find/:instalasi/:tahun/:bulan/:tanggal', async (req, res) => {
 })
 
 dashboard.get('/find_pertumbuhan_pertahun', async (req, res) => {
-    try{
+    try {
         await dbconn.query('BEGIN')
-        var { rows } = await dbconn.query('SELECT i.nama_instalasi, count(*) as jumlah_permintaan,  date_part(\'year\', date(p.tanggal)) as tahun, date_part(\'month\', date(p.tanggal)) as bulan FROM permintaan p INNER JOIN instalasi i ON p.id_instalasi = i.id_instalasi WHERE  date(p.tanggal) <= now() GROUP BY i.id_instalasi, date_part(\'year\', date(p.tanggal)), date_part(\'month\', date(p.tanggal)) ORDER BY date_part(\'year\', date(p.tanggal)) desc, date_part(\'month\', date(p.tanggal)) asc')
-        
+        var {
+            rows
+        } = await dbconn.query('SELECT i.nama_instalasi, count(*) as jumlah_permintaan,  date_part(\'year\', date(p.tanggal)) as tahun, date_part(\'month\', date(p.tanggal)) as bulan FROM permintaan p INNER JOIN instalasi i ON p.id_instalasi = i.id_instalasi WHERE  date(p.tanggal) <= now() GROUP BY i.id_instalasi, date_part(\'year\', date(p.tanggal)), date_part(\'month\', date(p.tanggal)) ORDER BY date_part(\'year\', date(p.tanggal)) desc, date_part(\'month\', date(p.tanggal)) asc')
+
         await dbconn.query('COMMIT')
 
         var json_return = {

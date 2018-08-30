@@ -13,7 +13,6 @@ var token = jwt.sign({
     expiresIn: '1d'
 })
 laporan.use(cors())
-var appData = {}
 var options = {
     root: './src/views/'
 }
@@ -286,12 +285,5 @@ laporan.get('/find_instalasi', async (req, res) => {
     }
 })
 
-
-function minutesToString(minutes) {
-    var numdays = Math.floor(minutes / 1440)
-    var numhours = Math.floor((minutes % 1440) / 60)
-    var numminutes = Math.floor(((minutes % 1440) % 60))
-    return numdays + ' hari ' + numhours + ' jam ' + numminutes + ' menit'
-}
 
 module.exports = laporan

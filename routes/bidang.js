@@ -13,7 +13,6 @@ var token = jwt.sign({
     expiresIn: '1d'
 })
 bidang.use(cors())
-var appData = {}
 var options = {
     root: './src/views/'
 }

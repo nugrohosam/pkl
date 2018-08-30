@@ -7,7 +7,6 @@ var token;
 
 var token = jwt.sign({ data: {logged_in : false}}, 'secret_token', { expiresIn: '1d' })
 instalasi.use(cors())
-var appData = {}
 var options = {
     root: './src/views/'
 }
