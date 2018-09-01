@@ -12,6 +12,7 @@ var token = jwt.sign({
 }, 'secret_token', {
     expiresIn: '1d'
 })
+
 permintaan.use(cors())
 var options = {
     root: './src/views/'
