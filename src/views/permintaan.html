@@ -170,7 +170,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="authentication" class="nav-link" onClick="logout()">
+                            <a href="#" class="nav-link" onClick="logout()">
                                 <i class="nav-icon fa fa-sign-out"></i>
                                 <p>
                                     Logout
@@ -662,15 +662,20 @@
                                                         i + ') td:nth-child(5)').html()
                                                     if (status == 'diterima') {
                                                         $('#table_permintaan tbody tr:nth-child(' +
-i + ') td:nth-child(5)').attr('style', 'background-color: #dc3545 ; color: white')
+                                                            i + ') td:nth-child(5)').attr('style',
+                                                            'background-color: #dc3545 ; color: white'
+                                                        )
                                                     } else if (status == 'dikerjakan') {
                                                         $('#table_permintaan tbody tr:nth-child(' +
                                                             i + ') td:nth-child(5)').attr(
-'style', 'background-color: #007bff; color: white')
+                                                            'style',
+                                                            'background-color: #007bff; color: white'
+                                                        )
                                                     } else {
                                                         $('#table_permintaan tbody tr:nth-child(' +
                                                             i + ') td:nth-child(5)').attr(
-'style', 'background-color: #28a745; color: white'
+                                                            'style',
+                                                            'background-color: #28a745; color: white'
                                                         )
                                                     }
                                                 }
@@ -728,13 +733,13 @@ i + ') td:nth-child(5)').attr('style', 'background-color: #dc3545 ; color: white
                                             var status_ubah_val = $('#status_ubah').val();
                                             if (status_ubah_val == 'diterima') {
                                                 $('#status_ubah').attr('style',
-                                                'background-color : #dc3545 ; color: white');
+                                                    'background-color : #dc3545 ; color: white');
                                             } else if (status_ubah_val == 'dikerjakan') {
                                                 $('#status_ubah').attr('style',
-                                                'background-color : #007bff; color: white')
+                                                    'background-color : #007bff; color: white')
                                             } else {
                                                 $('#status_ubah').attr('style',
-                                                'background-color : #28a745; color: white')
+                                                    'background-color : #28a745; color: white')
                                             }
                                         })
 
@@ -1118,13 +1123,13 @@ i + ') td:nth-child(5)').attr('style', 'background-color: #dc3545 ; color: white
                                             $('#detail_status_ubah').html(isi_table_detail_status)
                                             if (response.status_permintaan == 'diterima') {
                                                 $('#status_ubah').attr('style',
-                                                'background-color : #dc3545 ; color: white');
+                                                    'background-color : #dc3545 ; color: white');
                                             } else if (response.status_permintaan == 'dikerjakan') {
                                                 $('#status_ubah').attr('style',
-                                                'background-color : #007bff; color: white')
+                                                    'background-color : #007bff; color: white')
                                             } else {
                                                 $('#status_ubah').attr('style',
-                                                'background-color : #28a745; color: white')
+                                                    'background-color : #28a745; color: white')
                                             }
 
                                             var string_append = '';
@@ -1207,6 +1212,7 @@ i + ') td:nth-child(5)').attr('style', 'background-color: #dc3545 ; color: white
 
                                 function logout() {
                                     document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+                                    window.open('/', '_self');
                                 }
 
                                 function tambah_proccess() {
@@ -1812,16 +1818,16 @@ i + ') td:nth-child(5)').attr('style', 'background-color: #dc3545 ; color: white
                                             if (status == 'diterima') {
                                                 $('#table_permintaan tbody tr:nth-child(' +
                                                     i + ') td:nth-child(5)').attr(
-'style', 'background-color: #dc3545 ; color: white'
+                                                    'style', 'background-color: #dc3545 ; color: white'
                                                 )
                                             } else if (status == 'dikerjakan') {
                                                 $('#table_permintaan tbody tr:nth-child(' +
                                                     i + ') td:nth-child(5)').attr(
-'style', 'background-color: #007bff; color: white')
+                                                    'style', 'background-color: #007bff; color: white')
                                             } else {
                                                 $('#table_permintaan tbody tr:nth-child(' +
                                                     i + ') td:nth-child(5)').attr(
-'style', 'background-color: #28a745; color: white'
+                                                    'style', 'background-color: #28a745; color: white'
                                                 )
                                             }
                                         }
