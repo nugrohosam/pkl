@@ -382,82 +382,111 @@
                                     $('#ubah_modal').modal('hide');
                                     $('#notif_modal').modal('show');
 
-                                    $.ajax({
-                                        url: '/bidang/update/' + $('#id_bidang_ubah').val(),
-                                        header: {
-                                            "Content-type": "applocation/application/x-www-form-urlencoded"
-                                        },
-                                        type: 'post',
-                                        dataType: 'json',
-                                        data: {
-                                            'nama_bidang': $('#nama_bidang_ubah').val()
-                                        },
-                                        success: function (response) {
-                                            if (!response.status) {
+
+                                    var bool1 = $('#nama_bidang_tambah').val() == '' ? true : false;
+                                    var status = true;
+
+                                    if (bool1) {
+                                        $("#notif_modal div div div").html('field harus terisi');
+                                        setTimeout(function () {
+                                            $('#notif_modal').modal('hide');
+                                            $('#ubah_modal').modal('show');
+                                        }, 1000);
+                                        status = false;
+                                    }
+
+                                    if (status) {
+                                        $.ajax({
+                                            url: '/bidang/update/' + $('#id_bidang_ubah').val(),
+                                            header: {
+                                                "Content-type": "applocation/application/x-www-form-urlencoded"
+                                            },
+                                            type: 'post',
+                                            dataType: 'json',
+                                            data: {
+                                                'nama_bidang': $('#nama_bidang_ubah').val()
+                                            },
+                                            success: function (response) {
+                                                if (!response.status) {
+                                                    $("#notif_modal div div div").html('gagal ubah');
+                                                } else {
+                                                    $("#notif_modal div div div").html('sukses ubah');
+                                                }
+
+                                                setTimeout(function () {
+                                                    $('#notif_modal').modal('hide');
+                                                }, 1000);
+
+                                                socket.emit('reloadBidang', {
+                                                    status: true
+                                                })
+
+                                                reload_table()
+                                            },
+                                            error: function () {
                                                 $("#notif_modal div div div").html('gagal ubah');
-                                            } else {
-                                                $("#notif_modal div div div").html('sukses ubah');
-                                            }
-
-                                            setTimeout(function () {
-                                                $('#notif_modal').modal('hide');
-                                            }, 1000);
-
-                                            socket.emit('reloadBidang', {
-                                                status: true
-                                            })
-
-                                            reload_table()
-                                        },
-                                        error: function () {
-                                            $("#notif_modal div div div").html('gagal ubah');
-                                            setTimeout(function () {
-                                                $('#notif_modal').modal('hide');
-                                            }, 1000);
-                                        },
-                                        timeout: 15000
-                                    })
+                                                setTimeout(function () {
+                                                    $('#notif_modal').modal('hide');
+                                                }, 1000);
+                                            },
+                                            timeout: 15000
+                                        })
+                                    }
                                 }
 
                                 function tambah_proccess() {
                                     $('#tambah_modal').modal('hide');
                                     $('#notif_modal').modal('show');
 
-                                    $.ajax({
-                                        url: '/bidang/save',
-                                        header: {
-                                            "Content-type": "applocation/application/x-www-form-urlencoded"
-                                        },
-                                        type: 'post',
-                                        dataType: 'json',
-                                        data: {
-                                            'nama_bidang': $('#nama_bidang_tambah').val()
-                                        },
-                                        success: function (response) {
-                                            if (!response.status) {
+                                    var bool1 = $('#nama_bidang_tambah').val() == '' ? true : false;
+                                    var status = true;
+
+                                    if (bool1) {
+                                        $("#notif_modal div div div").html('field harus terisi');
+                                        setTimeout(function () {
+                                            $('#notif_modal').modal('hide');
+                                            $('#tambah_modal').modal('show');
+                                        }, 1000);
+                                        status = false;
+                                    }
+
+                                    if (status) {
+                                        $.ajax({
+                                            url: '/bidang/save',
+                                            header: {
+                                                "Content-type": "applocation/application/x-www-form-urlencoded"
+                                            },
+                                            type: 'post',
+                                            dataType: 'json',
+                                            data: {
+                                                'nama_bidang': $('#nama_bidang_tambah').val()
+                                            },
+                                            success: function (response) {
+                                                if (!response.status) {
+                                                    $("#notif_modal div div div").html('gagal tambah');
+                                                } else {
+                                                    $("#notif_modal div div div").html('sukses tambah');
+                                                }
+
+                                                setTimeout(function () {
+                                                    $('#notif_modal').modal('hide');
+                                                }, 1000);
+
+                                                socket.emit('reloadBidang', {
+                                                    status: true
+                                                });
+
+                                                reload_table()
+                                            },
+                                            error: function () {
                                                 $("#notif_modal div div div").html('gagal tambah');
-                                            } else {
-                                                $("#notif_modal div div div").html('sukses tambah');
-                                            }
-
-                                            setTimeout(function () {
-                                                $('#notif_modal').modal('hide');
-                                            }, 1000);
-
-                                            socket.emit('reloadBidang', {
-                                                status: true
-                                            });
-
-                                            reload_table()
-                                        },
-                                        error: function () {
-                                            $("#notif_modal div div div").html('gagal tambah');
-                                            setTimeout(function () {
-                                                $('#notif_modal').modal('hide');
-                                            }, 1000);
-                                        },
-                                        timeout: 15000
-                                    })
+                                                setTimeout(function () {
+                                                    $('#notif_modal').modal('hide');
+                                                }, 1000);
+                                            },
+                                            timeout: 15000
+                                        })
+                                    }
                                 }
 
                                 function detail_modal(id_bidang) {

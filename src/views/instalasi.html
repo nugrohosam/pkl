@@ -453,85 +453,118 @@
                                     $('#ubah_modal').modal('hide');
                                     $('#notif_modal').modal('show');
 
-                                    $.ajax({
-                                        url: '/instalasi/update/' + $('#id_instalasi_ubah').val(),
-                                        header: {
-                                            "Content-type": "applocation/application/x-www-form-urlencoded"
-                                        },
-                                        type: 'post',
-                                        dataType: 'json',
-                                        data: {
-                                            'nama_instalasi': $('#nama_instalasi_ubah').val(),
-                                            'id_bidang': $('#bidang_ubah').val()
-                                        },
-                                        success: function (response) {
-                                            if (!response.status) {
+                                    var bool1 = $('#nama_instalasi_ubah').val() == '' ? true : false;
+                                    var bool2 = $('#bidang_ubah').val() == '' ? true : false;
+
+                                    var status = true;
+
+                                    if (bool1 || bool2) {
+                                        status = false;
+                                        $("#notif_modal div div div").html('field harus terisi semua');
+                                        setTimeout(function () {
+                                            $('#notif_modal').modal('hide');
+                                            $('#ubah_modal').modal('show');
+                                        }, 1000);
+                                    }
+
+                                    if (status) {
+                                        $.ajax({
+                                            url: '/instalasi/update/' + $('#id_instalasi_ubah').val(),
+                                            header: {
+                                                "Content-type": "applocation/application/x-www-form-urlencoded"
+                                            },
+                                            type: 'post',
+                                            dataType: 'json',
+                                            data: {
+                                                'nama_instalasi': $('#nama_instalasi_ubah').val(),
+                                                'id_bidang': $('#bidang_ubah').val()
+                                            },
+                                            success: function (response) {
+                                                if (!response.status) {
+                                                    $("#notif_modal div div div").html('gagal ubah');
+                                                } else {
+                                                    $("#notif_modal div div div").html('sukses ubah');
+                                                }
+
+                                                setTimeout(function () {
+                                                    $('#notif_modal').modal('hide');
+                                                }, 1000);
+
+                                                socket.emit('reloadInstalasi', {
+                                                    status: true
+                                                })
+
+                                                reload_table();
+                                            },
+                                            error: function () {
                                                 $("#notif_modal div div div").html('gagal ubah');
-                                            } else {
-                                                $("#notif_modal div div div").html('sukses ubah');
-                                            }
-
-                                            setTimeout(function () {
-                                                $('#notif_modal').modal('hide');
-                                            }, 1000);
-
-                                            socket.emit('reloadInstalasi', {
-                                                status: true
-                                            })
-
-                                            reload_table();
-                                        },
-                                        error: function () {
-                                            $("#notif_modal div div div").html('gagal ubah');
-                                            setTimeout(function () {
-                                                $('#notif_modal').modal('hide');
-                                            }, 1000);
-                                        },
-                                        timeout: 15000
-                                    })
+                                                setTimeout(function () {
+                                                    $('#notif_modal').modal('hide');
+                                                }, 1000);
+                                            },
+                                            timeout: 15000
+                                        })
+                                    }
                                 }
 
                                 function tambah_proccess() {
                                     $('#tambah_modal').modal('hide');
                                     $('#notif_modal').modal('show');
 
-                                    $.ajax({
-                                        url: '/instalasi/save',
-                                        header: {
-                                            "Content-type": "applocation/application/x-www-form-urlencoded"
-                                        },
-                                        type: 'post',
-                                        dataType: 'json',
-                                        data: {
-                                            'nama_instalasi': $('#nama_instalasi_tambah').val(),
-                                            'id_bidang': $('#bidang_tambah').val()
-                                        },
-                                        success: function (response) {
-                                            if (!response.status) {
+                                    var bool1 = $('#bidang_tambah').val() == '' ? true : false;
+                                    var bool2 = $('#nama_instalasi_tambah').val() == '' ? true : false;
+
+                                    var status = true;
+
+                                    if (bool1 || bool2) {
+                                        status = false;
+                                        $("#notif_modal div div div").html('field harus terisi semua');
+                                        setTimeout(function () {
+                                            $('#notif_modal').modal('hide');
+                                            $('#tambah_modal').modal('show');
+                                        }, 1000);
+                                    }
+
+                                    if (status) {
+
+                                        $.ajax({
+                                            url: '/instalasi/save',
+                                            header: {
+                                                "Content-type": "applocation/application/x-www-form-urlencoded"
+                                            },
+                                            type: 'post',
+                                            dataType: 'json',
+                                            data: {
+                                                'nama_instalasi': $('#nama_instalasi_tambah').val(),
+                                                'id_bidang': $('#bidang_tambah').val()
+                                            },
+                                            success: function (response) {
+                                                if (!response.status) {
+                                                    $("#notif_modal div div div").html('gagal tambah');
+                                                } else {
+                                                    $("#notif_modal div div div").html('sukses tambah');
+                                                }
+
+                                                setTimeout(function () {
+                                                    $('#notif_modal').modal('hide');
+                                                }, 1000);
+
+
+                                                socket.emit('reloadInstalasi', {
+                                                    status: true
+                                                })
+
+                                                reload_table()
+                                            },
+                                            error: function () {
                                                 $("#notif_modal div div div").html('gagal tambah');
-                                            } else {
-                                                $("#notif_modal div div div").html('sukses tambah');
-                                            }
-
-                                            setTimeout(function () {
-                                                $('#notif_modal').modal('hide');
-                                            }, 1000);
-
-
-                                            socket.emit('reloadInstalasi', {
-                                                status: true
-                                            })
-
-                                            reload_table()
-                                        },
-                                        error: function () {
-                                            $("#notif_modal div div div").html('gagal tambah');
-                                            setTimeout(function () {
-                                                $('#notif_modal').modal('hide');
-                                            }, 1000);
-                                        },
-                                        timeout: 15000
-                                    })
+                                                setTimeout(function () {
+                                                    $('#notif_modal').modal('hide');
+                                                }, 1000);
+                                            },
+                                            timeout: 15000
+                                        })
+                                    }
                                 }
 
                                 function detail_modal(id_instalasi) {

@@ -428,7 +428,12 @@
                             var bool2 = $('#nip_tambah').val() == '';
 
                             if (bool1 || bool2) {
-                                status = false
+                                status = false;
+                                $("#notif_modal div div div").html('field harus terisi semua');
+                                setTimeout(function () {
+                                    $('#notif_modal').modal('hide');
+                                    $('#tambah_modal').modal('show');
+                                }, 1000);
                             }
 
                             if (status) {
@@ -557,17 +562,21 @@
                                 },
                                 dataType: "json",
                                 success: function (response) {
-                                    $('#username_detail').val(response.username);
-                                    $('#kategori_detail').val(response.kategori);
-                                    $('#password_detail').val(response.password);
+                                    $('#nama_detail').val(response.nama);
+                                    $('#nip_detail').val(response.nip);
+                                    $('#detail_modal').modal('show');
                                 },
                                 error: function (err) {
-
+                                    $('#notif_modal div div div').html('server error');
+                                    $('#notif_modal').modal(
+                                        'show');
+                                    setTimeout(function () {
+                                        $('#notif_modal').modal('hide');
+                                        $('#ubah_modal').modal('hide');
+                                    }, 1500);
                                 },
-                                timeout: 15000
+                                timeout: 1500
                             })
-
-                            $('#detail_modal').modal('show');
                         }
 
                         function reload_table() {
