@@ -182,7 +182,7 @@ permintaan.get('/find', async (req, res) => {
             }
 
             if((decoded.kategori == 'user ipl' || decoded.kategori == 'admin') && item.id_perintah_kerja == null ){
-                script_html = script_html + ' <i class="left " style="cursor : pointer" onClick="tambah_spk_modal(\'' + item.nomor_surat + '\')"></i><span style="cursor : pointer; margin-left:2%" class="btn btn-warning fa fa-sticky-note" onClick="tambah_spk_modal(\'' + item.nomor_surat + '\')"> Buat SPK</span>'
+                script_html = script_html + ' <i class="left fa fa-sticky-note" style="cursor : pointer" onClick="tambah_spk_modal(\'' + item.nomor_surat + '\')"></i><span style="cursor : pointer" onClick="tambah_spk_modal(\'' + item.nomor_surat + '\')"> Buat SPK</span>'
             }
 
             var data_table = [item.nomor_surat, item.tanggal, item.nama_instalasi, item.nama_peminta, item.status, script_html]
