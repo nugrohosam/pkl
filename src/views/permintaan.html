@@ -1512,6 +1512,30 @@
                                         timeout: 15000
                                     });
 
+                                    var now = new Date();
+                                    var year = "" + now.getFullYear();
+                                    var month = (now.getMonth() + 1) > 10 ? (now.getMonth() + 1) : '0' + (now.getMonth() +
+                                        1);
+                                    var bulan = (now.getMonth() + 1);
+
+                                    $.ajax({
+                                        url: '/perintah_kerja/count_spk/' + year +'/'+month ,
+                                        header: {
+                                            'content-type': 'applocation/json'
+                                        },
+                                        dataType: 'json',
+                                        success: function (response) {
+                                            if (response.status) {
+                                                $('#nomor_spk_tambah').val('SPK / '+bulan+'.'+(parseInt(response.jumlah)+1)+' / IPL / '+year);
+                                                $('#nomor_spk_tambah').attr('disabled', true);
+                                            }
+                                        },
+                                        error: function () {
+
+                                        },
+                                        timeout: 15000
+                                    });
+
                                     $('#tambah_spk_modal').modal('show');
 
                                     var detail_tambah = $('#detail_staff_tambah')[0]
@@ -1529,7 +1553,9 @@
                                 function tambah_spk_proccess() {
                                     $('#tambah_spk_modal').modal('hide');
                                     $('#nomor_sp_tambah').attr('disabled', false);
+                                    $('#nomor_spk_tambah').attr('disabled', false);
                                     $('#notif_modal').modal('show');
+
                                     var detail_tambah = $('#detail_staff_tambah')[0];
                                     var detail_jenis_perintah_tambah = $('#detail_jenis_perintah_tambah')[0];
 

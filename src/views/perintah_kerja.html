@@ -533,6 +533,32 @@
                                 </div>
                             </div>
 
+                            <div id="to_pdf_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Print Form</h5>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-2">Tipe
+                                                </label>
+                                                <span>:</span>
+                                                <div class="col-sm-8 form-ubah">
+                                                    <select id="tipe_to_pdf" class="form-control">
+                                                        <option value="ab">AB</option>
+                                                        <option value="ipal">IPAL</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-primary" id="btn_to_pdf" onClick="to_pdf_proccess()">Print Form</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div id="notif_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content">
@@ -1011,6 +1037,33 @@
                                         timeout: 15000
                                     });
 
+
+                                    var now = new Date();
+                                    var year = "" + now.getFullYear();
+                                    var month = (now.getMonth() + 1) > 10 ? (now.getMonth() + 1) : '0' + (now.getMonth() +
+                                        1);
+                                    var bulan = (now.getMonth() + 1);
+
+                                    $.ajax({
+                                        url: '/perintah_kerja/count_spk/' + year + '/' + month,
+                                        header: {
+                                            'content-type': 'applocation/json'
+                                        },
+                                        dataType: 'json',
+                                        success: function (response) {
+                                            if (response.status) {
+                                                $('#nomor_spk_tambah').val('SPK / ' + bulan + '.' + (
+                                                        parseInt(response.jumlah) + 1) + ' / IPL / ' +
+                                                    year);
+                                                $('#nomor_spk_tambah').attr('disabled', true);
+                                            }
+                                        },
+                                        error: function () {
+
+                                        },
+                                        timeout: 15000
+                                    });
+
                                     $('#tambah_modal').modal('show');
 
                                     var detail_tambah = $('#detail_staff_tambah')[0]
@@ -1106,12 +1159,20 @@
                                 }
 
                                 function to_pdf_modal(id_perintah_kerja) {
-                                    window.open('/perintah_kerja/go_pdf/' + id_perintah_kerja, '_blank');
+                                    $('#to_pdf_modal').modal('show');
+                                    $('#btn_to_pdf').attr('onClick', 'to_pdf_proccess(\''+id_perintah_kerja+'\')')
+                                }
+
+                                function to_pdf_proccess(id_perintah_kerja){
+                                    var tipe = $('#tipe_to_pdf').val();
+                                    window.open('/perintah_kerja/go_pdf/' + id_perintah_kerja+'/'+tipe, '_blank');
                                 }
 
                                 function tambah_proccess() {
                                     $('#tambah_modal').modal('hide');
                                     $('#notif_modal').modal('show');
+                                    $('#nomor_spk_tambah').attr('disabled', false);
+
                                     var detail_tambah = $('#detail_staff_tambah')[0];
                                     var detail_jenis_perintah_tambah = $('#detail_jenis_perintah_tambah')[0];
 

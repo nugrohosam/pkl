@@ -422,7 +422,7 @@ perintah_kerja.get('/find_permintaan_update_proccess/:nomor_surat', async (req, 
     }
 })
 
-perintah_kerja.get('/go_pdf/:id_perintah_kerja', async (req, res) => {
+perintah_kerja.get('/go_pdf/:id_perintah_kerja/:tipe', async (req, res) => {
     var fileName = 'perintah_kerja_to_pdf.html'
     res.sendFile(fileName, options, (err) => {
         if (err) {
@@ -463,6 +463,36 @@ perintah_kerja.get('/find_nomor_sp', async (req, res) => {
         res.status(400).json(json_return)
     } finally {
         await dbconn.relese
+    }
+})
+
+perintah_kerja.get('/count_spk/:tahun/:bulan', async (req, res) => {
+
+    var tahun = req.params.tahun
+    var bulan = req.params.tahun
+    
+    try {
+        await dbconn.query('BEGIN')
+
+        sql = 'select count(*) as jumlah from perintah_kerja where date_part(\'year\', buat_pada) = \''+tahun+'\' and date_part(\'month\', buat_pada) = \''+bulan+'\'';
+        var {
+            rows
+        } = await dbconn.query(sql)
+        var json_return = {
+            status: true,
+            jumlah: rows[0].jumlah
+        }
+
+        await dbconn.query('COMMIT')
+        res.status(200).json(json_return)
+    } catch (err) {
+        await dbconn.query('ROLLBACK')
+        var json_return = {
+            satus: false
+        }
+        res.status(400).json(json_return)
+    } finally {
+        await dbconn.release
     }
 })
 

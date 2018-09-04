@@ -18,6 +18,7 @@
         var pathname = window.location.pathname;
         var url = pathname.split('/');
         var id_perintah_kerja = url[3];
+        var tipe = url[4];
         var alfabet = ['a', 'b', 'c', 'd', 'e'];
 
         setBody(id_perintah_kerja);
@@ -62,11 +63,13 @@
                             }
                         });
 
+                        var gambar = tipe == 'ab' ? '/src/assets/img/header2.png' : '/src/assets/img/header.png';
+
                         var file_html =
                             `<DIV TYPE=HEADER>
                                     <P CLASS="western" ALIGN=CENTER STYLE="margin-bottom: 0in">
                                         <FONT FACE="Arial, serif">
-                                            <IMG SRC="/src/assets/img/header.png" ALIGN=CENTER HSPACE=12 HEIGHT=30%>
+                                            <IMG SRC="`+gambar+`" ALIGN=CENTER HSPACE=12 HEIGHT=30%>
                                     </P>
                                     <P ALIGN=CENTER STYLE="margin-bottom: 0in">
                                         <FONT FACE="Arial, serif">
