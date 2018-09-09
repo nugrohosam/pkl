@@ -469,7 +469,7 @@ perintah_kerja.get('/find_nomor_sp', async (req, res) => {
 perintah_kerja.get('/count_spk/:tahun/:bulan', async (req, res) => {
 
     var tahun = req.params.tahun
-    var bulan = req.params.tahun
+    var bulan = req.params.bulan
     
     try {
         await dbconn.query('BEGIN')
