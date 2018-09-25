@@ -94,7 +94,7 @@
         </nav>
 
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
-            <a href="/dashboard" class="brand-link">
+            <a id="nav_dashboard" href="/dashboard" class="brand-link">
                 <img src="src/assets/dist/img/dashboardlogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
                     style="opacity: .8">
                 <span class="brand-text font-weight-light">Admin IPL</span>
@@ -823,7 +823,16 @@
                                             var status = response.status;
                                             if (status) {
                                                 var role = response.role;
-                                                if (role == 'user') {
+                                                if (role != 'user' && role != 'user ipl' && role != 'admin') {
+                                                    $('#nav_dashboard').attr('hidden', true);
+                                                    $('#nav_perintah_kerja').attr('hidden', true);
+                                                    $('#nav_instalasi').attr('hidden', true);
+                                                    $('#nav_bidang').attr('hidden', true);
+                                                    $('#nav_staff_ipl').attr('hidden', true);
+                                                    $('#nav_pengguna').attr('hidden', true);
+                                                    $('#nav_laporan').attr('hidden', true);
+                                                } 
+                                                else if (role == 'user') {
                                                     $('#nav_perintah_kerja').attr('hidden', true);
                                                     $('#nav_instalasi').attr('hidden', true);
                                                     $('#nav_bidang').attr('hidden', true);
@@ -1519,14 +1528,16 @@
                                     var bulan = (now.getMonth() + 1);
 
                                     $.ajax({
-                                        url: '/perintah_kerja/count_spk/' + year +'/'+month ,
+                                        url: '/perintah_kerja/count_spk/' + year + '/' + month,
                                         header: {
                                             'content-type': 'applocation/json'
                                         },
                                         dataType: 'json',
                                         success: function (response) {
                                             if (response.status) {
-                                                $('#nomor_spk_tambah').val('SPK / '+bulan+'.'+(parseInt(response.jumlah)+1)+' / IPL / '+year);
+                                                $('#nomor_spk_tambah').val('SPK / ' + bulan + '.' + (
+                                                        parseInt(response.jumlah) + 1) + ' / IPL / ' +
+                                                    year);
                                                 $('#nomor_spk_tambah').attr('disabled', true);
                                             }
                                         },
@@ -1830,6 +1841,26 @@
                                         },
                                         timeout: 15000
                                     });
+                                }
+
+                                function validasi_proccess(id, validasi) {
+                                    $.ajax({
+                                        url: '/permintaan/' + id,
+                                        header: {
+                                            "Content-type": "applocation/json"
+                                        },
+                                        type: 'post',
+                                        dataType: 'json',
+                                        success: function(response){
+                                            if(response.status){
+                                                reload_table()
+                                            }
+                                        },
+                                        error: function(){
+
+                                        },
+                                        timeout: 15000
+                                    })
                                 }
 
                                 function reload_table() {

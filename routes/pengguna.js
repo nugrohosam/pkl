@@ -241,4 +241,26 @@ pengguna.post('/update/:id', async (req, res) => {
     }
 })
 
+pengguna.get('/get_instalasi', async (req, res) => {
+    try{
+        await dbconn.query('BEGIN')
+
+        sql = 'SELECT * FROM instalasi'
+        
+        const { rows } = await dbconn.query(sql)
+        
+        await dbconn.query('COMMIT')
+
+        var json_return = {status : true, instalasi : rows }
+        res.status(200).json(json_return)
+    } catch(err) {
+        await dbconn.query('ROLLBACK')
+
+        var json_return = {status : false}
+        res.status(400).json(json_return)
+    } finally {
+        await dbconn.release
+    }
+})
+
 module.exports = pengguna;

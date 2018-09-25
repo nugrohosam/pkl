@@ -49,12 +49,6 @@
     <script src="/socket.io/socket.io.js"></script>
 
     <style>
-        /* .flex-wrapper{
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-                align-items: stretch;
-            } */
 
         .form-group {
             display: flex;
@@ -246,6 +240,16 @@
                                                         <option value="admin" class="btn ">admin</option>
                                                         <option value="user" class="btn">user</option>
                                                         <option value="user ipl" class="btn">user IPL</option>
+                                                        <option value="operator instalasi" class="btn">Operator
+                                                            Instalasi</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group" id="div_instalasi_ubah" hidden="true">
+                                                <label class="control-label col-sm-2">Instalasi</label>
+                                                <span>:</span>
+                                                <div class="col-sm-8 form-ubah">
+                                                    <select id="operator_instalasi_ubah" class="form-control">
                                                     </select>
                                                 </div>
                                             </div>
@@ -294,9 +298,19 @@
                                                 <span>:</span>
                                                 <div class="col-sm-8 form-ubah">
                                                     <select id="kategori_tambah" class="form-control">
-                                                        <option value="admin" class="btn ">admin</option>
-                                                        <option value="user" class="btn">user</option>
-                                                        <option value="user ipl" class="btn">user IPL</option>
+                                                        <option value="admin" class="btn ">Admin</option>
+                                                        <option value="user" class="btn">User</option>
+                                                        <option value="user ipl" class="btn">User IPL</option>
+                                                        <option value="operator instalasi" class="btn">Operator
+                                                            Instalasi</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group" id="div_instalasi_tambah" hidden="true">
+                                                <label class="control-label col-sm-2">Instalasi</label>
+                                                <span>:</span>
+                                                <div class="col-sm-8 form-ubah">
+                                                    <select id="operator_instalasi_tambah" class="form-control">
                                                     </select>
                                                 </div>
                                             </div>
@@ -419,6 +433,67 @@
                                             'orderable': false,
                                         }]
                                     });
+
+                                    $('#kategori_tambah').on('change', function () {
+                                        var isi = $('#kategori_tambah').val();
+
+                                        if (isi == 'operator instalasi') {
+                                            $('#div_instalasi_tambah').attr('hidden', false);
+
+                                            $.ajax({
+                                                url: '/pengguna/get_instalasi',
+                                                header: {
+                                                    "Content-type": "applocation/json"
+                                                },
+                                                dataType: 'json',
+                                                success: function (response) {
+                                                    if (response.status) {
+                                                        var instalasi = response.instalasi;
+                                                        var script = '';
+                                                        instalasi.forEach(function(item){
+                                                            script += '<option value="'+item.id_instalasi+'" >'+item.nama_instalasi+'</option>';
+                                                        })  
+                                                        
+                                                        $('#operator_instalasi_tambah').html('');
+                                                        $('#operator_instalasi_tambah').html(script);
+                                                    }
+                                                },
+                                                error: function () {
+
+                                                },
+                                                timeout: 15000
+                                            })
+                                        } else {
+                                            $('#div_instalasi_tambah').attr('hidden', true);
+                                        }
+                                    })
+
+                                    $('#kategori_ubah').on('change', function () {
+                                        var isi = $('#kategori_tambah').val();
+
+                                        if (isi == 'operator instalasi') {
+                                            $('#div_instalasi_ubah').attr('hidden', false);
+
+                                            $.ajax({
+                                                url: '/pengguna/get_instalasi',
+                                                header: {
+                                                    "Content-type": "applocation/json"
+                                                },
+                                                dataType: 'json',
+                                                success: function (response) {
+                                                    if (response.status) {
+                                                        console.log(response.instalasi);
+                                                    }
+                                                },
+                                                error: function () {
+
+                                                },
+                                                timeout: 15000
+                                            })
+                                        } else {
+                                            $('#div_instalasi_ubah').attr('hidden', true)
+                                        }
+                                    })
                                 }
                             );
 
@@ -491,7 +566,7 @@
                                         dataType: "json",
                                         data: {
                                             'username': $('#username_tambah').val(),
-                                            'kategori': $('#kategori_tambah').val(),
+                                            'kategori': $('#kategori_tambah').val() != 'operator instalasi' ?  $('#kategori_tambah').val() : 'operator '+$('#operator_instalasi_tambah').val(),
                                             'password': $('#password_tambah').val(),
                                         },
                                         success: function (response) {
@@ -569,7 +644,7 @@
                                         dataType: "json",
                                         data: {
                                             'username': $('#username_ubah').val(),
-                                            'kategori': $('#kategori_ubah').val(),
+                                            'kategori': $('#kategori_ubah').val() != 'operator instalasi' ?  $('#kategori_ubah').val() : 'operator '+$('#operator_instalasi_ubah').val(),
                                             'password': $('#password_ubah').val(),
                                         },
                                         success: function (response) {

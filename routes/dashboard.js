@@ -64,9 +64,16 @@ dashboard.use((req, res, next) => {
                 }
             })
         }
-        if (decoded.logged_in) {
+        if (decoded.logged_in && (decoded.kategori == 'user ipl' || decoded.kategori == 'user' || decoded.kategori == 'admin')) {
             next()
-        } else {
+        } else if(decoded.logged_in){
+            var fileName = 'permintaan.html'
+            res.sendFile(fileName, options, (err) => {
+                if (err) {
+                    console.log(err)
+                }
+            })
+        }else {
             var fileName = 'login.html'
             res.sendFile(fileName, options, (err) => {
                 if (err) {
