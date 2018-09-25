@@ -192,7 +192,7 @@
                     <div class="row">
 
                         <div class="col-12">
-                            <div class="card">
+                            <div id="div_button_tambah" class="card">
                                 <button class="btn btn-success" onClick="tambah_modal()">
                                     <i class="fa fa-plus"></i>
                                     <span> Tambah Surat</span>
@@ -832,6 +832,7 @@
                                                     $('#nav_staff_ipl').attr('hidden', true);
                                                     $('#nav_pengguna').attr('hidden', true);
                                                     $('#nav_laporan').attr('hidden', true);
+                                                    $('#div_button_tambah').attr('hidden', true);
                                                 } 
                                                 else if (role == 'user') {
                                                     $('#nav_perintah_kerja').attr('hidden', true);
