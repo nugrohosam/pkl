@@ -102,41 +102,51 @@ permintaan.post('/save', async (req, res) => {
     var buat_pada = datetime_format
     var ubah_pada = datetime_format
     var diterima = datetime_format
+    var token = req.cookies.token
+    var decoded = jwt.verify(token, 'secret_token')
 
     var detail = data.detail
     var panjang_detail = detail.length
     var sql
 
-    try {
-        await dbconn.query('BEGIN')
+    if (decoded.kategori == 'user' || decoded.kategori == 'user ipl' || decoded.kategori == 'admin') {
 
-        sql = 'INSERT INTO permintaan (id_permintaan, id_instalasi, nomor_surat, tanggal, nama_peminta, status, diterima, buat_pada, ubah_pada) VALUES (\'' + id_permintaan + '\', \'' + id_instalasi + '\', \'' + nomor_surat + '\', \'' + tanggal + '\', \'' + nama_peminta + '\', \'diterima\', \'' + diterima + '\', \'' + buat_pada + '\', \'' + ubah_pada + '\')';
-        await dbconn.query(sql)
+        try {
+            await dbconn.query('BEGIN')
 
-        sql = 'INSERT INTO detail_permintaan VALUES '
-        for (i = 0; i < panjang_detail; i++) {
-            if (i != (panjang_detail - 1)) {
-                sql = sql + '( \'' + id_permintaan + '\', \'' + detail[i][0] + '\', \'' + detail[i][1] + '\', \'' + detail[i][2] + '\', \'' + detail[i][3] + '\', ' + detail[i][4] + '), '
-            } else {
-                sql = sql + '( \'' + id_permintaan + '\', \'' + detail[i][0] + '\', \'' + detail[i][1] + '\', \'' + detail[i][2] + '\', \'' + detail[i][3] + '\', ' + detail[i][4] + ') '
+            sql = 'INSERT INTO permintaan (id_permintaan, id_instalasi, nomor_surat, tanggal, nama_peminta, status, diterima, buat_pada, ubah_pada) VALUES (\'' + id_permintaan + '\', \'' + id_instalasi + '\', \'' + nomor_surat + '\', \'' + tanggal + '\', \'' + nama_peminta + '\', \'diterima\', \'' + diterima + '\', \'' + buat_pada + '\', \'' + ubah_pada + '\')';
+            await dbconn.query(sql)
+
+            sql = 'INSERT INTO detail_permintaan VALUES '
+            for (i = 0; i < panjang_detail; i++) {
+                if (i != (panjang_detail - 1)) {
+                    sql = sql + '( \'' + id_permintaan + '\', \'' + detail[i][0] + '\', \'' + detail[i][1] + '\', \'' + detail[i][2] + '\', \'' + detail[i][3] + '\', ' + detail[i][4] + '), '
+                } else {
+                    sql = sql + '( \'' + id_permintaan + '\', \'' + detail[i][0] + '\', \'' + detail[i][1] + '\', \'' + detail[i][2] + '\', \'' + detail[i][3] + '\', ' + detail[i][4] + ') '
+                }
             }
-        }
-        await dbconn.query(sql)
+            await dbconn.query(sql)
 
-        await dbconn.query('COMMIT')
-        var json_return = {
-            status: true
+            await dbconn.query('COMMIT')
+            var json_return = {
+                status: true
+            }
+            res.status(200).json(json_return)
+        } catch (err) {
+            await dbconn.query('ROLLBACK')
+            console.log(err)
+            var json_return = {
+                satus: false
+            }
+            res.status(200).json(json_return)
+        } finally {
+            await dbconn.release
         }
-        res.status(200).json(json_return)
-    } catch (err) {
-        await dbconn.query('ROLLBACK')
-        console.log(err)
+    } else {
         var json_return = {
             satus: false
         }
         res.status(200).json(json_return)
-    } finally {
-        await dbconn.release
     }
 })
 
@@ -153,7 +163,7 @@ permintaan.get('/find', async (req, res) => {
     var token = req.cookies.token
     var decoded = jwt.verify(token, 'secret_token')
 
-    var kolom = ['p.nomor_surat', 'p.tanggal', 'i.nama_instalasi', 'p.nama_peminta', 'p.status']
+    var kolom = ['p.nomor_surat', 'p.tanggal', 'i.nama_instalasi', 'p.nama_peminta', 'p.status', 'p.validasi']
 
     if (order_kolom == '') {
         order_kolom = 'p.id_permintaan'
@@ -171,7 +181,7 @@ permintaan.get('/find', async (req, res) => {
 
         await dbconn.query('BEGIN')
 
-        sql = "SELECT p.id_permintaan, p.nomor_surat, p.tanggal, i.id_instalasi, i.nama_instalasi, p.nama_peminta, p.status, pk.id_perintah_kerja, p.validasi FROM permintaan p LEFT JOIN perintah_kerja pk ON p.id_permintaan = pk.id_permintaan INNER JOIN instalasi i ON i.id_instalasi = p.id_instalasi  WHERE ( p.nomor_surat LIKE '%" + isi_pencarian + "%' OR p.tanggal LIKE '%" + isi_pencarian + "%' OR i.nama_instalasi LIKE '%" + isi_pencarian + "%' OR p.nama_peminta LIKE '%" + isi_pencarian + "%' OR p.status LIKE '%" + isi_pencarian + "%') ORDER BY " + order_kolom + " " + tipe_order + " LIMIT " + panjang_baris + " OFFSET " + awal_baris
+        sql = "SELECT p.id_permintaan, p.nomor_surat, p.tanggal, i.id_instalasi, i.nama_instalasi, p.nama_peminta, p.status, pk.id_perintah_kerja, p.validasi FROM permintaan p LEFT JOIN perintah_kerja pk ON p.id_permintaan = pk.id_permintaan INNER JOIN instalasi i ON i.id_instalasi = p.id_instalasi  WHERE ( p.nomor_surat LIKE '%" + isi_pencarian + "%' OR p.tanggal LIKE '%" + isi_pencarian + "%' OR i.nama_instalasi LIKE '%" + isi_pencarian + "%' OR p.nama_peminta LIKE '%" + isi_pencarian + "%' OR p.status LIKE '%" + isi_pencarian + "%' OR p.validasi LIKE '%" + isi_pencarian + "%') ORDER BY " + order_kolom + " " + tipe_order + " LIMIT " + panjang_baris + " OFFSET " + awal_baris
         var {
             rows
         } = await dbconn.query(sql)
@@ -184,11 +194,11 @@ permintaan.get('/find', async (req, res) => {
                 if (item.id_instalasi == operator[1]) {
                     var script_html = ''
 
-                    if (item.selesai != null) {
-                        script_html = ' <i class="left fa fa-check" style="cursor : pointer" onClick="validasi_proccess(\'' + item.id_permintaan + '\' , \'selesai\')"></i><span style="cursor : pointer" onClick="validasi_proccess(\'' + item.id_permintaan + '\' , \'selesai\')"> Selesai</span> <i class="left fa fa-close" style="cursor : pointer" onClick="validasi_proccess(\'' + item.id_permintaan + '\' , \'belum\')"></i><span style="cursor : pointer" onClick="validasi_proccess(\'' + item.id_permintaan + '\',  , \'belum\')"> Tidak</span>'
+                    if (item.status == 'selesai' && item.validasi == null) {
+                        script_html = ' <i class="left fa fa-check" style="cursor : pointer" onClick="validasi_proccess(\'' + item.id_permintaan + '\' , \'selesai\')"></i><span style="cursor : pointer" onClick="validasi_proccess(\'' + item.id_permintaan + '\' , \'selesai\')"> Selesai</span> <i class="left fa fa-close" style="cursor : pointer" onClick="validasi_proccess(\'' + item.id_permintaan + '\' , \'tidak\')"></i><span style="cursor : pointer" onClick="validasi_proccess(\'' + item.id_permintaan + '\', \'tidak\')"> Tidak</span>'
                     }
 
-                    var data_table = [item.nomor_surat, item.tanggal, item.nama_instalasi, item.nama_peminta, item.status, script_html]
+                    var data_table = [item.nomor_surat, item.tanggal, item.nama_instalasi, item.nama_peminta, item.status, item.validasi, script_html]
                     data[i] = data_table
                     i++
                 }
@@ -205,7 +215,7 @@ permintaan.get('/find', async (req, res) => {
                     script_html = script_html + ' <i class="left fa fa-sticky-note" style="cursor : pointer" onClick="tambah_spk_modal(\'' + item.nomor_surat + '\')"></i><span style="cursor : pointer" onClick="tambah_spk_modal(\'' + item.nomor_surat + '\')"> Buat SPK</span>'
                 }
 
-                var data_table = [item.nomor_surat, item.tanggal, item.nama_instalasi, item.nama_peminta, item.status, script_html]
+                var data_table = [item.nomor_surat, item.tanggal, item.nama_instalasi, item.nama_peminta, item.status, item.validasi, script_html]
                 data[i] = data_table
                 i++
             })
@@ -301,55 +311,65 @@ permintaan.post('/update/:id', async (req, res) => {
     var nama_peminta = data.nama_peminta
     var status = data.status
     var ubah_pada = datetime_format
+    var token = req.cookies.token
+    var decoded = jwt.verify(token, 'secret_token')
 
     var detail = data.detail
     var panjang_detail = detail.length
     var sql
 
-    try {
 
-        await dbconn.query('BEGIN')
+    if (decoded.kategori == 'user' || decoded.kategori == 'user ipl' || decoded.kategori == 'admin') {
+        try {
 
-        sql = 'UPDATE permintaan SET nomor_surat = \'' + nomor_surat + '\', tanggal =  \'' + tanggal + '\', id_instalasi = \'' + id_instalasi + '\', nama_peminta = \'' + nama_peminta + '\', status = \'' + status + '\', ubah_pada = \'' + ubah_pada + '\' WHERE id_permintaan = \'' + id_permintaan + '\' AND dikerjakan is null AND diterima is not null';
+            await dbconn.query('BEGIN')
 
-        if (status == 'dikerjakan') {
-            var dikerjakan = datetime_format
-            sql = 'UPDATE permintaan SET nomor_surat = \'' + nomor_surat + '\', tanggal =  \'' + tanggal + '\', id_instalasi = \'' + id_instalasi + '\', nama_peminta = \'' + nama_peminta + '\', status = \'' + status + '\', dikerjakan = \'' + dikerjakan + '\', ubah_pada = \'' + ubah_pada + '\' WHERE id_permintaan = \'' + id_permintaan + '\' AND diterima is not null AND selesai is null';
-        }
+            sql = 'UPDATE permintaan SET nomor_surat = \'' + nomor_surat + '\', tanggal =  \'' + tanggal + '\', id_instalasi = \'' + id_instalasi + '\', nama_peminta = \'' + nama_peminta + '\', status = \'' + status + '\', ubah_pada = \'' + ubah_pada + '\' WHERE id_permintaan = \'' + id_permintaan + '\' AND dikerjakan is null AND diterima is not null';
 
-        if (status == 'selesai') {
-            var selesai = datetime_format
-            sql = 'UPDATE permintaan SET nomor_surat = \'' + nomor_surat + '\', tanggal =  \'' + tanggal + '\', id_instalasi = \'' + id_instalasi + '\', nama_peminta = \'' + nama_peminta + '\', status = \'' + status + '\', selesai = \'' + selesai + '\', ubah_pada = \'' + ubah_pada + '\' WHERE id_permintaan = \'' + id_permintaan + '\' AND diterima is not null AND dikerjakan is not null AND selesai is null';
-        }
-        await dbconn.query(sql)
-
-        sql = 'DELETE FROM detail_permintaan WHERE id_permintaan = \'' + id_permintaan + '\''
-        await dbconn.query(sql)
-
-        sql = 'INSERT INTO detail_permintaan VALUES '
-        for (i = 0; i < panjang_detail; i++) {
-            if (i != (panjang_detail - 1)) {
-                sql = sql + '( \'' + id_permintaan + '\', \'' + detail[i][0] + '\', \'' + detail[i][1] + '\', \'' + detail[i][2] + '\', \'' + detail[i][3] + '\', ' + detail[i][4] + '), '
-            } else {
-                sql = sql + '( \'' + id_permintaan + '\', \'' + detail[i][0] + '\', \'' + detail[i][1] + '\', \'' + detail[i][2] + '\', \'' + detail[i][3] + '\', ' + detail[i][4] + ') '
+            if (status == 'dikerjakan') {
+                var dikerjakan = datetime_format
+                sql = 'UPDATE permintaan SET nomor_surat = \'' + nomor_surat + '\', tanggal =  \'' + tanggal + '\', id_instalasi = \'' + id_instalasi + '\', nama_peminta = \'' + nama_peminta + '\', status = \'' + status + '\', dikerjakan = \'' + dikerjakan + '\', ubah_pada = \'' + ubah_pada + '\' WHERE id_permintaan = \'' + id_permintaan + '\' AND diterima is not null AND selesai is null';
             }
 
-        }
-        await dbconn.query(sql)
+            if (status == 'selesai') {
+                var selesai = datetime_format
+                sql = 'UPDATE permintaan SET nomor_surat = \'' + nomor_surat + '\', tanggal =  \'' + tanggal + '\', id_instalasi = \'' + id_instalasi + '\', nama_peminta = \'' + nama_peminta + '\', status = \'' + status + '\', selesai = \'' + selesai + '\', ubah_pada = \'' + ubah_pada + '\' WHERE id_permintaan = \'' + id_permintaan + '\' AND diterima is not null AND dikerjakan is not null AND selesai is null';
+            }
+            await dbconn.query(sql)
 
-        await dbconn.query('COMMIT')
-        var json_return = {
-            status: true
+            sql = 'DELETE FROM detail_permintaan WHERE id_permintaan = \'' + id_permintaan + '\''
+            await dbconn.query(sql)
+
+            sql = 'INSERT INTO detail_permintaan VALUES '
+            for (i = 0; i < panjang_detail; i++) {
+                if (i != (panjang_detail - 1)) {
+                    sql = sql + '( \'' + id_permintaan + '\', \'' + detail[i][0] + '\', \'' + detail[i][1] + '\', \'' + detail[i][2] + '\', \'' + detail[i][3] + '\', ' + detail[i][4] + '), '
+                } else {
+                    sql = sql + '( \'' + id_permintaan + '\', \'' + detail[i][0] + '\', \'' + detail[i][1] + '\', \'' + detail[i][2] + '\', \'' + detail[i][3] + '\', ' + detail[i][4] + ') '
+                }
+
+            }
+            await dbconn.query(sql)
+
+            await dbconn.query('COMMIT')
+            var json_return = {
+                status: true
+            }
+            res.status(200).json(json_return)
+        } catch (err) {
+            await dbconn.query('ROLLBACK')
+            var json_return = {
+                status: false
+            }
+            res.status(400).json(json_return)
+        } finally {
+            await dbconn.release
         }
-        res.status(200).json(json_return)
-    } catch (err) {
-        await dbconn.query('ROLLBACK')
+    } else {
         var json_return = {
             status: false
         }
         res.status(400).json(json_return)
-    } finally {
-        await dbconn.release
     }
 })
 
@@ -397,9 +417,7 @@ permintaan.post('/validasi/:id', async (req, res) => {
 
             var sql = 'UPDATE permintaan SET validasi = \'' + validasi + '\' WHERE id_permintaan = \'' + id_permintaan + '\''
 
-            var {
-                rows
-            } = await dbconn.query(sql)
+            await dbconn.query(sql)
 
             var json_return = {
                 status: true

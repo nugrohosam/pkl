@@ -213,6 +213,7 @@
                                                     <th>Instalasi</th>
                                                     <th>Peminta</th>
                                                     <th>Status</th>
+                                                    <th>Validasi</th>
                                                     <th>Actions</th>
                                                 </tr>
                                             </thead>
@@ -1845,12 +1846,15 @@
 
                                 function validasi_proccess(id, validasi) {
                                     $.ajax({
-                                        url: '/permintaan/' + id,
+                                        url: '/permintaan/validasi/' + id,
                                         header: {
                                             "Content-type": "applocation/json"
                                         },
                                         type: 'post',
                                         dataType: 'json',
+                                        data: {
+                                            'validasi': validasi
+                                        },
                                         success: function(response){
                                             if(response.status){
                                                 reload_table()
