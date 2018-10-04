@@ -195,7 +195,9 @@ permintaan.get('/find', async (req, res) => {
                     var script_html = ''
 
                     if (item.status == 'selesai' && item.validasi == null) {
-                        script_html = ' <i class="left fa fa-check" style="cursor : pointer" onClick="validasi_proccess(\'' + item.id_permintaan + '\' , \'selesai\')"></i><span style="cursor : pointer" onClick="validasi_proccess(\'' + item.id_permintaan + '\' , \'selesai\')"> Selesai</span> <i class="left fa fa-close" style="cursor : pointer" onClick="validasi_proccess(\'' + item.id_permintaan + '\' , \'tidak\')"></i><span style="cursor : pointer" onClick="validasi_proccess(\'' + item.id_permintaan + '\', \'tidak\')"> Tidak</span>'
+                        script_html = ' <i class="left fa fa-check" style="cursor : pointer" onClick="validasi_proccess(\'' + item.id_permintaan + '\' , \'selesai\')"></i><span style="cursor : pointer" onClick="validasi_proccess(\'' + item.id_permintaan + '\' , \'selesai\')"> Selesai</span> <i class="left fa fa-close" style="cursor : pointer" onClick="validasi_proccess(\'' + item.id_permintaan + '\' , \'tidak\')"></i><span style="cursor : pointer" onClick="validasi_proccess(\'' + item.id_permintaan + '\', \'tidak\')"> Tidak</span><i class="left fa fa-eye" style="cursor : pointer" onClick="detail_modal(\'' + item.id_permintaan + '\')"></i><span style="cursor : pointer" onClick="detail_modal(\'' + item.id_permintaan + '\')"> Detail</span>'
+                    }else{
+                        script_html = ' <i class="left fa fa-eye" style="cursor : pointer" onClick="detail_modal(\'' + item.id_permintaan + '\')"></i><span style="cursor : pointer" onClick="detail_modal(\'' + item.id_permintaan + '\')"> Detail</span>'
                     }
 
                     var data_table = [item.nomor_surat, item.tanggal, item.nama_instalasi, item.nama_peminta, item.status, item.validasi, script_html]
