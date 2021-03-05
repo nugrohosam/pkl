@@ -1,7 +1,7 @@
 const express = require('express')
 const staff_ipl = express.Router()
 const cors = require('cors')
-const dbconn = require('../database/database')
+const dbconn = require('../database/databaseMysql')
 const jwt = require('jsonwebtoken')
 const md5 = require('md5')
 

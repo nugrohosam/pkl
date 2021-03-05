@@ -1,7 +1,7 @@
 const express = require('express')
 const perintah_kerja = express.Router()
 const cors = require('cors')
-const dbconn = require('../database/database')
+const dbconn = require('../database/databaseMysql')
 const jwt = require('jsonwebtoken')
 
 var token = jwt.sign({

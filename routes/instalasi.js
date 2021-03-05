@@ -1,7 +1,7 @@
 const express = require('express')
 const instalasi = express.Router()
 const cors = require('cors')
-const dbconn = require('../database/database')
+const dbconn = require('../database/databaseMysql')
 const jwt = require('jsonwebtoken')
 
 var token = jwt.sign({ data: {logged_in : false}}, 'secret_token', { expiresIn: '1d' })

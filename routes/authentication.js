@@ -1,7 +1,7 @@
 const express = require('express')
 const authentication = express.Router()
 const cors = require('cors')
-const dbconn = require('../database/database')
+const dbconn = require('../database/databaseMysqlMysql')
 const jwt = require('jsonwebtoken')
 const md5 = require('md5')
 
