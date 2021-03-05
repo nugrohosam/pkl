@@ -1,10 +1,16 @@
-var express = require('express')
-var app = express()
-var bodyParser = require('body-parser')
-var cookieParser = require('cookie-parser')
-var server = require('http').Server(app);
-var io = require('socket.io')(server)
-var port = process.env.PORT || 3000
+const express = require('express')
+const app = express()
+const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
+const server = require('http').Server(app);
+const io = require('socket.io')(server)
+const port = process.env.PORT || 3000
+const dotenv = require('dotenv')
+
+const result = dotenv.config()
+if (result.error) {
+  throw result.error
+}
 
 app.use(cookieParser())
 
@@ -13,15 +19,15 @@ app.use(bodyParser.urlencoded({
 }))
 app.use(bodyParser.json())
 
-var perintah_kerja = require('./routes/perintah_kerja')
-var dashboard = require('./routes/dashboard')
-var laporan = require('./routes/laporan')
-var permintaan = require('./routes/permintaan')
-var authentication = require('./routes/authentication')
-var instalasi = require('./routes/instalasi')
-var bidang = require('./routes/bidang')
-var staff_ipl = require('./routes/staff_ipl')
-var pengguna = require('./routes/pengguna')
+const perintah_kerja = require('./routes/perintah_kerja')
+const dashboard = require('./routes/dashboard')
+const laporan = require('./routes/laporan')
+const permintaan = require('./routes/permintaan')
+const authentication = require('./routes/authentication')
+const instalasi = require('./routes/instalasi')
+const bidang = require('./routes/bidang')
+const staff_ipl = require('./routes/staff_ipl')
+const pengguna = require('./routes/pengguna')
 
 app.use('/src/assets', express.static('./src/assets/'))
 app.use('/dashboard', dashboard)
@@ -38,14 +44,14 @@ app.use('/authentication', authentication)
 app.use('/', dashboard)
 
 app.use(function (req, res, next) {
-    var err = new Error('Not Found');
+    const err = new Error('Not Found');
     err.status = 404;
     next(err);
 });
 
 app.use(function (err, req, res, next) {
     res.status(err.status || 500);
-    var options = {
+    const options = {
         root: './src/views/'
     }
     res.sendFile('error404.html', options)
@@ -70,29 +76,29 @@ io.on('connection', function (socket) {
             })
         }
     })
-    socket.on('reloadPermintaan', function(data){
-        if(data.status){
+    socket.on('reloadPermintaan', function (data) {
+        if (data.status) {
             socket.broadcast.emit('reloadPermintaan', {
                 status: true
             })
         }
     })
-    socket.on('reloadStaffIpl', function(data){
-        if(data.status){
+    socket.on('reloadStaffIpl', function (data) {
+        if (data.status) {
             socket.broadcast.emit('reloadStaffIpl', {
                 status: true
             })
         }
     })
-    socket.on('reloadPerintahKerja', function(data){
-        if(data.status){
+    socket.on('reloadPerintahKerja', function (data) {
+        if (data.status) {
             socket.broadcast.emit('reloadPerintahKerja', {
                 status: true
             })
         }
     })
-    socket.on('reloadBidang', function(data){
-        if(data.status){
+    socket.on('reloadBidang', function (data) {
+        if (data.status) {
             socket.broadcast.emit('reloadBidang', {
                 status: true
             })
