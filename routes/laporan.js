@@ -1,9 +1,8 @@
-var express = require('express')
-var laporan = express.Router()
-var cors = require('cors')
-var dbconn = require('../database/database')
-var jwt = require('jsonwebtoken')
-var token
+const express = require('express')
+const laporan = express.Router()
+const cors = require('cors')
+const dbconn = require('../database/database')
+const jwt = require('jsonwebtoken')
 
 var token = jwt.sign({
     data: {

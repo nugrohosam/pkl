@@ -1,9 +1,8 @@
-var express = require('express')
-var bidang = express.Router()
-var cors = require('cors')
-var dbconn = require('../database/database')
-var jwt = require('jsonwebtoken')
-var token;
+const express = require('express')
+const bidang = express.Router()
+const cors = require('cors')
+const dbconn = require('../database/database')
+const jwt = require('jsonwebtoken')
 
 var token = jwt.sign({
     data: {
@@ -12,6 +11,7 @@ var token = jwt.sign({
 }, 'secret_token', {
     expiresIn: '1d'
 })
+
 bidang.use(cors())
 var options = {
     root: './src/views/'

@@ -1,10 +1,9 @@
-var express = require('express')
-var pengguna = express.Router()
-var cors = require('cors')
-var dbconn = require('../database/database')
-var jwt = require('jsonwebtoken')
-var md5 = require('md5')
-var token;
+const express = require('express')
+const pengguna = express.Router()
+const cors = require('cors')
+const dbconn = require('../database/database')
+const jwt = require('jsonwebtoken')
+const md5 = require('md5')
 
 var token = jwt.sign({ data: {logged_in : false}}, 'secret_token', { expiresIn: '1d' })
 pengguna.use(cors())

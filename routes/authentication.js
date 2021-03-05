@@ -1,13 +1,14 @@
-var express = require('express')
-var authentication = express.Router()
-var cors = require('cors')
-var dbconn = require('../database/database')
-var jwt = require('jsonwebtoken')
-var md5 = require('md5')
+const express = require('express')
+const authentication = express.Router()
+const cors = require('cors')
+const dbconn = require('../database/database')
+const jwt = require('jsonwebtoken')
+const md5 = require('md5')
 
 var token = jwt.sign({
     logged_in: false
 }, 'secret_token')
+
 var options = {
     root: './src/views/'
 }
